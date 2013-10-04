@@ -6,12 +6,11 @@
 	
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="http://www.parsecdn.com/js/parse-1.1.15.min.js"></script>
-	
-	<script src="js/login.js"></script>
-	
 	<script src="js/underscore-min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	
+	<script src="js/login.js"></script>
+    
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="css/custom.css"/>
 	<link href="css/bootstrap.css" rel="stylesheet" media="screen">
@@ -78,14 +77,15 @@
 	<script type="text/template" id="side-bar-template">
         <h3 class="panel-title">Visits</h3>
         <div>
-            <ul id="visit-list">
-                to be templated
+            <ul id="mentor-list">
+                loading mentor list...
             </ul>
         </div>
 	</script>
 
-	<script type="text/template" id="mentor-template">
+	<script type="text/template" id="mentor-item-template">
         <li class="mentor">
+            userpin: <%= UserId %>
             <ul class="visit-list">
             </ul>
         </li>
