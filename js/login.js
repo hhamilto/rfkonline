@@ -10,14 +10,23 @@ $(function() {
 	Parse.initialize("5vJjW6VAiJdfBqyIEGgenZEip26b2NC5aZdVrC9A",
 					 "cZbPecnNrzpf6NQkbwR09akfcZsfbH19Ps5hUBgf");
 
-	var SuccessView = Parse.View.extend({
-
-		el: ".content",
+	 	// The main view for the app
+  	var MainView = Parse.View.extend({
+    	// Instead of generating a new element, bind to the existing skeleton of
+    	// the App already present in the HTML.
+    	el: $("#mainApp"),
 
 		initialize: function() {
+			this.render();
+	    },
 
-			this.$el.html(_.template($("#success-template").html()));
-		},
+		render: function() {
+			if (Parse.User.current()) {
+		    	new DashboardView();
+		    } else {
+		        new LogInView();
+		    }
+		}
 	});
 
 	var FailureView = Parse.View.extend({
@@ -49,8 +58,8 @@ $(function() {
 			
 			Parse.User.logIn(username, password, {
 				success: function(user) {
-					new SuccessView();
-					self.undelegateEvents();
+					new DashboardView();
+					self.undelegateEvents(); //probably not needed
 					delete self;
 				},
 
@@ -70,24 +79,20 @@ $(function() {
 		}
 	});
 
-	  // The main view for the app
-  var MainView = Parse.View.extend({
-    // Instead of generating a new element, bind to the existing skeleton of
-    // the App already present in the HTML.
-    el: $("#mainApp"),
+	var DashboardView = Parse.View.extend({
 
-    initialize: function() {
-      this.render();
-    },
+		el: ".content",
 
-    render: function() {
-      if (Parse.User.current()) {
-        new SuccessView();
-      } else {
-        new LogInView();
-      }
-    }
-  });
+		initialize: function(){
+			this.render();
+		},
+
+		render: function() {
+			this.$el.html(_.template($("#dashboard-template").html()));	
+		}
+
+	});
 
 	new MainView;
+	//Main view is what is drawn on load
 });
