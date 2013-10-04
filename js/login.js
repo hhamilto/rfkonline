@@ -1,7 +1,3 @@
-// An example Parse.js Backbone application based on the todo app by
-// [Jérôme Gravel-Niquet](http://jgn.me/). This demo uses Parse to persist
-// the todo items and provide user authentication and sessions.
-
 $(function() {
 
 	Parse.$ = jQuery;
@@ -37,24 +33,20 @@ $(function() {
         done: function() {
           return this.filter(function(todo){ return todo.get('done'); });
         },
-    
         // Filter down the list to only todo items that are still not finished.
         remaining: function() {
           return this.without.apply(this, this.done());
         },
-    
         // We keep the Todos in sequential order, despite being saved by unordered
         // GUID in the database. This generates the next order number for new items.
         nextOrder: function() {
           if (!this.length) return 1;
           return this.last().get('order') + 1;
         },
-    
         // Todos are sorted by their original insertion order.
         comparator: function(todo) {
           return todo.get('name');
         }*/
-    
     });
     
     //Views
@@ -158,6 +150,13 @@ $(function() {
 			//this.$el.html(_.template());	
 		}
         
+	});
+	
+	
+    var VisitView = Parse.View.extend({
+		
+		element: 'li',
+		
 	});
     
     var VisitView = Parse.View.extend({
