@@ -8,6 +8,7 @@
 	<script src="http://www.parsecdn.com/js/parse-1.1.15.min.js"></script>
 	
 	<script src="js/login.js"></script>
+	
 	<script src="js/underscore-min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	
@@ -68,13 +69,21 @@
 
 	<script type="text/template" id="dashboard-template">
 		<div id="outter">
-		  <div id="panel">
-		    <h3 class="panel-title">Panel title</h3>
+		  <div id="sidebar">
 		  </div>
-		  <div id="mainPane">
+		  <div id="visit">
 		    Panel content
 		  </div>
 		</div>
+	</script>
+	
+	<script type="text/template" id="side-bar-template">
+	  <h3 class="panel-title">Visits</h3>
+      <div>
+          <ul id="visit-list">
+            to be templated
+          </ul>
+      </div>
 	</script>
 
 	<script type="text/template" id="success-template">
