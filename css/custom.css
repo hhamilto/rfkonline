@@ -11,6 +11,8 @@
 
 html{
     width: 100%;
+    height:100%
+
 }
 
 body {
@@ -30,16 +32,16 @@ body {
     height:100%
 }
 
-#panel{
+#sidebar{
     float: left;
     width:30%;
     background:red;
-    height:100%
+    height:100%;
 }
     
 
-#mainPane{
+#visit{
     float:right;
     width:70%;
-    height:100%
+    height:100%;
 }
