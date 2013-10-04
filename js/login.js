@@ -6,7 +6,6 @@ $(function() {
 	Parse.initialize("5vJjW6VAiJdfBqyIEGgenZEip26b2NC5aZdVrC9A",
 					 "cZbPecnNrzpf6NQkbwR09akfcZsfbH19Ps5hUBgf");
     //Models
-    
     var Mentor = Parse.Object.extend("Mentor", {
         // Default attributes for the todo.
         defaults: {
@@ -22,12 +21,9 @@ $(function() {
     });
     
     //Collections
-    
     var MentorList = Parse.Collection.extend({
-    
         // Reference to this collection's model.
         model: Mentor,
-        
         /*
         // Filter down the list of all todo items that are finished.
         done: function() {
@@ -50,17 +46,14 @@ $(function() {
     });
     
     //Views
-    
 	 	// The main view for the app
   	var MainView = Parse.View.extend({
     	// Instead of generating a new element, bind to the existing skeleton of
     	// the App already present in the HTML.
     	el: $("#mainApp"),
-
 		initialize: function() {
 			this.render();
 	    },
-
 		render: function() {
 			if (Parse.User.current()) {
 		    	new DashboardView();
@@ -71,11 +64,8 @@ $(function() {
 	});
 
 	var FailureView = Parse.View.extend({
-
 		el: ".content",
-
 		initialize: function() {
-
 			this.$el.html(_.template($("#failure-template").html()));
 		},
 	});
@@ -84,14 +74,11 @@ $(function() {
 		events: {
 			"submit form.loginForm": "logIn"
 		},
-
 		el: ".content",
-		
 		initialize: function() {
 			_.bindAll(this, "logIn");
 			this.render();
 		},
-
 		logIn: function(e) {
 			var self = this;
 			var username = this.$("#inputEmail").val();
@@ -103,17 +90,14 @@ $(function() {
 					self.undelegateEvents(); //probably not needed
 					delete self;
 				},
-
 				error: function(user, error) {
 					new FailureView();
 					self.undelegateEvents();
 					delete self;
 				}
 			});
-
 			return false;
 		},
-
 		render: function() {
 			this.$el.html(_.template($("#login-template").html()));
 			this.delegateEvents();
@@ -121,41 +105,42 @@ $(function() {
 	});
 
 	var DashboardView = Parse.View.extend({
-
 		el: ".content",
-
 		initialize: function(){
 			this.render();
 		},
-
 		render: function() {
 			this.$el.html(_.template($("#dashboard-template").html()));
             new SidebarView();
 		}
-
 	});
 	
     var SidebarView = Parse.View.extend({
-
 		el: "#sidebar",
-
 		initialize: function(){
 			this.render();
             
 		},
-
 		render: function() {
             this.$el.html(_.template($("#side-bar-template").html()));
             
 			//this.$el.html(_.template());	
 		}
-        
 	});
 	
-	
-    var VisitView = Parse.View.extend({
-		
+    var MentorView = Parse.View.extend({
 		element: 'li',
+		events: {
+			"click li"              : "toggleVisits",
+		},
+		
+	});
+	
+    var VisitListItemView = Parse.View.extend({
+		element: 'li',
+		events: {
+			"click li"              : "openVisit",
+		},
 		
 	});
     
