@@ -119,7 +119,7 @@ $(function() {
             var unreg = /([^@]+)/g;
             var actuser = unreg.exec(username);
 
-            Parse.User.logIn(actuser[0], password, {
+            Parse.User.logIn(actuser[1], password, {
                 success: function(user) {
                     new DashboardView();
                     self.undelegateEvents(); //probably not needed
