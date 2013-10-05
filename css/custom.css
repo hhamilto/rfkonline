@@ -24,6 +24,10 @@ body {
 	margin-top:10%;
 }
 
+#loginFormGroup .popover-content{
+    color: red;
+}
+
 #outter{
     width: 1000px;
     margin-left: auto;

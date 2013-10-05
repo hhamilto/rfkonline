@@ -63,13 +63,6 @@ $(function() {
 		}
 	});
 
-	var FailureView = Parse.View.extend({
-		el: ".content",
-		initialize: function() {
-			this.$el.html(_.template($("#failure-template").html()));
-		},
-	});
-
 	var LogInView = Parse.View.extend({
 		events: {
 			"submit form.loginForm": "logIn"
@@ -91,9 +84,9 @@ $(function() {
 					delete self;
 				},
 				error: function(user, error) {
-					//new FailureView();
-					//self.undelegateEvents();
-					//delete self;
+					$("#inputEmail").shake(2, 5, 300);
+					$("#inputPassword").shake(2, 5, 300);
+					$("#inputEmail").popover('show');
 				}
 			});
 			return false;
@@ -208,6 +201,7 @@ $(function() {
         
 	});
 
+    $("#inputEmail").popover();
 	new MainView;
 	//Main view is what is drawn on load
 });
