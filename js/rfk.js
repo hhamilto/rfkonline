@@ -172,7 +172,7 @@ $(function() {
 			"click li": "toggleVisits",
 		},
 		initialize: function(){
-			this.render();
+			this.$el.html(this.template(this.model.toJSON()));
 			_.bindAll(this, 'addOne', 'addAll', 'render');
 			this.model.bind('change', this.render);
 			this.model.bind('destroy', this.remove);
@@ -196,7 +196,7 @@ $(function() {
 		/*for the toggle down visits functionality*/
 		toggleVisits: function(){
 			this.open =!this.open;
-			this.$el.class("open", this.open);
+			//this.$el.class("open", this.open);
 		},
 		
 		// Add a single mentor item to the list by creating a view for it, and
@@ -213,7 +213,6 @@ $(function() {
 		},
 		
 		render: function(){
-			this.$el.html(this.template(this.model.toJSON()));
 			
 			//this.view2 = new View2();
 			//this.$('insert-view-here').append(this.view2.render().el);
@@ -226,7 +225,7 @@ $(function() {
     var VisitListItemView = Parse.View.extend({
 		element: 'li',
 		events: {
-			"click li" : "openVisit",
+			"click li.visit" : "openVisit",
 		},
 		template: _.template($('#visit-item-template').html()),
 		initialize: function(){
@@ -241,8 +240,8 @@ $(function() {
 			this.$el.html(this.template(this.model.toJSON()));
 			return this;
 		},
-		openVisit: function(){
-			
+		openVisit: function(e){fff
+			console.log();
 		}
 	});
     
