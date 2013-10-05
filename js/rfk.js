@@ -9,7 +9,6 @@ $(function() {
     var Mentor = Parse.Object.extend("Mentor", {
         // Default attributes for the todo.
         defaults: {
-        
           content: "Mentor not loaded...",
         },
         // Ensure that each todo created has `content`.
@@ -97,10 +96,7 @@ $(function() {
             var username = this.$("#inputEmail").val();
             var password = this.$("#inputPassword").val();
             
-            var unreg = /([^@]+)/g;
-            var actuser = unreg.exec(username);
-
-            Parse.User.logIn(actuser[0], password, {
+            Parse.User.logIn(username, password, {
                 success: function(user) {
                     new DashboardView();
                     self.undelegateEvents(); //probably not needed
@@ -150,16 +146,31 @@ $(function() {
             _.bindAll(this, 'addOne', 'addAll', 'render');
             
             this.$el.html(this.template({}));
-             // Create our collection of Mentors
-            this.mentors = new MentorList;
-            this.mentors.query = new Parse.Query(Mentor);
-            
-            this.mentors.bind('add',     this.addOne);
-            this.mentors.bind('reset',   this.addAll);
-            this.mentors.bind('all',     this.render);
+             
+            // Create our collection of Mentors
+            var mentors = new MentorList;
+            mentors.query = new Parse.Query(Mentor);
+            mentors.bind('add',     this.addOne);
+            mentors.bind('reset',   this.addAll);
+            mentors.bind('all',     this.render);
             
             // Fetch all the todo items for this user
-            this.mentors.fetch();
+            mentors.fetch();
+            
+            mentors.each(function(mentor){
+                var b = 1;
+            });
+
+            //  var userQuery = new Parse.Query(User);
+
+            // userQuery.equalTo("userId", mentors.query);
+            // query.find({
+            //     success: function(user){
+
+            //     }
+            // });
+            
+            this.mentors = mentors;
         },
         
         // Add a single mentor item to the list by creating a view for it, and
