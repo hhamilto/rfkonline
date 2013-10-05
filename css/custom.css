@@ -53,6 +53,9 @@ body {
     height:100%;
 }
     
+#mentorNav {
+    margin-bottom: 0px;
+}
 
 #visit{
     background: white;
