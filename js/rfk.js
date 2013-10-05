@@ -101,13 +101,24 @@ $(function() {
 	});
 
 	var DashboardView = Parse.View.extend({
+		events: {
+			"click #signoutButton" : "logout"
+		},
 		el: ".content",
 		initialize: function(){
+			_.bindAll(this, "logout");
 			this.render();
+		},
+		logout: function() {
+			Parse.User.logOut();
+			new LogInView();
+			this.undelegateEvents();
+			delete this;
 		},
 		render: function() {
 			this.$el.html(_.template($("#dashboard-template").html()));
             new SidebarView();
+            this.delegateEvents();
 		}
 	});
 	
