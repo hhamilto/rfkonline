@@ -12,6 +12,7 @@
 html{
     width: 100%;
     height:100%
+
 }
 
 body {
@@ -21,6 +22,10 @@ body {
 
 .halfDown {
 	margin-top:10%;
+}
+
+#loginFormGroup .popover-content{
+    color: red;
 }
 
 #outter{

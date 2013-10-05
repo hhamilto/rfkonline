@@ -9,32 +9,33 @@
 	<script src="js/underscore-min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	
+    <script src="js/util.js"></script>
 	<script src="js/rfk.js"></script>
     
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" type="text/css" href="css/custom.css"/>
 	<link href="css/bootstrap.css" rel="stylesheet" media="screen">
-
   </head>
 
   <body>
 
-	<div id="mainApp">
+    <div id="mainApp">
         <div class="content">
         </div>
-	</div>
+    </div>
 
-	<script type="text/template" id="login-template">
-	    <header id="header"></header>
-	    <div class="container">
+    <script type="text/template" id="login-template">
+        <header id="header"></header>
+        <div class="container">
             <div class="col-md-5 center halfDown">
                 <form class="form-horizontal loginForm" role="form">
                     <h2 class="text-right" id="loginTitle" style="text-shadow:0px 0px 5px #8A8A8A;">Royal Family Kids Login</h2>
                     <div class="error" style="display:none"></div>
-                    <div class="form-group">
+                    <div class="form-group" id="loginFormGroup">
                     <label for="inputEmail" class="col-lg-3 control-label">Email</label>
                     <div class="col-lg-9">
-                        <input class="form-control" id="inputEmail" placeholder="Email">
+                        <input class="form-control" id="inputEmail" placeholder="Email"
+                            data-content="Invalid email/password" data-trigger="manual">
                     </div>
                     </div>
                     <div class="form-group">
@@ -61,8 +62,8 @@
               
             </div> <!-- /col-md-5 -->
             
-        </div> <!-- /container -->      
-	</script>
+        </div> <!-- /container -->
+    </script>
 
 	<script type="text/template" id="dashboard-template">
 
@@ -85,31 +86,26 @@
             <div id="visit">
                 Panel content
             </div>
-		</div>
-	</script>
-	
-	<script type="text/template" id="side-bar-template">
+        </div>
+    </script>
+    
+    <script type="text/template" id="side-bar-template">
         <h3 class="panel-title">Visits</h3>
         <div>
             <ul id="mentor-list">
                 loading mentor list...
             </ul>
         </div>
-	</script>
+    </script>
 
-	<script type="text/template" id="mentor-item-template">
+    <script type="text/template" id="mentor-item-template">
         <li class="mentor">
             userpin: <%= UserId %>
             <ul class="visit-list">
+                
             </ul>
         </li>
-	</script>
-
-	<script type="text/template" id="failure-template">
-        <div class="page2">
-        failure
-        </div>
-	</script>
+    </script>
 
   </body>
 

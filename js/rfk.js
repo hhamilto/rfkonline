@@ -9,9 +9,21 @@ $(function() {
     var Mentor = Parse.Object.extend("Mentor", {
         // Default attributes for the todo.
         defaults: {
-          content: "Mentors not loaded...",
+          content: "Mentor not loaded...",
         },
-    
+        // Ensure that each todo created has `content`.
+        initialize: function() {
+          if (!this.get("content")) {
+            this.set({"content": this.defaults.content});
+          }
+        }
+    });
+	
+	var Visit = Parse.Object.extend("Vist", {
+        // Default attributes for the todo.
+        defaults: {
+          content: "Visit not loaded...",
+        },
         // Ensure that each todo created has `content`.
         initialize: function() {
           if (!this.get("content")) {
@@ -24,26 +36,17 @@ $(function() {
     var MentorList = Parse.Collection.extend({
         // Reference to this collection's model.
         model: Mentor,
-        /* todo boilerplate stuff.
-        // Filter down the list of all todo items that are finished.
-        done: function() {
-          return this.filter(function(todo){ return todo.get('done'); });
-        },
-        // Filter down the list to only todo items that are still not finished.
-        remaining: function() {
-          return this.without.apply(this, this.done());
-        },
-        // We keep the Todos in sequential order, despite being saved by unordered
-        // GUID in the database. This generates the next order number for new items.
-        nextOrder: function() {
-          if (!this.length) return 1;
-          return this.last().get('order') + 1;
-        },
-        // Todos are sorted by their original insertion order.
-        comparator: function(todo) {
-          return todo.get('name');
-        }*/
+		/*initialize: function(){
+			var data = this.get("Visits");
+			this.unset("books", {silent: true});
+			this.books = new Books(data);
+		}*/
     });
+	
+	var VisitList = Parse.Collection.extend({
+        // Reference to this collection's model.
+        model: Visit
+	});
     
     //Views
 	 	// The main view for the app
@@ -61,13 +64,6 @@ $(function() {
 		        new LogInView();
 		    }
 		}
-	});
-
-	var FailureView = Parse.View.extend({
-		el: ".content",
-		initialize: function() {
-			this.$el.html(_.template($("#failure-template").html()));
-		},
 	});
 
 	var LogInView = Parse.View.extend({
@@ -91,9 +87,9 @@ $(function() {
 					delete self;
 				},
 				error: function(user, error) {
-					//new FailureView();
-					//self.undelegateEvents();
-					//delete self;
+					$("#inputEmail").shake(2, 5, 300);
+					$("#inputPassword").shake(2, 5, 300);
+					$("#inputEmail").popover('show');
 				}
 			});
 			return false;
@@ -191,6 +187,29 @@ $(function() {
 			"click li"              : "openVisit",
 		},
 		
+		element: 'li',
+		template: _.template($('#mentor-item-template').html()),
+		events: {
+			"click li"              : "toggleVisits",
+		},
+		initialize: function(){
+			this.render();
+			_.bindAll(this, 'render');
+			this.model.bind('change', this.render);
+			this.model.bind('destroy', this.remove);
+			//whether the list of visits is displayed
+			this.open = false;
+		},
+		/*for the toggle down visits functionality*/
+		toggleVisits: function(){
+			this.open =!this.open;
+			this.$el.class("open", this.open);
+		},
+		render: function(){
+			this.$el.html(this.template(this.model.toJSON()));
+			return this;
+		}
+		
 	});
     
     var VisitView = Parse.View.extend({
@@ -208,6 +227,7 @@ $(function() {
         
 	});
 
+    $("#inputEmail").popover();
 	new MainView;
 	//Main view is what is drawn on load
 });
