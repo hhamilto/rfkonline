@@ -186,7 +186,7 @@ $(function() {
 		events: {
 			"click li"              : "openVisit",
 		},
-		template: _.template($('#mentor-item-template').html()),
+		template: _.template($('#mentor-item-template').html()),h
 		initialize: function(){
 			this.render();
 			_.bindAll(this, 'render');
