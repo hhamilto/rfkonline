@@ -186,12 +186,7 @@ $(function() {
 		events: {
 			"click li"              : "openVisit",
 		},
-		
-		element: 'li',
 		template: _.template($('#mentor-item-template').html()),
-		events: {
-			"click li"              : "toggleVisits",
-		},
 		initialize: function(){
 			this.render();
 			_.bindAll(this, 'render');
@@ -200,11 +195,13 @@ $(function() {
 			//whether the list of visits is displayed
 			this.open = false;
 		},
+		
 		/*for the toggle down visits functionality*/
 		toggleVisits: function(){
 			this.open =!this.open;
 			this.$el.class("open", this.open);
 		},
+		
 		render: function(){
 			this.$el.html(this.template(this.model.toJSON()));
 			return this;
@@ -213,13 +210,10 @@ $(function() {
 	});
     
     var VisitView = Parse.View.extend({
-
 		el: "#visit",
-
 		initialize: function(){
 			this.render();
 		},
-
 		render: function() {
             this.$el.html("main pane");
 			//this.$el.html(_.template());	
