@@ -214,7 +214,6 @@ $(function() {
 		},
 		
 		render: function(){
-			
 			//this.view2 = new View2();
 			//this.$('insert-view-here').append(this.view2.render().el);
 			
@@ -241,8 +240,9 @@ $(function() {
 			this.$el.html(this.template(this.model.toJSON()));
 			return this;
 		},
-		openVisit: function(e){fff
-			console.log();
+		openVisit: function(e){
+			new VisitView({model: this.model});
+			//console.log(e);
 		}
 	});
     
@@ -250,9 +250,10 @@ $(function() {
 		el: "#visit",
 		initialize: function(){
 			this.render();
+			_.bindAll(this, "render");
 		},
 		render: function() {
-            this.$el.html("main pane");
+            this.$el.html("test " +  this.model.attributes.Name);
 			//this.$el.html(_.template());	
 		}
 	});
