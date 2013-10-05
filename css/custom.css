@@ -54,11 +54,28 @@ html {
     height: 100%;
 }
 
+.content {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+#dashboardContainer{
+    position: absolute;
+    top: 50px;
+    left:0;
+    right:0;
+    bottom:0;
+}
+
 #sidebar {
-    float: left;
     width:30%;
     background:#2c4762;
     height:100%;
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
 }
 
 .topMargin {
@@ -68,12 +85,39 @@ html {
 #visit {
     background: white;
     float:right;
+}
+
+#sidebar ul{
+    list-style-type: none;
+}
+
+#mentorNav {
+    margin-bottom: 0px;
+}
+
+#visit{
+    right:0;
     width:70%;
-    height:100%;
     padding: 10px;
+    position: absolute;
+    top:0;
+    bottom:0;
+    background: white;
 }
 
 .visit-list {
+#mentor-list{
+    color: white;
+    overflow: scroll;
+    position: absolute;
+    margin:0;
+    top:50px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.visit-list{
     width:95%;
     float: right;
     height: 0px;

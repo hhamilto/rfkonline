@@ -20,6 +20,21 @@ $(function() {
           
         }
     });
+
+    var User = Parse.Object.extend("User", {
+        // Default attributes for the todo.
+        defaults: {
+        
+          content: "Mentor not loaded...",
+        },
+        // Ensure that each todo created has `content`.
+        initialize: function() {
+          if (!this.get("content")) {
+            this.set({"content": this.defaults.content});
+          }
+          
+        }
+    });
     
     var Visit = Parse.Object.extend("Visit", {
         // Default attributes for the todo.
@@ -82,7 +97,10 @@ $(function() {
             var username = this.$("#inputEmail").val();
             var password = this.$("#inputPassword").val();
             
-            Parse.User.logIn(username, password, {
+            var unreg = /([^@]+)/g;
+            var actuser = unreg.exec(username);
+
+            Parse.User.logIn(actuser[0], password, {
                 success: function(user) {
                     new DashboardView();
                     self.undelegateEvents(); //probably not needed
@@ -142,7 +160,6 @@ $(function() {
             
             // Fetch all the todo items for this user
             this.mentors.fetch();
-            var a = 1;
         },
         
         // Add a single mentor item to the list by creating a view for it, and
@@ -163,7 +180,6 @@ $(function() {
             //this.$el.html(this.template("yodummmy"));
             
             this.delegateEvents();
-            console.log("done delegating events in render");
         }
     });
     
@@ -242,7 +258,6 @@ $(function() {
         },
         openVisit: function(e){
             new VisitView({model: this.model});
-            
         }
     });
     
@@ -258,6 +273,20 @@ $(function() {
 			visit.Start = moment(visit.Start.iso);
 			visit.End = moment(visit.End.iso);
             this.$el.html(this.template(visit));
+			new MapView;
+			return this;
+        }
+    });
+
+	var MapView = Parse.View.extend({
+        el: "#map",
+		template: _.template($("#map-template").html()),
+        initialize: function(){
+            this.render();
+            _.bindAll(this, "render");
+        },
+        render: function() {
+            this.$el.html(this.template());
         }
     });
 
