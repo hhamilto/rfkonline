@@ -73,4 +73,14 @@ body {
 .visit-list{
     width:95%;
     float: right;
+    height: 0px;
+    overflow: hidden;
+    transition: height 1s;
+    -moz-transition: height 1s; /* Firefox 4 */
+    -webkit-transition: height 1s; /* Safari and Chrome */
+    -o-transition: height 1s; /* Opera */
+}
+
+.visit-list.expanded {
+    height: auto;
 }

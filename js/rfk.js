@@ -168,7 +168,7 @@ $(function() {
     });
     
     var MentorListItemView = Parse.View.extend({
-        element: 'a',
+        element: 'li',
         template: _.template($('#mentor-item-template').html()),
         events: {
             "click .mentor": "toggleVisits",
@@ -197,7 +197,8 @@ $(function() {
         /*for the toggle down visits functionality*/
         toggleVisits: function(){
             this.open = !this.open;
-			this.$();
+            console.log(this.open);
+			this.$(".visit-list").toggleClass("expanded", open);
         },
         // Add a single mentor item to the list by creating a view for it, and
         // appending its element to the `<ul>`.
@@ -241,7 +242,7 @@ $(function() {
         },
         openVisit: function(e){
             new VisitView({model: this.model});
-            //console.log(e);
+            
         }
     });
     
