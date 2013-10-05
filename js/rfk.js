@@ -16,6 +16,7 @@ $(function() {
           if (!this.get("content")) {
             this.set({"content": this.defaults.content});
           }
+		  
         }
     });
 	
@@ -129,7 +130,6 @@ $(function() {
 			var self = this;
 			_.bindAll(this, 'addOne', 'addAll', 'render');
 			
-			
             this.$el.html(this.template({}));
 			 // Create our collection of Mentors
 			this.mentors = new MentorList;
@@ -142,7 +142,6 @@ $(function() {
 			
 			// Fetch all the todo items for this user
 			this.mentors.fetch();
-            
 		},
 		
 		// Add a single mentor item to the list by creating a view for it, and
@@ -151,13 +150,13 @@ $(function() {
 			var view = new MentorListItemView({model: mentor});
 			this.$("#mentor-list").append(view.render().el);
 		},
-	
+		
 		// Add all items in the Mentors collection at once.
 		addAll: function(collection, filter) {
 			this.$("#mentor-list").html("");
 			this.mentors.each(this.addOne);
 		},
-	
+		
 		render: function() {
 			//NO! bad. do not do this.
             //this.$el.html(this.template("yodummmy"));
@@ -171,7 +170,7 @@ $(function() {
 		element: 'li',
 		template: _.template($('#mentor-item-template').html()),
 		events: {
-			"click li"              : "toggleVisits",
+			"click li": "toggleVisits",
 		},
 		initialize: function(){
 			this.render();
@@ -179,7 +178,21 @@ $(function() {
 			this.model.bind('change', this.render);
 			this.model.bind('destroy', this.remove);
 			//whether the list of visits is displayed
-			this.open = false;
+			this.open = true;
+			
+			
+			 // Create our collection of Visits
+			this.visits = new VisitList;
+			// Setup the query for the collection to look for todos from the current user
+			this.visits.query = new Parse.Query(Visit);
+			this.visits.query.equalTo("MentorId", this.model.attributes.MentorId);
+			
+			this.visits.bind('add',     this.addOne);
+			this.visits.bind('reset',   this.addAll);
+			this.visits.bind('all',     this.render);
+			
+			// Fetch all the todo items for this user
+			this.visits.fetch();
 		},
 		/*for the toggle down visits functionality*/
 		toggleVisits: function(){
@@ -195,9 +208,9 @@ $(function() {
     var VisitListItemView = Parse.View.extend({
 		element: 'li',
 		events: {
-			"click li"              : "openVisit",
+			"click li" : "openVisit",
 		},
-		template: _.template($('#mentor-item-template').html()),
+		template: _.template($('#visit-item-template').html()),
 		initialize: function(){
 			this.render();
 			_.bindAll(this, 'render');
@@ -206,18 +219,10 @@ $(function() {
 			//whether the list of visits is displayed
 			this.open = false;
 		},
-		
-		/*for the toggle down visits functionality*/
-		toggleVisits: function(){
-			this.open =!this.open;
-			this.$el.class("open", this.open);
-		},
-		
 		render: function(){
-			this.$el.html(this.template(this.model.toJSON()));
+			//this.$el.html(this.template(this.model.toJSON()));
 			return this;
 		}
-		
 	});
     
     var VisitView = Parse.View.extend({
@@ -229,7 +234,6 @@ $(function() {
             this.$el.html("main pane");
 			//this.$el.html(_.template());	
 		}
-        
 	});
 
     $("#inputEmail").popover();
