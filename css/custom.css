@@ -73,7 +73,12 @@ body {
 #mentor-list{
     color: white;
     overflow: scroll;
-    height: 100%;
+    position: absolute;
+    margin:0;
+    top:50px;
+    bottom: 0;
+    left: 0;
+    right: 0;
 }
 
 .visit-list{
