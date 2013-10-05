@@ -257,6 +257,20 @@ $(function() {
 			visit.Start = moment(visit.Start.iso);
 			visit.End = moment(visit.End.iso);
             this.$el.html(this.template(visit));
+			new MapView;
+			return this;
+        }
+    });
+
+	var MapView = Parse.View.extend({
+        el: "#map",
+		template: _.template($("#map-template").html()),
+        initialize: function(){
+            this.render();
+            _.bindAll(this, "render");
+        },
+        render: function() {
+            this.$el.html(this.template());
         }
     });
 

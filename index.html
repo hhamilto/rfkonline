@@ -114,7 +114,14 @@
     
     <script type="text/template" id="visit-template">
         <h1><%= Name %></h1>
-        <%= Start.format('MMMM Do YYYY, h:mm a') %> Duration: <
+        <%= Start.format('MMMM Do YYYY, h:mm a') %>
+        <div id="map">
+            Loading map...
+        </div>
+    </script>
+    
+    <script type="text/template" id="map-template">
+        imma map
     </script>
 
   </body>
