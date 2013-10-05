@@ -8,6 +8,7 @@
 	<script src="http://www.parsecdn.com/js/parse-1.1.15.min.js"></script>
 	<script src="js/underscore-min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script src="js/moment.min.js"></script>
 	
     <script src="js/util.js"></script>
 	<script src="js/rfk.js"></script>
@@ -115,7 +116,7 @@
     
     <script type="text/template" id="visit-template">
         <h1><%= Name %></h1>
-        <%= Start.getFullYear()+"-"+(Start.getMonth()+1)+"-"+Start.getDate()%>
+        <%= morStart.getFullYear()+"-"+(Start.getMonth()+1)+"-"+Start.getDate()%>
     </script>
 
   </body>
