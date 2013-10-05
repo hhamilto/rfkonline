@@ -64,8 +64,8 @@ body {
     padding: 10px;
 }
 
-#mentorlist{
-    color: black;
+#mentor-list{
+    color: white;
     overflow: scroll;
     height: 100%;
 }
@@ -83,4 +83,8 @@ body {
 
 .visit-list.expanded {
     height: auto;
+}
+
+.visit-list:first-child {
+    margin-top: 10px;
 }
