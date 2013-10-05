@@ -1,3 +1,6 @@
+/* Please alphabetize CSS so it is easier to search through, thanks :) */
+
+/* 400px screen resolution & bigger display the background image */
 @media (min-width: 400px) {
 	body { 
         background: url("../img/bg.jpg") no-repeat center center fixed; 
@@ -9,27 +12,9 @@
 	}
 }
 
-html{
-    width: 100%;
-    height:100%;
-}
-
 body {
 	background-color:transparent !important;
 	height: 100%;
-}
-
-.topMargin {
-	margin-top:10%;
-}
-
-#loginFormGroup .popover-content{
-    color: red;
-}
-
-#mainApp{
-    width: 100%;
-    height: 100%;
 }
 
 .content {
@@ -37,7 +22,7 @@ body {
     height: 100%;
 }
 
-#dashboardContainer{
+#dashboardContainer {
     width: 100%;
     height:100%;
     margin-right: auto;
@@ -45,18 +30,42 @@ body {
     margin-top:50px;
 }
 
-#sidebar{
+html {
+    width: 100%;
+    height:100%;
+}
+
+#loginFormGroup .popover-content{
+    color: red;
+}
+
+#mainApp {
+    width: 100%;
+    height: 100%;
+}
+
+#mentorNav {
+    margin-bottom: 0px;
+}
+
+#mentor-list {
+    color: white;
+    overflow: scroll;
+    height: 100%;
+}
+
+#sidebar {
     float: left;
     width:30%;
     background:#2c4762;
     height:100%;
 }
-    
-#mentorNav {
-    margin-bottom: 0px;
+
+.topMargin {
+	margin-top:10%;
 }
 
-#visit{
+#visit {
     background: white;
     float:right;
     width:70%;
@@ -64,13 +73,7 @@ body {
     padding: 10px;
 }
 
-#mentor-list{
-    color: white;
-    overflow: scroll;
-    height: 100%;
-}
-
-.visit-list{
+.visit-list {
     width:95%;
     float: right;
     height: 0px;
