@@ -94,24 +94,24 @@
             <p class="navbar-text">Mentor</p>
         </nav> 
         <div id="mentorlist">
-            <ul id="mentor-list">
+            <div id="mentor-list" class="list-group">
                 loading mentor list...
-            </ul>
+            </div>
         </div>
     </script>
 
     <script type="text/template" id="mentor-item-template">
-        <li class="mentor">
+        <a href="#" class="mentor list-group-item">
             userpin: <%= UserId %>
-            <ul class="visit-list">
+            <a href="#" class="visit-list list-group">
                 
-            </ul>
-        </li>
+            </a>
+        </a>
     </script>
     
     <script type="text/template" id="visit-item-template">
-        <li class="visit">
-            visit name: <%= Name %>
+        <li class="li-visit list-group-item">
+            <%= Name %>
         </li>
     </script>
 

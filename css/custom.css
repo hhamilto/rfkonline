@@ -65,7 +65,12 @@ body {
 }
 
 #mentorlist{
-    color: white;
+    color: black;
     overflow: scroll;
     height: 100%;
+}
+
+.visit-list{
+    width:95%;
+    float: right;
 }

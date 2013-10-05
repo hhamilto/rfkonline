@@ -142,6 +142,7 @@ $(function() {
 			
 			// Fetch all the todo items for this user
 			this.mentors.fetch();
+			var a = 1;
 		},
 		
 		// Add a single mentor item to the list by creating a view for it, and
@@ -225,7 +226,7 @@ $(function() {
     var VisitListItemView = Parse.View.extend({
 		element: 'li',
 		events: {
-			"click li.visit" : "openVisit",
+			"click li.li-visit" : "openVisit",
 		},
 		template: _.template($('#visit-item-template').html()),
 		initialize: function(){
