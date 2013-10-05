@@ -174,18 +174,17 @@ $(function() {
 		},
 		initialize: function(){
 			this.render();
-			_.bindAll(this, 'render');
+			_.bindAll(this, 'addOne', 'addAll', 'render');
 			this.model.bind('change', this.render);
 			this.model.bind('destroy', this.remove);
 			//whether the list of visits is displayed
 			this.open = true;
 			
-			
 			 // Create our collection of Visits
 			this.visits = new VisitList;
 			// Setup the query for the collection to look for todos from the current user
 			this.visits.query = new Parse.Query(Visit);
-			this.visits.query.equalTo("MentorId", this.model.attributes.MentorId);
+			this.visits.query.equalTo("MentorId", this.model.attributes.UserId);
 			
 			this.visits.bind('add',     this.addOne);
 			this.visits.bind('reset',   this.addAll);
@@ -193,14 +192,34 @@ $(function() {
 			
 			// Fetch all the todo items for this user
 			this.visits.fetch();
+			//this.render
 		},
 		/*for the toggle down visits functionality*/
 		toggleVisits: function(){
 			this.open =!this.open;
 			this.$el.class("open", this.open);
 		},
+		
+		// Add a single mentor item to the list by creating a view for it, and
+		// appending its element to the `<ul>`.
+		addOne: function(visit) {
+			var view = new VisitListItemView({model: visit});
+			this.$("#visit-list").append(view.render().el);
+		},
+		
+		// Add all items in the Mentors collection at once.
+		addAll: function(collection, filter) {
+			this.$("#visit-list").html("");
+			this.visits.each(this.addOne);
+		},
+		
 		render: function(){
 			this.$el.html(this.template(this.model.toJSON()));
+			
+			//this.view2 = new View2();
+			//this.$('insert-view-here').append(this.view2.render().el);
+			
+			//this.delegateEvents();
 			return this;
 		}
 	});
@@ -220,7 +239,7 @@ $(function() {
 			this.open = false;
 		},
 		render: function(){
-			//this.$el.html(this.template(this.model.toJSON()));
+			this.$el.html(this.template(this.model.toJSON()));
 			return this;
 		}
 	});
