@@ -35,6 +35,20 @@ $(function() {
           
         }
     });
+	
+	var TravelPoint = Parse.Object.extend("TravelPoint", {
+        // Default attributes for the todo.
+        defaults: {
+          content: "Travel point not loaded...",
+        },
+        // Ensure that each todo created has `content`.
+        initialize: function() {
+          if (!this.get("content")) {
+            this.set({"content": this.defaults.content});
+          }
+          
+        }
+    });
     
     var Visit = Parse.Object.extend("Visit", {
         // Default attributes for the todo.
@@ -63,6 +77,11 @@ $(function() {
     var VisitList = Parse.Collection.extend({
         // Reference to this collection's model.
         model: Visit
+    });
+	
+	var TravelPointList = Parse.Collection.extend({
+        // Reference to this collection's model.
+        model: TravelPoint
     });
     
     //Views
@@ -265,27 +284,69 @@ $(function() {
         el: "#visit",
 		template: _.template($("#visit-template").html()),
         initialize: function(){
-            this.render();
-            _.bindAll(this, "render");
-        },
-        render: function() {
+			/**render*/
 			var visit = this.model.toJSON();
 			visit.Start = moment(visit.Start.iso);
 			visit.End = moment(visit.End.iso);
             this.$el.html(this.template(visit));
-			new MapView;
+			////////
+            _.bindAll(this, 'addOneTp', 'addAllTp', 'render');
+			//this.$el.html(this.template(this.model.toJSON()));
+            this.model.bind('change', this.render);
+            this.model.bind('destroy', this.remove);
+            // Create our collection of Visits
+            this.TravelPoints = new TravelPointList;
+            // Setup the query for the collection to look for todos from the current user
+            this.TravelPoints.query = new Parse.Query(TravelPoint);
+            this.TravelPoints.query.equalTo("VisitId", this.model.attributes.objectId);
+            this.TravelPoints.query.limit(1000);
+            this.TravelPoints.bind('add',     this.addOneTp);
+            this.TravelPoints.bind('reset',   this.addAllTp);
+            this.TravelPoints.bind('all',     this.render);
+            
+            // Fetch all the todo itemsh for this user
+            this.TravelPoints.fetch();
+        },
+		addOneTp: function(){
+			console.log("addone called");
+		},
+		addAllTp: function(){
+			console.log("added all travel oints");
+			new MapView({travelPoints: this.TravelPoints});
+		},
+        render: function() {
+			
 			return this;
         }
     });
 
 	var MapView = Parse.View.extend({
         el: "#map",
-		template: _.template($("#map-template").html()),
+		//template: _.template($("#map-template").html()),
         initialize: function(){
             this.render();
             _.bindAll(this, "render");
         },
         render: function() {
+			var mapOptions = {
+				zoom: 15,
+				center: new google.maps.LatLng(37.33018889, -122.0258605),
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+			};
+			map = new google.maps.Map(this.el,
+					mapOptions);
+			var visitRoutePoints = [];
+			this.options.travelPoints.map(function(travelPoint){
+					visitRoutePoints.push( new google.maps.LatLng(travelPoint.attributes.Location.latitude, travelPoint.attributes.Location.longitude));
+					console.log(travelPoint.attributes.Location.latitude + ", " + travelPoint.attributes.Location.longitude);
+			});
+			var visitRoute = new google.maps.Polyline({
+				path: visitRoutePoints,
+				strokeColor: '#FF0000',
+				strokeOpacity: 1.0,
+				strokeWeight: 2
+			});
+			visitRoute.setMap(map)
             this.$el.html(this.template());
         }
     });
