@@ -9,6 +9,7 @@
 	<script src="js/underscore-min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/moment.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 	
     <script src="js/util.js"></script>
 	<script src="js/rfk.js"></script>
@@ -114,7 +115,14 @@
     
     <script type="text/template" id="visit-template">
         <h1><%= Name %></h1>
-        <%= Start.format('MMMM Do YYYY, h:mm a') %> Duration: <
+        <%= Start.format('MMMM Do YYYY, h:mm a') %>
+        <div id="map">
+            Loading map...
+        </div>
+    </script>
+    
+    <script type="text/template" id="map-template">
+        imma map
     </script>
 
   </body>
