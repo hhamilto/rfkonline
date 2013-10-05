@@ -116,7 +116,7 @@
     
     <script type="text/template" id="visit-template">
         <h1><%= Name %></h1>
-        <%= morStart.getFullYear()+"-"+(Start.getMonth()+1)+"-"+Start.getDate()%>
+        <%= Start.format('MMMM Do YYYY, h:mm a') %>
     </script>
 
   </body>

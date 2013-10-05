@@ -255,8 +255,8 @@ $(function() {
         },
         render: function() {
 			var visit = this.model.toJSON();
-			visit.Start = new Date(visit.Start.iso);
-			visit.End = new Date(visit.End.iso);
+			visit.Start = moment(visit.Start.iso);
+			visit.End = moment(visit.End.iso);
             this.$el.html(this.template(visit));
         }
     });
