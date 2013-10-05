@@ -197,7 +197,8 @@ $(function() {
         },
         /*for the toggle down visits functionality*/
         toggleVisits: function(){
-            this.open = !this.open;          
+            this.open = !this.open;
+			this.$()
         },
         
         // Add a single mentor item to the list by creating a view for it, and
