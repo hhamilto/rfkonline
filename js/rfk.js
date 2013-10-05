@@ -313,7 +313,7 @@ $(function() {
             this.TravelPoints = new TravelPointList;
             // Setup the query for the collection to look for todos from the current user
             this.TravelPoints.query = new Parse.Query(TravelPoint);
-            this.TravelPoints.query.equalTo("VisitId", this.model.attributes.objectId);
+            this.TravelPoints.query.equalTo("VisitId", this.model.id);
             this.TravelPoints.query.limit(1000);
             this.TravelPoints.bind('add',     this.addOneTp);
             this.TravelPoints.bind('reset',   this.addAllTp);

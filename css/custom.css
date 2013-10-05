@@ -98,6 +98,14 @@ html {
     list-style-type: none;
 }
 
+#sidebar ul li{
+    cursor: pointer;
+}
+
+.li-visit:hover{
+    text-decoration: underline;
+}
+
 #mentorNav {
     margin-bottom: 0px;
 }
@@ -118,6 +126,7 @@ html {
     overflow: scroll;
     position: absolute;
     margin:0;
+    padding:2px;
     top:50px;
     bottom: 0;
     left: 0;
@@ -142,6 +151,8 @@ html {
 .visit-list:first-child {
     margin-top: 10px;
 }
+
+
 
 #map{
     width: 100%;
