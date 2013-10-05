@@ -171,7 +171,7 @@ $(function() {
         element: 'li',
         template: _.template($('#mentor-item-template').html()),
         events: {
-            "click .mentor": "toggleVisits",
+            "click .mentor-name": "toggleVisits",
         },
         initialize: function(){
             this.$el.html(this.template(this.model.toJSON()));
@@ -223,9 +223,9 @@ $(function() {
     });
     
     var VisitListItemView = Parse.View.extend({
-        element: 'a',
+        element: 'li',
         events: {
-            "click a.li-visit" : "openVisit",
+            "click li.li-visit" : "openVisit",
         },
         template: _.template($('#visit-item-template').html()),
         initialize: function(){
