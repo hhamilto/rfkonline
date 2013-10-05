@@ -97,7 +97,10 @@ $(function() {
             var username = this.$("#inputEmail").val();
             var password = this.$("#inputPassword").val();
             
-            Parse.User.logIn(username, password, {
+            var unreg = /([^@]+)/g;
+            var actuser = unreg.exec(username);
+
+            Parse.User.logIn(actuser[0], password, {
                 success: function(user) {
                     new DashboardView();
                     self.undelegateEvents(); //probably not needed
