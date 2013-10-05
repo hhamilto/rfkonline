@@ -20,7 +20,7 @@ $(function() {
         }
     });
 	
-	var Visit = Parse.Object.extend("Vist", {
+	var Visit = Parse.Object.extend("Visit", {
         // Default attributes for the todo.
         defaults: {
           content: "Visit not loaded...",
@@ -133,7 +133,6 @@ $(function() {
             this.$el.html(this.template({}));
 			 // Create our collection of Mentors
 			this.mentors = new MentorList;
-			// Setup the query for the collection to look for todos from the current user
 			this.mentors.query = new Parse.Query(Mentor);
 			
 			this.mentors.bind('add',     this.addOne);
@@ -204,12 +203,12 @@ $(function() {
 		// appending its element to the `<ul>`.
 		addOne: function(visit) {
 			var view = new VisitListItemView({model: visit});
-			this.$("#visit-list").append(view.render().el);
+			this.$(".visit-list").append(view.render().el);
 		},
 		
 		// Add all items in the Mentors collection at once.
 		addAll: function(collection, filter) {
-			this.$("#visit-list").html("");
+			this.$(".visit-list").html("");
 			this.visits.each(this.addOne);
 		},
 		
@@ -241,6 +240,9 @@ $(function() {
 		render: function(){
 			this.$el.html(this.template(this.model.toJSON()));
 			return this;
+		},
+		openVisit: function(){
+			
 		}
 	});
     
