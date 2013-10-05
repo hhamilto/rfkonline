@@ -63,4 +63,6 @@ body {
 
 #mentorlist{
     color: white;
+    overflow: scroll;
+    height: 100%;
 }

@@ -9,6 +9,7 @@ $(function() {
     var Mentor = Parse.Object.extend("Mentor", {
         // Default attributes for the todo.
         defaults: {
+        
           content: "Mentor not loaded...",
         },
         // Ensure that each todo created has `content`.
