@@ -242,7 +242,6 @@ $(function() {
         },
         openVisit: function(e){
             new VisitView({model: this.model});
-            
         }
     });
     

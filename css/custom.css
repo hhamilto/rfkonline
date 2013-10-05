@@ -35,21 +35,25 @@ body {
 .content {
     width: 100%;
     height: 100%;
+    position: absolute;
 }
 
 #dashboardContainer{
-    width: 100%;
-    height:100%;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top:50px;
+    position: absolute;
+    top: 50px;
+    left:0;
+    right:0;
+    bottom:0;
 }
 
 #sidebar{
-    float: left;
     width:30%;
     background:#2c4762;
     height:100%;
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
 }
     
 #mentorNav {
@@ -57,11 +61,13 @@ body {
 }
 
 #visit{
-    background: white;
-    float:right;
+    right:0;
     width:70%;
-    height:100%;
     padding: 10px;
+    position: absolute;
+    top:0;
+    bottom:0;
+    background: white;
 }
 
 #mentorlist{
