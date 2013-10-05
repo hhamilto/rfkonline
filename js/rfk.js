@@ -192,7 +192,6 @@ $(function() {
             
             // Fetch all the todo items for this user
             this.visits.fetch();
-        
             //this.render
         },
         /*for the toggle down visits functionality*/
@@ -201,7 +200,6 @@ $(function() {
             console.log(this.open);
 			this.$(".visit-list").toggleClass("expanded", open);
         },
-        
         // Add a single mentor item to the list by creating a view for it, and
         // appending its element to the `<ul>`.
         addOne: function(visit) {
@@ -250,13 +248,16 @@ $(function() {
     
     var VisitView = Parse.View.extend({
         el: "#visit",
+		template: _.template($("#visit-template").html()),
         initialize: function(){
             this.render();
             _.bindAll(this, "render");
         },
         render: function() {
-            this.$el.html("test " +  this.model.attributes.Name);
-            //this.$el.html(_.template());  
+			var visit = this.model.toJSON();
+			visit.Start = new Date(visit.Start.iso);
+			visit.End = new Date(visit.End.iso);
+            this.$el.html(this.template(visit));
         }
     });
 

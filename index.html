@@ -84,7 +84,7 @@
             <div id="sidebar">
             </div>
             <div id="visit">
-                Panel content
+                Select a visit
             </div>
         </div>
     </script>
@@ -97,7 +97,7 @@
             loading mentor list...
         </ul>
     </script>
-
+    
     <script type="text/template" id="mentor-item-template">
         <li class="mentor list-group-item">
             userpin: <%= UserId %>
@@ -111,6 +111,11 @@
         <li>
             <a class="li-visit list-group-item"><%= Name %></a>
         </li>
+    </script>
+    
+    <script type="text/template" id="visit-template">
+        <h1><%= Name %></h1>
+        <%= Start.getFullYear()+"-"+(Start.getMonth()+1)+"-"+Start.getDate()%>
     </script>
 
   </body>
