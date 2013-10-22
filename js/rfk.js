@@ -7,11 +7,9 @@ $(function() {
                      "cZbPecnNrzpf6NQkbwR09akfcZsfbH19Ps5hUBgf");
     //Models
     var Mentor = Parse.Object.extend("Mentor", {
-        // Default attributes for the todo.
         defaults: {
           content: "Mentor not loaded...",
         },
-        // Ensure that each todo created has `content`.
         initialize: function() {
           if (!this.get("content")) {
             this.set({"content": this.defaults.content});
@@ -21,12 +19,10 @@ $(function() {
     });
 
     var User = Parse.Object.extend("User", {
-        // Default attributes for the todo.
         defaults: {
         
           content: "Mentor not loaded...",
         },
-        // Ensure that each todo created has `content`.
         initialize: function() {
           if (!this.get("content")) {
             this.set({"content": this.defaults.content});
@@ -36,11 +32,9 @@ $(function() {
     });
 	
 	var TravelPoint = Parse.Object.extend("TravelPoint", {
-        // Default attributes for the todo.
         defaults: {
           content: "Travel point not loaded...",
         },
-        // Ensure that each todo created has `content`.
         initialize: function() {
           if (!this.get("content")) {
             this.set({"content": this.defaults.content});
@@ -50,11 +44,9 @@ $(function() {
     });
     
     var Visit = Parse.Object.extend("Visit", {
-        // Default attributes for the todo.
         defaults: {
           content: "Visit not loaded...",
         },
-        // Ensure that each todo created has `content`.
         initialize: function() {
           if (!this.get("content")) {
             this.set({"content": this.defaults.content});
@@ -64,7 +56,6 @@ $(function() {
     
     //Collections
     var MentorList = Parse.Collection.extend({
-        // Reference to this collection's model.
         model: Mentor,
         /*initialize: function(){
             var data = this.get("Visits");
@@ -74,12 +65,10 @@ $(function() {
     });
     
     var VisitList = Parse.Collection.extend({
-        // Reference to this collection's model.
         model: Visit
     });
 	
 	var TravelPointList = Parse.Collection.extend({
-        // Reference to this collection's model.
         model: TravelPoint
     });
     
