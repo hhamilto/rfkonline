@@ -58,6 +58,18 @@ html {
     height:400px;
 }
 
+.mentor {
+	display:block;
+}
+
+.mentor span {
+	display:block;
+	width:60px;
+	height:60px;
+	border-radius:30px;
+	background-size:cover;
+}
+
 #mentorNav {
     margin-bottom: 0px;
 }
@@ -124,10 +136,6 @@ html {
     float: right;
     height: 0px;
     overflow: hidden;
-    transition: height 1s;
-    -moz-transition: height 1s; /* Firefox 4 */
-    -webkit-transition: height 1s; /* Safari and Chrome */
-    -o-transition: height 1s; /* Opera */
 }
 
 .visit-list.expanded {
