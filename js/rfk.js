@@ -339,25 +339,25 @@ $(function() {
             _.bindAll(this, "render");
         },
         render: function() {
-			var mapOptions = {
-				zoom: 15,
-				center: new google.maps.LatLng(37.33018889, -122.0258605),
-				mapTypeId: google.maps.MapTypeId.ROADMAP
-			};
-			map = new google.maps.Map(this.el,
-					mapOptions);
-			var visitRoutePoints = [];
-			this.options.travelPoints.map(function(travelPoint){
-					visitRoutePoints.push( new google.maps.LatLng(travelPoint.attributes.Location.latitude, travelPoint.attributes.Location.longitude));
-					console.log(travelPoint.attributes.Location.latitude + ", " + travelPoint.attributes.Location.longitude);
-			});
-			var visitRoute = new google.maps.Polyline({
-				path: visitRoutePoints,
-				strokeColor: '#FF0000',
-				strokeOpacity: 1.0,
-				strokeWeight: 2
-			});
-			visitRoute.setMap(map)
+            var mapOptions = {
+                zoom: 15,
+                center: new google.maps.LatLng(37.33018889, -122.0258605),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            map = new google.maps.Map(this.el,
+                    mapOptions);
+            var visitRoutePoints = [];
+            this.options.travelPoints.map(function(travelPoint){
+                visitRoutePoints.push( new google.maps.LatLng(travelPoint.attributes.Location.latitude, travelPoint.attributes.Location.longitude));
+                console.log(travelPoint.attributes.Location.latitude + ", " + travelPoint.attributes.Location.longitude);
+            });
+            var visitRoute = new google.maps.Polyline({
+                path: visitRoutePoints,
+                strokeColor: '#FF0000',
+                strokeOpacity: 1.0,
+                strokeWeight: 2
+        });
+        visitRoute.setMap(map)
             this.$el.html(this.template());
         }
     });
