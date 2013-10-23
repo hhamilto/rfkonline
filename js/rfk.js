@@ -193,6 +193,7 @@ $(function() {
 				success: function(user) {
 					console.log(user);
 					mentor.attributes.username=user.attributes.name;
+                    mentor.attributes.picurl=user.attributes.Photo.url;
 					var view = new MentorListItemView({model: mentor});
 					this.$("#mentor-list").append(view.render().el);
 				}
