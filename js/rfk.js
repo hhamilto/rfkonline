@@ -327,8 +327,7 @@ $(function() {
             new MapView({travelPoints: this.TravelPoints});
         },
         render: function() {
-			
-			return this;
+            return this;
         }
     });
 
