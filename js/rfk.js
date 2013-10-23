@@ -188,15 +188,15 @@ $(function() {
         // Add a single mentor item to the list by creating a view for it, and
         // appending its element to the `<ul>`.
         addOne: function(mentor) {
-			var userq = new Parse.Query(User);
-			userq.get(mentor.attributes.UserId,{
-				success: function(user) {
-					console.log(user);
-					mentor.attributes.username=user.attributes.name;
-					var view = new MentorListItemView({model: mentor});
-					this.$("#mentor-list").append(view.render().el);
-				}
-			});
+            var userq = new Parse.Query(User);
+            userq.get(mentor.attributes.UserId,{
+                success: function(user) {
+                    console.log(user);
+                    mentor.attributes.username=user.attributes.name;
+                    var view = new MentorListItemView({model: mentor});
+                    this.$("#mentor-list").append(view.render().el);
+                }
+            });
         },
         
         // Add all items in the Mentors collection at once.
