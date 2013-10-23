@@ -295,14 +295,14 @@ $(function() {
         el: "#visit",
 		template: _.template($("#visit-template").html()),
         initialize: function(){
-			/**render*/
-			var visit = this.model.toJSON();
-			visit.Start = moment(visit.Start.iso);
-			visit.End = moment(visit.End.iso);
+            /**render*/
+            var visit = this.model.toJSON();
+            visit.Start = moment(visit.Start.iso);
+            visit.End = moment(visit.End.iso);
             this.$el.html(this.template(visit));
-			////////
+
             _.bindAll(this, 'addOneTp', 'addAllTp', 'render');
-			//this.$el.html(this.template(this.model.toJSON()));
+            //this.$el.html(this.template(this.model.toJSON()));
             this.model.bind('change', this.render);
             this.model.bind('destroy', this.remove);
             // Create our collection of Visits
@@ -310,6 +310,7 @@ $(function() {
             // Setup the query for the collection to look for todos from the current user
             this.TravelPoints.query = new Parse.Query(TravelPoint);
             this.TravelPoints.query.equalTo("VisitId", this.model.id);
+            //XXX FIX THIS SO LONG TRIPS WORK
             this.TravelPoints.query.limit(1000);
             this.TravelPoints.bind('add',     this.addOneTp);
             this.TravelPoints.bind('reset',   this.addAllTp);
@@ -318,22 +319,22 @@ $(function() {
             // Fetch all the todo itemsh for this user
             this.TravelPoints.fetch();
         },
-		addOneTp: function(){
-			console.log("addone called");
-		},
-		addAllTp: function(){
-			console.log("added all travel oints");
-			new MapView({travelPoints: this.TravelPoints});
-		},
+        addOneTp: function(){
+            console.log("addone called");
+        },
+        addAllTp: function(){
+            console.log("added all travel oints");
+            new MapView({travelPoints: this.TravelPoints});
+        },
         render: function() {
 			
 			return this;
         }
     });
 
-	var MapView = Parse.View.extend({
+    var MapView = Parse.View.extend({
         el: "#map",
-		//template: _.template($("#map-template").html()),
+        //template: _.template($("#map-template").html()),
         initialize: function(){
             this.render();
             _.bindAll(this, "render");
@@ -353,7 +354,7 @@ $(function() {
             });
             var visitRoute = new google.maps.Polyline({
                 path: visitRoutePoints,
-                strokeColor: '#FF0000',
+                strokeColor: '#006600',
                 strokeOpacity: 1.0,
                 strokeWeight: 2
         });
