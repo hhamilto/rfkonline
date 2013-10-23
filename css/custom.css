@@ -70,6 +70,16 @@ html {
     padding:2px;
 }
 
+#mentorlistfilter {
+    width:100%;
+    margin:0;
+}
+
+#searchbar {
+    width:100%;
+    margin:0;
+}
+
 #sidebar {
     width:30%;
     background:#2c4762;
