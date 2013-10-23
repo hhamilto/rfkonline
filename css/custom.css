@@ -64,10 +64,11 @@ html {
 
 #mentor-list {
     color: white;
-    overflow: scroll;
-    width:100%;
-	margin:0;
-    padding:2px;
+    width:90%;
+	margin:0 0 0 10%;
+    padding:0;
+    list-style:none;
+	overflow-y:scroll;
 }
 
 #mentorlistfilter {
@@ -78,13 +79,17 @@ html {
 #searchbar {
     width:100%;
     margin:0;
+	border:0px;
+	padding:8px;
+	outline:none;
+	border:1px solid #000;
 }
 
 #sidebar {
     width:30%;
     background:#2c4762;
     height:100%;
-    position: absolute;
+    position:absolute;
     top:0;
     bottom:0;
     left:0;

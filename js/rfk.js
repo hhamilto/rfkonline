@@ -30,8 +30,8 @@ $(function() {
           
         }
     });
-	
-	var TravelPoint = Parse.Object.extend("TravelPoint", {
+    
+    var TravelPoint = Parse.Object.extend("TravelPoint", {
         defaults: {
           content: "Travel point not loaded...",
         },
@@ -67,8 +67,8 @@ $(function() {
     var VisitList = Parse.Collection.extend({
         model: Visit
     });
-	
-	var TravelPointList = Parse.Collection.extend({
+    
+    var TravelPointList = Parse.Collection.extend({
         model: TravelPoint
     });
     
@@ -193,6 +193,7 @@ $(function() {
                 success: function(user) {
                     console.log(user);
                     mentor.attributes.username=user.attributes.name;
+                    mentor.attributes.picurl=user.attributes.Photo.url;
                     var view = new MentorListItemView({model: mentor});
                     this.$("#mentor-list").append(view.render().el);
                 }
@@ -244,7 +245,7 @@ $(function() {
         toggleVisits: function(){
             this.open = !this.open;
             console.log(this.open);
-			this.$(".visit-list").toggleClass("expanded", open);
+            this.$(".visit-list").toggleClass("expanded", open);
         },
         // Add a single mentor item to the list by creating a view for it, and
         // appending its element to the `<ul>`.
@@ -293,7 +294,7 @@ $(function() {
     
     var VisitView = Parse.View.extend({
         el: "#visit",
-		template: _.template($("#visit-template").html()),
+        template: _.template($("#visit-template").html()),
         initialize: function(){
             /**render*/
             var visit = this.model.toJSON();
