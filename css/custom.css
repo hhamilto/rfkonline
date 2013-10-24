@@ -148,6 +148,11 @@ html {
     cursor: pointer;
 }
 
+#signoutButton {
+	float:right;
+	margin:10px;
+}
+
 .topMargin {
     margin-top:10%;
 }
