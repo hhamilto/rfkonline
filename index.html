@@ -94,11 +94,13 @@
     
     <script type="text/template" id="mentor-item-template">
         <li class="mentor">
-            <span class="profilePicture" style="background-image:url('<%= picurl %>');"></span>
-            <span class="mentor-name"><%= username %></span>
-            <ul class="visit-list">
-                loading visits...
-            </ul>
+            <div class="mentor-click-area">
+                <span class="profilePicture" style="background-image:url('<%= picurl %>');"></span>
+                <span class="mentor-name"><%= username %></span>
+                <ul class="visit-list">
+                    loading visits...
+                </ul>
+            </div>
         </li>
     </script>
     
