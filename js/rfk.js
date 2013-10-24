@@ -364,7 +364,7 @@ $(function() {
     });
 
     $("#inputEmail").popover();
-    $(".mentor").collapse();
+    $(".mentor-click-area").collapse();
     new MainView;
     //Main view is what is drawn on load
 });
