@@ -85,18 +85,18 @@
     </script>
     
     <script type="text/template" id="side-bar-template">
-        <form id="mentorlistfilter">
+		<form id="mentorlistfilter">
                 <input type="text" placeholder="Search" id="searchbar">
         </form>
-        <ul id="mentor-list">
-            loading mentor list...
+        <ul id="mentor-list">		
+            Loading Mentor List...
         </ul>
     </script>
     
     <script type="text/template" id="mentor-item-template">
         <li class="mentor">
-            <span style="background-image:url('<%= picurl %>');"></span>
-            <div class="mentor-name"><%= username %></div>
+            <span class="profilePicture" style="background-image:url('<%= picurl %>');"></span>
+            <span class="mentor-name"><%= username %></span>
             <ul class="visit-list">
                 loading visits...
             </ul>

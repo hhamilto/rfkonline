@@ -60,14 +60,28 @@ html {
 
 .mentor {
 	display:block;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	padding:5px 0;
+	
 }
 
-.mentor span {
-	display:block;
+.mentor:hover {
+	color:#D1D1D1;
+	text-shadow:0px 0px 2px #000;
+}
+
+.mentor .profilePicture {
+	display:inline-block;
 	width:60px;
 	height:60px;
 	border-radius:30px;
 	background-size:cover;
+	vertical-align:middle;
 }
 
 #mentorNav {
@@ -81,6 +95,9 @@ html {
     padding:0;
     list-style:none;
 	overflow-y:scroll;
+	position:absolute;
+	top:35px;
+	bottom:0px;
 }
 
 #mentorlistfilter {
@@ -133,9 +150,21 @@ html {
 
 .visit-list{
     width:95%;
-    float: right;
     height: 0px;
     overflow: hidden;
+}
+
+.visit-list li:before { 
+    content: "";
+    border-color: transparent #fff;
+    border-style: solid;
+    border-width: 0.35em 0 0.35em 0.45em;
+    display: block;
+    height: 0;
+    width: 0;
+    left: -1em;
+    top: 0.9em;
+    position: relative;
 }
 
 .visit-list.expanded {
