@@ -87,20 +87,19 @@
                 <input type="text" placeholder="Search" id="searchBar">
                 <input type="button" value="Search" id="searchButton">
         </form>
-        <ul id="mentor-list">		
+        <ul id="mentor-list">
             Loading Mentor List...
         </ul>
     </script>
     
     <script type="text/template" id="mentor-item-template">
         <li class="mentor">
-            <div class="mentor-click-area">
-                <span class="profilePicture" style="background-image:url('<%= picurl %>');"></span>
-                <span class="mentor-name"><%= username %></span>
-                <ul class="visit-list">
-                    loading visits...
-                </ul>
-            </div>
+            <div class="mentor-name">
+            <span class="profilePicture" style="background-image:url('<%= picurl %>');"></span>
+            <%= username %></div>
+            <ul class="visit-list">
+                loading visits...
+            </ul>
         </li>
     </script>
     

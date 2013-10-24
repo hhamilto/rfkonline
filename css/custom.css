@@ -84,14 +84,18 @@ html {
 
 #mentor-list {
     color: white;
-    width:90%;
-    margin:0 0 0 10%;
-    padding:0;
-    list-style:none;
-    overflow-y:scroll;
-    position:absolute;
-    top:35px;
-    bottom:0px;
+    width: 100%;
+    padding: 5px;
+    list-style: none;
+    overflow-y: scroll;
+    position: absolute;
+    top: 35px;
+    bottom: 0px;
+    margin: 0;
+}
+
+.mentor-name {
+    font-size:22px;
 }
 
 .mentor-name:hover {
@@ -150,7 +154,7 @@ html {
 
 #signoutButton {
     float:right;
-    margin:10px;
+    margin-right:10px;
 }
 
 .topMargin {
