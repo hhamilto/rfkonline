@@ -59,24 +59,24 @@ html {
 }
 
 .mentor {
-	display:block;
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-	padding:5px 0;
-	
+    hdisplay:block;
+    h-webkit-touch-callout: none;
+    h-webkit-user-select: none;
+    h-khtml-user-select: none;
+    h-moz-user-select: none;
+    h-ms-user-select: none;
+    huser-select: none;
+    hpadding:5px 0;
+    h
 }
 
 .mentor .profilePicture {
-	display:inline-block;
-	width:60px;
-	height:60px;
-	border-radius:30px;
-	background-size:cover;
-	vertical-align:middle;
+    hdisplay:inline-block;
+    hwidth:60px;
+    hheight:60px;
+    hborder-radius:30px;
+    hbackground-size:cover;
+    hvertical-align:middle;
 }
 
 #mentorNav {
@@ -86,18 +86,18 @@ html {
 #mentor-list {
     color: white;
     width:90%;
-	margin:0 0 0 10%;
+    hmargin:0 0 0 10%;
     padding:0;
     list-style:none;
-	overflow-y:scroll;
-	position:absolute;
-	top:35px;
-	bottom:0px;
+    hoverflow-y:scroll;
+    hposition:absolute;
+    htop:35px;
+    hbottom:0px;
 }
 
 .mentor-name:hover {
-	color:#D1D1D1;
-	text-shadow:0px 0px 2px #000;
+    hcolor:#D1D1D1;
+    htext-shadow:0px 0px 2px #000;
 }
 
 #mentorlistfilter {
@@ -108,27 +108,27 @@ html {
 #searchBar {
     width:80%;
     margin:0;
-	border:0px;
-	padding:8px;
-	outline:none;
-	border:1px solid #000;
-	float:left;
-	line-height:17px;
+    hborder:0px;
+    hpadding:8px;
+    houtline:none;
+    hborder:1px solid #000;
+    hfloat:left;
+    hline-height:17px;
 }
 
 #searchButton {
-	width:20%;
-	margin:0;
-	border:1px solid #000;
-	border-left:none;
-	background-color:#EBEBEB;
-	float:right;
-	padding:8px 0;
-	line-height:17px;
+    hwidth:20%;
+    hmargin:0;
+    hborder:1px solid #000;
+    hborder-left:none;
+    hbackground-color:#EBEBEB;
+    hfloat:right;
+    hpadding:8px 0;
+    hline-height:17px;
 }
 
 #searchButton:hover {
-	background-color:#E0E0E0;
+    hbackground-color:#E0E0E0;
 }
 
 #sidebar {
@@ -150,7 +150,7 @@ html {
 }
 
 .topMargin {
-	margin-top:10%;
+    hmargin-top:10%;
 }
 
 #visit{
@@ -162,7 +162,7 @@ html {
     bottom:0;
     background: white;
     overflow: scroll;
-	float:right;
+    hfloat:right;
 }
 
 .visit-list{
