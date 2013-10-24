@@ -70,11 +70,6 @@ html {
 	
 }
 
-.mentor:hover {
-	color:#D1D1D1;
-	text-shadow:0px 0px 2px #000;
-}
-
 .mentor .profilePicture {
 	display:inline-block;
 	width:60px;
@@ -100,18 +95,40 @@ html {
 	bottom:0px;
 }
 
+.mentor-name:hover {
+	color:#D1D1D1;
+	text-shadow:0px 0px 2px #000;
+}
+
 #mentorlistfilter {
     width:100%;
     margin:0;
 }
 
-#searchbar {
-    width:100%;
+#searchBar {
+    width:80%;
     margin:0;
 	border:0px;
 	padding:8px;
 	outline:none;
 	border:1px solid #000;
+	float:left;
+	line-height:17px;
+}
+
+#searchButton {
+	width:20%;
+	margin:0;
+	border:1px solid #000;
+	border-left:none;
+	background-color:#EBEBEB;
+	float:right;
+	padding:8px 0;
+	line-height:17px;
+}
+
+#searchButton:hover {
+	background-color:#E0E0E0;
 }
 
 #sidebar {
