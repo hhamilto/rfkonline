@@ -174,7 +174,7 @@ html {
     top:0;
     bottom:0;
     background: white;
-    overflow: scroll;
+    overflow-y: scroll;
     float:right;
 }
 
