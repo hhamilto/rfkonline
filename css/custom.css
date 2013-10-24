@@ -157,7 +157,12 @@ html {
     margin-top:10%;
 }
 
-#visit{
+#visit {
+    margin:0 auto;
+    max-width:960px;
+}
+
+#visit-wrapper{
     right:0;
     width:70%;
     padding: 10px;
