@@ -9,3 +9,30 @@ jQuery.fn.shake = function(intShakes, intDistance, intDuration) {
   });
 return this;
 };
+
+
+function maxTally(init){
+	var max = init;
+	return function(n){
+		if(n>max)
+			max = n;
+		return max
+	}
+}
+
+function minTally(init){
+	var max = init;
+	return function(n){
+		if(n<max)
+			max = n;
+		return max
+	}
+}
+
+function Average() {
+	var items = [];
+	return {
+	  	tally: function(e){items.push(e);console.log(typeof e)},
+	 	get: function(){tot = 0; items.map(function(e){tot+=e}); return tot/items.length;}
+	}
+};

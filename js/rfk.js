@@ -334,24 +334,40 @@ $(function() {
 
     var MapView = Parse.View.extend({
         el: "#map",
-        //template: _.template($("#map-template").html()),
+        template: _.template($("#map-template").html()),
         initialize: function(){
             this.render();
             _.bindAll(this, "render");
         },
         render: function() {
+            // this defaults to the cupertino area. as long as there is one point, it should be good tho
             var mapOptions = {
                 zoom: 15,
                 center: new google.maps.LatLng(37.33018889, -122.0258605),
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
+            var visitRoutePoints = [];
+            var maxLat = maxTally(-180);
+            var minLat = minTally(180);
+            var maxLng = maxTally(-180);
+            var minLng = minTally(180);
+            this.options.travelPoints.map(function(travelPoint){
+                var lat = travelPoint.attributes.Location.latitude;
+                var lng = travelPoint.attributes.Location.longitude;
+                maxLat(lat);
+                minLat(lat);
+
+                maxLng(lng);
+                minLng(lng);
+                console.log(lat, lng);
+                visitRoutePoints.push( new google.maps.LatLng(lat, lng));
+            });
+            if(this.options.travelPoints.length > 0){
+                mapOptions.center = new google.maps.LatLng((maxLat()+minLat())/2, (maxLng()+minLng())/2);
+                console.log(mapOptions.center);
+            }
             map = new google.maps.Map(this.el,
                     mapOptions);
-            var visitRoutePoints = [];
-            this.options.travelPoints.map(function(travelPoint){
-                visitRoutePoints.push( new google.maps.LatLng(travelPoint.attributes.Location.latitude, travelPoint.attributes.Location.longitude));
-                console.log(travelPoint.attributes.Location.latitude + ", " + travelPoint.attributes.Location.longitude);
-            });
             var visitRoute = new google.maps.Polyline({
                 path: visitRoutePoints,
                 strokeColor: '#006600',
