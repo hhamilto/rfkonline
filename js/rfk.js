@@ -73,6 +73,13 @@ $(function() {
     });
     
     //Views
+    Parse.View.prototype.close = function(){
+        this.remove();
+        this.unbind();
+        if (this.onClose){
+            this.onClose();
+        }
+    }
         // The main view for the app
     var MainView = Parse.View.extend({
         // Instead of generating a new element, bind to the existing skeleton of
@@ -176,9 +183,8 @@ $(function() {
             var userq = new Parse.Query(User);
             userq.get(mentor.attributes.UserId,{
                 success: function(user) {
-                    console.log(user);
-                    mentor.attributes.username=user.attributes.name;
-                    mentor.attributes.picurl=user.attributes.Photo.url;
+                    mentor.attributes.username = user.attributes.name;
+                    mentor.attributes.picurl = user.attributes.Photo.url;
                     var view = new MentorListItemView({model: mentor});
                     this.$("#mentor-list").append(view.render().el);
                 }
@@ -309,11 +315,15 @@ $(function() {
             console.log("addone called");
         },
         addAllTp: function(){
-            console.log("added all travel oints");
             new MapView({travelPoints: this.TravelPoints});
+            console.log("added all travel ppoints");
         },
         render: function() {
             return this;
+        },
+        remove: function(){
+            //this.model.unbind("change", this.render);
+            //alert("OHHHH BABY");
         }
     });
 
@@ -341,7 +351,6 @@ $(function() {
                 var lng = travelPoint.attributes.Location.longitude;
                 maxLat(lat);
                 minLat(lat);
-
                 maxLng(lng);
                 minLng(lng);
                 visitRoutePoints.push( new google.maps.LatLng(lat, lng));

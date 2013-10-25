@@ -241,19 +241,3 @@ Utility functions and misc cruft
     -o-transition:  max-height 0.5s ease;
     transition:  max-height 0.5s ease !important;
 }
-
-::-webkit-input-placeholder {
-   color: red;
-}
-
-:-moz-placeholder { /* Firefox 18- */
-   color: red;  
-}
-
-::-moz-placeholder {  /* Firefox 19+ */
-   color: red;  
-}
-
-:-ms-input-placeholder {  
-   color: red;  
-}
