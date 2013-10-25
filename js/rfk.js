@@ -344,12 +344,10 @@ $(function() {
 
                 maxLng(lng);
                 minLng(lng);
-                console.log(lat, lng);
                 visitRoutePoints.push( new google.maps.LatLng(lat, lng));
             });
             if(this.options.travelPoints.length > 0){
                 mapOptions.center = new google.maps.LatLng((maxLat()+minLat())/2, (maxLng()+minLng())/2);
-                console.log(mapOptions.center);
             }
             map = new google.maps.Map(this.el,
                     mapOptions);
@@ -357,7 +355,7 @@ $(function() {
                 path: visitRoutePoints,
                 strokeColor: '#006600',
                 strokeOpacity: 1.0,
-                strokeWeight: 2
+                strokeWeight: 5
         });
         visitRoute.setMap(map)
             this.$el.html(this.template());
