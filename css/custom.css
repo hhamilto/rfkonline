@@ -40,11 +40,6 @@ body {
     right:0;
 }
 
-#currentLogin{
-    color:#999;
-    margin-right:10px;
-}
-
 .li-visit:hover{
     text-decoration: underline;
 }
@@ -155,11 +150,10 @@ body {
     color:#D1D1D1;
     text-shadow:0px 0px 2px #000;
 }
-/*
+
 #signoutButton {
-    float:right;
-    margin-right:10px;
-}*/
+    margin-right:7px;
+}
 
 .topMargin {
     margin-top:10%;
@@ -242,10 +236,10 @@ Utility functions and misc cruft
 ************************************************/
 
 .transition-max-height {
-    -webkit-transition: max-height 0.3s ease;
-    -moz-transition: max-height 0.3s ease;
-    -o-transition:  max-height 0.3s ease;
-    transition:  max-height 0.3s ease !important;
+    -webkit-transition: max-height 0.5s ease;
+    -moz-transition: max-height 0.5s ease;
+    -o-transition:  max-height 0.5s ease;
+    transition:  max-height 0.5s ease !important;
 }
 
 ::-webkit-input-placeholder {

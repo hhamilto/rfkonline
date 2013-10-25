@@ -71,8 +71,8 @@
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <a class="navbar-brand" href="#">RFK</a>
             <div class="navbar-right">
-                <span id="currentLogin">Logged in as <%= currentUsername %> </span>
-                <button type="button" class="btn btn-default navbar-btn" id="signoutButton">Sign out</button>
+                <p class="navbar-text">Logged in as <%= currentUsername %> </p>
+                <button type="button" class="btn btn-default navbar-btn" id="signoutButton">Sign out <i class="glyphicon glyphicon-log-out"></i></button>
             </span>
         </nav>
 
@@ -81,7 +81,7 @@
             </div>
             <div id="visit-wrapper" >
                 <div id="visit">
-                    <span id="main-pane-welcome"><span style="font-size: 1.3em">&larr;</span>Select a visit</span>
+                    <span id="main-pane-welcome"><span style="font-size:.8em" class="glyphicon glyphicon-arrow-left"></span> Select a visit</span>
                 </div>
             </div>
         </div>
