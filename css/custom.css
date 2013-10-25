@@ -161,6 +161,28 @@ html {
     max-width:960px;
 }
 
+.visitComment, .visitPhoto {
+    width:80%;
+    margin:10px auto;
+}
+
+.visitComment span, .visitPhoto span {
+    display:block;
+    font-weight:bold;
+}
+
+#visitLog {
+    width:100%;
+    margin:10px 0 0;
+    padding:0;
+}
+
+.visitPhoto img {
+    margin:0;
+    display:block;
+    width:20%;
+}
+
 #visit-wrapper{
     right:0;
     width:70%;
