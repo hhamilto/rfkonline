@@ -58,6 +58,11 @@ body {
     height:400px;
 }
 
+
+#map > div{
+    height:100%;
+}
+
 .mentor {
     display:block;
     -webkit-touch-callout: none;

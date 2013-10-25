@@ -323,7 +323,7 @@ $(function() {
         },
         remove: function(){
             //this.model.unbind("change", this.render);
-            //alert("OHHHH BABY");
+            alert("OHHHH BABY");
         }
     });
 
@@ -335,6 +335,7 @@ $(function() {
             _.bindAll(this, "render");
         },
         render: function() {
+            this.$el.html(this.template());
             // this defaults to the cupertino area. as long as there is one point, it should be good tho
             var mapOptions = {
                 zoom: 15,
@@ -358,16 +359,15 @@ $(function() {
             if(this.options.travelPoints.length > 0){
                 mapOptions.center = new google.maps.LatLng((maxLat()+minLat())/2, (maxLng()+minLng())/2);
             }
-            map = new google.maps.Map(this.el,
+            map = new google.maps.Map(this.$el.children('div').get(0),
                     mapOptions);
             var visitRoute = new google.maps.Polyline({
                 path: visitRoutePoints,
                 strokeColor: '#006600',
                 strokeOpacity: 1.0,
                 strokeWeight: 5
-        });
-        visitRoute.setMap(map)
-            this.$el.html(this.template());
+            });
+            visitRoute.setMap(map)
         }
     });
 
