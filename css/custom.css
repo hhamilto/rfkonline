@@ -140,6 +140,10 @@ html {
 
 .mentor-name {
     font-size:22px;
+    height:60px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .mentor-name:hover {
@@ -197,7 +201,7 @@ html {
 
 .visit-list{
     width:95%;
-    height: 0px;
+    max-height: 0px;
     overflow: hidden;
 }
 
@@ -207,7 +211,7 @@ html {
     border-style: solid;
     border-width: 0.35em 0 0.35em 0.45em;
     display: block;
-    height: 0;
+    max-height: 0;
     width: 0;
     left: -1em;
     top: 0.9em;
@@ -215,9 +219,37 @@ html {
 }
 
 .visit-list.expanded {
-    height: auto;
+    max-height: 10000px;
 }
 
 .visit-list:first-child {
     margin-top: 10px;
+}
+
+
+/************************************************
+Utility functions and misc cruft
+************************************************/
+
+.transition-max-height {
+    -webkit-transition: max-height 0.3s ease;
+    -moz-transition: max-height 0.3s ease;
+    -o-transition:  max-height 0.3s ease;
+    transition:  max-height 0.3s ease !important;
+}
+
+::-webkit-input-placeholder {
+   color: red;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: red;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: red;  
+}
+
+:-ms-input-placeholder {  
+   color: red;  
 }

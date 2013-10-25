@@ -92,6 +92,7 @@
         <ul id="mentor-list">
             Loading Mentor List...
         </ul>
+        <div class="clear-fix"/>
     </script>
     
     <script type="text/template" id="mentor-item-template">
@@ -99,7 +100,7 @@
             <div class="mentor-name">
             <span class="profilePicture" style="background-image:url('<%= picurl %>');"></span>
             <%= username %></div>
-            <ul class="visit-list">
+            <ul class="visit-list transition-max-height">
                 loading visits...
             </ul>
         </li>
