@@ -110,7 +110,6 @@ $(function() {
             Parse.User.logIn(actuser[1], password, {
                 success: function(user) {
                     new DashboardView();
-                    self.undelegateEvents(); //probably not needed
                     delete self;
                 },
                 error: function(user, error) {
@@ -131,9 +130,10 @@ $(function() {
         events: {
             "click #signoutButton" : "logout"
         },
+        template: _.template($("#dashboard-template").html()),
         el: ".content",
         initialize: function(){
-            _.bindAll(this, "logout");
+            _.bindAll(this, "logout", "render");
             this.render();
         },
         logout: function() {
@@ -143,7 +143,7 @@ $(function() {
             delete this;
         },
         render: function() {
-            this.$el.html(_.template($("#dashboard-template").html()));
+            this.$el.html(this.template({currentUsername:Parse.User.current().getUsername()}));
             new SidebarView();
             this.delegateEvents();
         }
@@ -165,22 +165,7 @@ $(function() {
             mentors.bind('reset',   this.addAll);
             mentors.bind('all',     this.render);
             
-            // Fetch all the todo items for this user
             mentors.fetch();
-            /*
-            mentors.each(function(mentor){
-                var userId = mentor.get("UserId");
-                var query = new Parse.query(User);
-            });*/
-
-            //  var userQuery = new Parse.Query(User);
-
-            // userQuery.equalTo("userId", mentors.query);
-            // query.find({
-            //     success: function(user){
-
-            //     }
-            // });
             
             this.mentors = mentors;
         },
