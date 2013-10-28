@@ -302,7 +302,7 @@ $(function() {
             // Setup the query for the collection to look for todos from the current user
             this.TravelPoints.query = new Parse.Query(TravelPoint);
             this.TravelPoints.query.equalTo("VisitId", this.model.id);
-            //XXX FIX THIS SO LONG TRIPS WORK
+            //XXX FIX THIS SO LONG TRIPS WORK 1000+ points
             this.TravelPoints.query.limit(1000);
             this.TravelPoints.bind('add',     this.addOneTp);
             this.TravelPoints.bind('reset',   this.addAllTp);
@@ -347,6 +347,7 @@ $(function() {
             var minLat = minTally(180);
             var maxLng = maxTally(-180);
             var minLng = minTally(180);
+            var mapElement = this.$el.children('div');
             this.options.travelPoints.map(function(travelPoint){
                 var lat = travelPoint.attributes.Location.latitude;
                 var lng = travelPoint.attributes.Location.longitude;
@@ -356,10 +357,15 @@ $(function() {
                 minLng(lng);
                 visitRoutePoints.push( new google.maps.LatLng(lat, lng));
             });
-            if(this.options.travelPoints.length > 0){
-                mapOptions.center = new google.maps.LatLng((maxLat()+minLat())/2, (maxLng()+minLng())/2);
-            }
-            map = new google.maps.Map(this.$el.children('div').get(0),
+            //TODO: Raise error when no points are in the trip.
+            mapOptions.center = new google.maps.LatLng((maxLat()+minLat())/2, (maxLng()+minLng())/2);
+            //TODO: make sure this works around 0 degrees
+            console.log("mheight" + mapElement.height());
+            var lngZoom = getZoomFromDegreeWidth( Math.abs(maxLng()-minLng()), mapElement.width());
+            var latZoom = getZoomFromDegreeWidth( Math.abs(maxLat()-minLat()), mapElement.height());
+            console.log("lng z" + lngZoom + " latz" + latZoom + "zlevel used: " + Math.min(lngZoom, latZoom));
+            mapOptions.zoom = Math.min(lngZoom, latZoom);
+            map = new google.maps.Map( mapElement.get(0),
                     mapOptions);
             var visitRoute = new google.maps.Polyline({
                 path: visitRoutePoints,
