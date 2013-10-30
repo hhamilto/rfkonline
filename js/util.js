@@ -12,29 +12,29 @@ return this;
 
 
 function maxTally(init){
-	var max = init;
-	return function(n){
-		if(n>max)
-			max = n;
-		return max
-	}
+    var max = init;
+    return function(n){
+        if(n>max)
+            max = n;
+        return max;
+    }
 }
 
 function minTally(init){
-	var max = init;
-	return function(n){
-		if(n<max)
-			max = n;
-		return max
-	}
+    var min = init;
+    return function(n){
+        if(n<min)
+            min = n;
+        return min;
+    }
 }
 
 function Average() {
-	var items = [];
-	return {
-	  	tally: function(e){items.push(e);console.log(typeof e)},
-	 	get: function(){tot = 0; items.map(function(e){tot+=e}); return tot/items.length;}
-	}
+    var items = [];
+    return {
+          tally: function(e){items.push(e);console.log(typeof e)},
+         get: function(){tot = 0; items.map(function(e){tot+=e}); return tot/items.length;}
+    }
 };
 
 function getZoomFromDegreeWidth(areaWidth, mapWidth){

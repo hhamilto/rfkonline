@@ -230,7 +230,6 @@ $(function() {
             
             // Fetch all the todo items for this user
             this.visits.fetch();
-            //this.render
         },
         /*for the toggle down visits functionality*/
         toggleVisits: function(){
@@ -256,10 +255,6 @@ $(function() {
         },
         
         render: function(){
-            //this.view2 = new View2();
-            //this.$('insert-view-here').append(this.view2.render().el);
-            
-            //this.delegateEvents();
             return this;
         }
     });
@@ -361,14 +356,7 @@ $(function() {
                 minLng(lng);
                 visitRoutePoints.push( new google.maps.LatLng(lat, lng));
             });
-            //TODO: Raise error when no points are in the trip.
-            mapOptions.center = new google.maps.LatLng((maxLat()+minLat())/2, (maxLng()+minLng())/2);
-            //TODO: make sure this works around 0 degrees
-            console.log("mheight" + mapElement.height());
-            var lngZoom = getZoomFromDegreeWidth( Math.abs(maxLng()-minLng()), mapElement.width());
             var latZoom = getZoomFromDegreeWidth( Math.abs(maxLat()-minLat()), mapElement.height());
-            console.log("lng z" + lngZoom + " latz" + latZoom + "zlevel used: " + Math.min(lngZoom, latZoom));
-            mapOptions.zoom = Math.min(lngZoom, latZoom);
             map = new google.maps.Map( mapElement.get(0),
                     mapOptions);
             var visitRoute = new google.maps.Polyline({
@@ -377,7 +365,13 @@ $(function() {
                 strokeOpacity: 1.0,
                 strokeWeight: 5
             });
-            visitRoute.setMap(map)
+            visitRoute.setMap(map)/*
+            console.log("minLat" + minLat());
+            console.log("maxLng" + maxLng());
+            console.log("maxLat" + maxLat());
+            console.log("minLng" + minLng());*/
+            //TODO: make sure this works around 0 degrees
+            map.fitBounds(new google.maps.LatLngBounds(new google.maps.LatLng(minLat(), minLng()), new google.maps.LatLng(maxLat(), maxLng())));
         }
     });
 

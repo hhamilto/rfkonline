@@ -118,8 +118,8 @@
     <script type="text/template" id="visit-template">
         <h1><%= Name %></h1>
         <div class="visit-info">
-            On <b><%= Start.format('MMMM Do YYYY') %></b> 
-            at <b><%= Start.format('h:mm a')%></b>, 
+            On <b><%= Start.format('MMMM Do YYYY') %></b>
+            at <b><%= Start.format('h:mm a')%></b>,
             Bobby visited Timmy 
             for <b><%= moment.duration(End.diff(Start)).humanize()%></b>.
         </div>
