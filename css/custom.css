@@ -236,7 +236,7 @@ body {
 }
 
 .visit-list li.emptyItem:before {
-    border:none;
+    border-color: transparent;
 }
 
 .visit-list.expanded {
