@@ -71,7 +71,7 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    padding:5px 0;
+    padding:10px 0 0;
 }
 
 .mentor .profilePicture {
@@ -236,7 +236,11 @@ body {
 }
 
 .visit-list li.emptyItem:before {
-    border-color: transparent;
+    border-color:transparent;
+}
+
+.visit-list li.emptyItem:hover {
+    cursor:default !important;
 }
 
 .visit-list.expanded {
