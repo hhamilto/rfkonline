@@ -238,17 +238,21 @@ $(function() {
             console.log(this.open);
             this.$(".visit-list").toggleClass("expanded", open);
         },
-        // Add a single mentor item to the list by creating a view for it, and
+        // Add a single visit item to the list by creating a view for it, and
         // appending its element to the `<ul>`.
         addOne: function(visit) {
             var view = new VisitListItemView({model: visit});
             this.$(".visit-list").append(view.render().el);
         },
         
-        // Add all items in the Mentors collection at once.
+        // Add all items in the visit collection at once.
         addAll: function(collection, filter) {
             this.$(".visit-list").html("");
-            this.visits.each(this.addOne);
+            collection.each(this.addOne);
+            if (collection.length == 0)  {
+                this.$(".visit-list").append("<li class=\"emptyItem\">This Mentor has no visits.</li>");
+            }
+            console.log("dpne adding visits for " + this.model.attributes.username);
         },
         
         render: function(){

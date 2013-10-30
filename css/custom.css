@@ -235,6 +235,10 @@ body {
     position: relative;
 }
 
+.visit-list li.emptyItem:before {
+    border:none;
+}
+
 .visit-list.expanded {
     max-height: 10000px;
 }
