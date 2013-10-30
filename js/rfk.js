@@ -222,7 +222,7 @@ $(function() {
             this.visits = new VisitList;
             // Setup the query for the collection to look for todos from the current user
             this.visits.query = new Parse.Query(Visit);
-            this.visits.query.equalTo("MentorId", this.model.attributes.UserId);
+            this.visits.query.equalTo("UserId", this.model.attributes.UserId);
             
             this.visits.bind('add',     this.addOne);
             this.visits.bind('reset',   this.addAll);
