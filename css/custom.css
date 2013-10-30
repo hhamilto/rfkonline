@@ -156,6 +156,14 @@ body {
     text-shadow:0px 0px 2px #000;
 }
 
+.navbarInfo {
+    float:right;
+}
+
+.navbarInfo  p {
+    margin-right:15px !important;
+}
+
 #signoutButton {
     margin-right:7px;
 }
