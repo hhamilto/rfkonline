@@ -110,11 +110,8 @@ $(function() {
             var self = this;
             var username = this.$("#inputEmail").val();
             var password = this.$("#inputPassword").val();
-            
-            var unreg = /([^@]+)/g;
-            var actuser = unreg.exec(username);
 
-            Parse.User.logIn(actuser[1], password, {
+            Parse.User.logIn(/([^@]+)/g.exec(username)[1], password, {
                 success: function(user) {
                     new DashboardView();
                     delete self;
@@ -251,7 +248,6 @@ $(function() {
             if (collection.length == 0)  {
                 this.$(".visit-list").append("<li class=\"emptyItem\">This Mentor has no visits.</li>");
             }
-            console.log("dpne adding visits for " + this.model.attributes.username);
         },
         
         render: function(){
@@ -347,14 +343,11 @@ $(function() {
             var maxLng = maxTally(-180);
             var minLng = minTally(180);
             var mapElement = this.$el.children('div');
+            var bounds = new google.maps.LatLngBounds()
             this.options.travelPoints.map(function(travelPoint){
-                var lat = travelPoint.attributes.Location.latitude;
-                var lng = travelPoint.attributes.Location.longitude;
-                maxLat(lat);
-                minLat(lat);
-                maxLng(lng);
-                minLng(lng);
-                visitRoutePoints.push( new google.maps.LatLng(lat, lng));
+                var point = new google.maps.LatLng(travelPoint.attributes.Location.latitude, travelPoint.attributes.Location.longitude)
+                bounds.extend(point);
+                visitRoutePoints.push( point);
             });
             var latZoom = getZoomFromDegreeWidth( Math.abs(maxLat()-minLat()), mapElement.height());
             map = new google.maps.Map( mapElement.get(0),
@@ -365,13 +358,13 @@ $(function() {
                 strokeOpacity: 1.0,
                 strokeWeight: 5
             });
-            visitRoute.setMap(map)/*
+            visitRoute.setMap(map)
             console.log("minLat" + minLat());
             console.log("maxLng" + maxLng());
             console.log("maxLat" + maxLat());
-            console.log("minLng" + minLng());*/
-            //TODO: make sure this works around 0 degrees
-            map.fitBounds(new google.maps.LatLngBounds(new google.maps.LatLng(minLat(), minLng()), new google.maps.LatLng(maxLat(), maxLng())));
+            console.log("minLng" + minLng());
+            //TODO: make sure this works around 0 degrees*/
+            map.fitBounds(bounds);
         }
     });
 
