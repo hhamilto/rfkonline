@@ -166,6 +166,13 @@ body {
 
 #signoutButton {
     margin-right:7px;
+    background-color: #222;
+    color:white;
+}
+
+#signoutButton:hover {
+    background-color: #000;
+    color:white;
 }
 
 .topMargin {
