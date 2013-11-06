@@ -208,10 +208,16 @@ $(function() {
             // Create our collection of Mentors
             var mentors = new MentorList;
             mentors.query = new Parse.Query(Mentor);
+            var userQ = new Parse.Query(User);
+
+            mentors.query.include("User");
+            mentors.comparator = function(mentor){
+                return mentor.get('User').get('name');
+            }
             mentors.bind('add',     this.addOne);
             mentors.bind('reset',   this.addAll);
             mentors.bind('all',     this.render);
-            
+                        
             mentors.fetch();
             
             this.mentors = mentors;
@@ -220,15 +226,11 @@ $(function() {
         // Add a single mentor item to the list by creating a view for it, and
         // appending its element to the `<ul>`.
         addOne: function(mentor) {
-            var userq = new Parse.Query(User);
-            userq.get(mentor.attributes.UserId,{
-                success: function(user) {
-                    mentor.attributes.username = user.attributes.name;
-                    mentor.attributes.picurl = user.attributes.Photo.url;
-                    var view = new MentorListItemView({model: mentor});
-                    this.$("#mentor-list").append(view.render().el);
-                }
-            });
+            //var user = mentor.get('User');
+            //var name = user.get('name');
+            //mentor.set('name', name);
+            var view = new MentorListItemView({model: mentor});
+            this.$("#mentor-list").append(view.render().el);
         },
         
         // Add all items in the Mentors collection at once.
@@ -252,7 +254,8 @@ $(function() {
             "click .mentor-name": "toggleVisits",
         },
         initialize: function(){
-            this.$el.html(this.template(this.model.toJSON()));
+            //this.$el.html(this.template(this.model.toJSON()));
+            this.$el.html(this.template(this.model.attributes));
             _.bindAll(this, 'addOne', 'addAll', 'render');
             this.model.bind('change', this.render);
             this.model.bind('destroy', this.remove);

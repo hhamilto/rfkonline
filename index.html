@@ -127,8 +127,8 @@
     <script type="text/template" id="mentor-item-template">
         <li class="mentor">
             <div class="mentor-name">
-            <span class="profilePicture" style="background-image:url('<%= picurl %>');"></span>
-            <%= username %></div>
+            <span class="profilePicture" style="background-image:url('<%= User.get('Photo').url %>');"></span>
+            <%= User.get('name') %></div>
             <ul class="visit-list">
                 loading visits...
             </ul>
