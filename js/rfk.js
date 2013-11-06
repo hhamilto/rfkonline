@@ -131,14 +131,20 @@ $(function() {
     });
 
     var DashboardView = Parse.View.extend({
+        //TODO: Make less gay by using some sort of routing functionality in backbone
         events: {
-            "click #signoutButton" : "logout"
+            "click #signoutButton" : "logout",
+            "click #mentorsTopNav" : "showManageMentorsView",
+            "click #visitTopNav" : "showVisitView",
         },
+        model:{},
         template: _.template($("#dashboard-template").html()),
         el: ".content",
         initialize: function(){
             _.bindAll(this, "logout", "render");
-            this.render();
+            this.model.currentUsername = Parse.User.current().getUsername();
+            this.delegateEvents();
+            this.showVisitView();
         },
         logout: function() {
             Parse.User.logOut();
@@ -146,8 +152,45 @@ $(function() {
             this.undelegateEvents();
             delete this;
         },
+        render: function(){
+            this.$el.html(this.template(this.model));
+        },
+        showVisitView: function(){
+            this.model.currentView = 'visit';
+            this.render();
+            this.view = new VisitViewerView();
+        },
+        showManageMentorsView: function(){
+            this.model.currentView = 'manageMentors';
+            this.render();
+            //delete this.view;
+            this.view = new ManageMentorsView();
+        }
+    });
+
+    var ManageMentorsView = Parse.View.extend({
+        template: _.template($("#manage-mentors-template").html()),
+        el: "#dashboardContainer",
+        initialize: function(){
+            _.bindAll(this, "render");
+            this.render();
+        },
         render: function() {
-            this.$el.html(this.template({currentUsername:Parse.User.current().getUsername()}));
+            this.$el.html(this.template());
+            //new SidebarView();
+            this.delegateEvents();
+        }
+    });
+
+    var VisitViewerView = Parse.View.extend({
+        template: _.template($("#visit-viewer-template").html()),
+        el: "#dashboardContainer",
+        initialize: function(){
+            _.bindAll(this, "render");
+            this.render();
+        },
+        render: function() {
+            this.$el.html(this.template());
             new SidebarView();
             this.delegateEvents();
         }
