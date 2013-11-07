@@ -66,7 +66,6 @@ Dashboard Container
     color:white;
 }
 
-
 /************************************************
 Visit Viewer View
 ************************************************/
@@ -94,7 +93,7 @@ Visit Viewer View
     padding:5px 0;
 }
 
-.mentor .profilePicture {
+.smallProfilePicture {
     display:inline-block;
     width:60px;
     height:60px;
@@ -254,6 +253,16 @@ Visit Viewer View
 /************************************************
 Manage Mentors
 ************************************************/
+#manageMentorsContainer{
+    background: white;
+    width: 100%;
+    height: 100%;
+}
+
+
+#manageMentorsTable{
+        Width:100%;
+    }
 
 /************************************************
 Utility functions and misc cruft

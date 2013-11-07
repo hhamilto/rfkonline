@@ -167,11 +167,57 @@ $(function() {
         template: _.template($("#manage-mentors-template").html()),
         el: "#dashboardContainer",
         initialize: function(){
+            _.bindAll(this, 'addOneMentor', 'addAllMentors', 'render');
+            
+            this.$el.html(this.template());
+            // Create our collection of Mentors
+            var mentors = new MentorList;
+            mentors.query = new Parse.Query(Mentor);
+            var userQ = new Parse.Query(User);
+
+            mentors.query.include("User");
+            mentors.comparator = function(mentor){
+                return mentor.get('User').get('name');
+            }
+            mentors.bind('add',     this.addOneMentor);
+            mentors.bind('reset',   this.addAllMentors);
+            mentors.bind('all',     this.render);
+                        
+            mentors.fetch();
+            
+            this.mentors = mentors;
+        },
+
+        // Add a single mentor item to the list by creating a view for it, and
+        // appending its element to the `<ul>`.
+        addOneMentor: function(mentor) {
+            //var user = mentor.get('User');
+            //var name = user.get('name');
+            //mentor.set('name', name);
+            var view = new ManageMentorRowView({model: mentor});
+        },
+        
+        // Add all items in the Mentors collection at once.
+        addAllMentors: function(collection, filter) {
+            this.$(".addAllMentors").remove()
+            collection.forEach(this.addOneMentor);
+        },
+
+        render: function() {
+            this.delegateEvents();
+        }
+    });
+
+    var ManageMentorRowView = Parse.View.extend({
+        template: _.template($("#manage-mentor-row-template").html()),
+        el: "#manageMentorsTable",
+        initialize: function(){
             _.bindAll(this, "render");
             this.render();
         },
+        
         render: function() {
-            this.$el.html(this.template());
+            this.$el.children('tbody').append(this.template(this.model.attributes));
             //new SidebarView();
             this.delegateEvents();
         }
@@ -231,7 +277,7 @@ $(function() {
         // Add all items in the Mentors collection at once.
         addAll: function(collection, filter) {
             this.$("#mentor-list").html("");
-            this.mentors.each(this.addOne);
+            collection.forEach(this.addOne);
         },
         
         render: function() {

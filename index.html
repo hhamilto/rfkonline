@@ -101,7 +101,19 @@
     <script type="text/template" id="manage-mentors-template">
         <div id="manageMentorsContainer">
             u best check yo mentors fo you wreck yo mentors
+            <table class="table table-striped table-hover"id="manageMentorsTable">
+                <tr><th>Name</th><th>Address</th><th>Photo</th><th></th></tr>
+            </table>
         </div>
+    </script>
+
+    <script type="text/template" id="manage-mentor-row-template">
+        <tr class="addAllMentors">
+            <td><%=User.get('name')%></td>
+            <td><%='Address'%></td>
+            <td><span class="smallProfilePicture" style="background-image:url('<%= User.get('Photo').url %>');"></span></td>
+            <td><span class="glyphicon glyphicon-pencil"></span>
+        </tr>
     </script>
 
     <script type="text/template" id="visit-viewer-template">
@@ -129,7 +141,7 @@
     <script type="text/template" id="mentor-item-template">
         <li class="mentor">
             <div class="mentor-name">
-            <span class="profilePicture" style="background-image:url('<%= User.get('Photo').url %>');"></span>
+            <span class="smallProfilePicture" style="background-image:url('<%= User.get('Photo').url %>');"></span>
             <%= User.get('name') %></div>
             <ul class="visit-list">
                 loading visits...
