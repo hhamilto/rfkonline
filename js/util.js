@@ -38,7 +38,6 @@ function Average() {
 };
 
 function getZoomFromDegreeWidth(areaWidth, mapWidth){
-    console.log("areaWidth: " + areaWidth);
     var widthRatio = 256/mapWidth;
     var adjustedWidth = areaWidth * widthRatio;
     return Math.floor(-Math.log(adjustedWidth/360)/

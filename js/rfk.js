@@ -57,11 +57,6 @@ $(function() {
     //Collections
     var MentorList = Parse.Collection.extend({
         model: Mentor,
-        /*initialize: function(){
-            var data = this.get("Visits");
-            this.unset("books", {silent: true});
-            this.books = new Books(data);
-        }*/
     });
     
     var VisitList = Parse.Collection.extend({
@@ -110,11 +105,8 @@ $(function() {
             var self = this;
             var username = this.$("#inputEmail").val();
             var password = this.$("#inputPassword").val();
-            
-            var unreg = /([^@]+)/g;
-            var actuser = unreg.exec(username);
 
-            Parse.User.logIn(actuser[1], password, {
+            Parse.User.logIn(/([^@]+)/g.exec(username)[1], password, {
                 success: function(user) {
                     new DashboardView();
                     delete self;
@@ -134,14 +126,20 @@ $(function() {
     });
 
     var DashboardView = Parse.View.extend({
+        //TODO: Make less gay by using some sort of routing functionality in backbone
         events: {
-            "click #signoutButton" : "logout"
+            "click #signoutButton" : "logout",
+            "click #mentorsTopNav" : "showManageMentorsView",
+            "click #visitTopNav" : "showVisitView",
         },
+        model:{},
         template: _.template($("#dashboard-template").html()),
         el: ".content",
         initialize: function(){
             _.bindAll(this, "logout", "render");
-            this.render();
+            this.model.currentUsername = Parse.User.current().getUsername();
+            this.delegateEvents();
+            this.showVisitView();
         },
         logout: function() {
             Parse.User.logOut();
@@ -149,8 +147,91 @@ $(function() {
             this.undelegateEvents();
             delete this;
         },
+        render: function(){
+            this.$el.html(this.template(this.model));
+        },
+        showVisitView: function(){
+            this.model.currentView = 'visit';
+            this.render();
+            this.view = new VisitViewerView();
+        },
+        showManageMentorsView: function(){
+            this.model.currentView = 'manageMentors';
+            this.render();
+            //delete this.view;
+            this.view = new ManageMentorsView();
+        }
+    });
+
+    var ManageMentorsView = Parse.View.extend({
+        template: _.template($("#manage-mentors-template").html()),
+        el: "#dashboardContainer",
+        initialize: function(){
+            _.bindAll(this, 'addOneMentor', 'addAllMentors', 'render');
+            
+            this.$el.html(this.template());
+            // Create our collection of Mentors
+            var mentors = new MentorList;
+            mentors.query = new Parse.Query(Mentor);
+            var userQ = new Parse.Query(User);
+
+            mentors.query.include("User");
+            mentors.comparator = function(mentor){
+                return mentor.get('User').get('name');
+            }
+            mentors.bind('add',     this.addOneMentor);
+            mentors.bind('reset',   this.addAllMentors);
+            mentors.bind('all',     this.render);
+                        
+            mentors.fetch();
+            
+            this.mentors = mentors;
+        },
+
+        // Add a single mentor item to the list by creating a view for it, and
+        // appending its element to the `<ul>`.
+        addOneMentor: function(mentor) {
+            //var user = mentor.get('User');
+            //var name = user.get('name');
+            //mentor.set('name', name);
+            var view = new ManageMentorRowView({model: mentor});
+        },
+        
+        // Add all items in the Mentors collection at once.
+        addAllMentors: function(collection, filter) {
+            this.$(".addAllMentors").remove()
+            collection.forEach(this.addOneMentor);
+        },
+
         render: function() {
-            this.$el.html(this.template({currentUsername:Parse.User.current().getUsername()}));
+            this.delegateEvents();
+        }
+    });
+
+    var ManageMentorRowView = Parse.View.extend({
+        template: _.template($("#manage-mentor-row-template").html()),
+        el: "#manageMentorsTable",
+        initialize: function(){
+            _.bindAll(this, "render");
+            this.render();
+        },
+        
+        render: function() {
+            this.$el.children('tbody').append(this.template(this.model.attributes));
+            //new SidebarView();
+            this.delegateEvents();
+        }
+    });
+
+    var VisitViewerView = Parse.View.extend({
+        template: _.template($("#visit-viewer-template").html()),
+        el: "#dashboardContainer",
+        initialize: function(){
+            _.bindAll(this, "render");
+            this.render();
+        },
+        render: function() {
+            this.$el.html(this.template());
             new SidebarView();
             this.delegateEvents();
         }
@@ -168,10 +249,16 @@ $(function() {
             // Create our collection of Mentors
             var mentors = new MentorList;
             mentors.query = new Parse.Query(Mentor);
+            var userQ = new Parse.Query(User);
+
+            mentors.query.include("User");
+            mentors.comparator = function(mentor){
+                return mentor.get('User').get('name');
+            }
             mentors.bind('add',     this.addOne);
             mentors.bind('reset',   this.addAll);
             mentors.bind('all',     this.render);
-            
+                        
             mentors.fetch();
             
             this.mentors = mentors;
@@ -180,21 +267,17 @@ $(function() {
         // Add a single mentor item to the list by creating a view for it, and
         // appending its element to the `<ul>`.
         addOne: function(mentor) {
-            var userq = new Parse.Query(User);
-            userq.get(mentor.attributes.UserId,{
-                success: function(user) {
-                    mentor.attributes.username = user.attributes.name;
-                    mentor.attributes.picurl = user.attributes.Photo.url;
-                    var view = new MentorListItemView({model: mentor});
-                    this.$("#mentor-list").append(view.render().el);
-                }
-            });
+            //var user = mentor.get('User');
+            //var name = user.get('name');
+            //mentor.set('name', name);
+            var view = new MentorListItemView({model: mentor});
+            this.$("#mentor-list").append(view.render().el);
         },
         
         // Add all items in the Mentors collection at once.
         addAll: function(collection, filter) {
             this.$("#mentor-list").html("");
-            this.mentors.each(this.addOne);
+            collection.forEach(this.addOne);
         },
         
         render: function() {
@@ -212,7 +295,7 @@ $(function() {
             "click .mentor-name": "toggleVisits",
         },
         initialize: function(){
-            this.$el.html(this.template(this.model.toJSON()));
+            this.$el.html(this.template(this.model.attributes));
             _.bindAll(this, 'addOne', 'addAll', 'render');
             this.model.bind('change', this.render);
             this.model.bind('destroy', this.remove);
@@ -251,7 +334,6 @@ $(function() {
             if (collection.length == 0)  {
                 this.$(".visit-list").append("<li class=\"emptyItem\">This Mentor has no visits.</li>");
             }
-            console.log("dpne adding visits for " + this.model.attributes.username);
         },
         
         render: function(){
@@ -286,14 +368,14 @@ $(function() {
         el: "#visit",
         template: _.template($("#visit-template").html()),
         initialize: function(){
-            /**render*/
+            /*render*/
             var visit = this.model.toJSON();
             visit.Start = moment(visit.Start.iso);
             visit.End = moment(visit.End.iso);
             this.$el.html(this.template(visit));
 
             _.bindAll(this, 'addOneTp', 'addAllTp', 'render');
-            //this.$el.html(this.template(this.model.toJSON()));
+            this.$el.html(this.template(this.model.toJSON()));
             this.model.bind('change', this.render);
             this.model.bind('destroy', this.remove);
             // Create our collection of Visits
@@ -347,14 +429,11 @@ $(function() {
             var maxLng = maxTally(-180);
             var minLng = minTally(180);
             var mapElement = this.$el.children('div');
+            var bounds = new google.maps.LatLngBounds()
             this.options.travelPoints.map(function(travelPoint){
-                var lat = travelPoint.attributes.Location.latitude;
-                var lng = travelPoint.attributes.Location.longitude;
-                maxLat(lat);
-                minLat(lat);
-                maxLng(lng);
-                minLng(lng);
-                visitRoutePoints.push( new google.maps.LatLng(lat, lng));
+                var point = new google.maps.LatLng(travelPoint.attributes.Location.latitude, travelPoint.attributes.Location.longitude)
+                bounds.extend(point);
+                visitRoutePoints.push( point);
             });
             var latZoom = getZoomFromDegreeWidth( Math.abs(maxLat()-minLat()), mapElement.height());
             map = new google.maps.Map( mapElement.get(0),
@@ -365,19 +444,19 @@ $(function() {
                 strokeOpacity: 1.0,
                 strokeWeight: 5
             });
-            visitRoute.setMap(map)/*
+            visitRoute.setMap(map)
             console.log("minLat" + minLat());
             console.log("maxLng" + maxLng());
             console.log("maxLat" + maxLat());
-            console.log("minLng" + minLng());*/
-            //TODO: make sure this works around 0 degrees
-            map.fitBounds(new google.maps.LatLngBounds(new google.maps.LatLng(minLat(), minLng()), new google.maps.LatLng(maxLat(), maxLng())));
+            console.log("minLng" + minLng());
+            //TODO: make sure this works around 0 degrees/
+            map.fitBounds(bounds);
         }
     });
 
     $("#inputEmail").popover();
-    new MainView;
     //Main view is what is drawn on load
+    new MainView;
 });
 
 
