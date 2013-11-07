@@ -89,7 +89,9 @@
                 </ul>
                 <div class="nav navbar-nav navbar-right">
                     <p class="navbar-text">Logged in as <%= currentUsername %> </p>
-                    <button type="button" class="btn btn-default navbar-btn" id="signoutButton">Sign out <i class="glyphicon glyphicon-log-out"></i></button>
+                    <form class="navbar-form navbar-left">
+                        <button type="button" class="btn btn-default navbar-btn" id="signoutButton">Sign out <i class="glyphicon glyphicon-log-out"></i></button>
+                    </form>
                 </div>
             </div>
         </nav>
@@ -100,8 +102,8 @@
 
     <script type="text/template" id="manage-mentors-template">
         <div id="manageMentorsContainer">
-            u best check yo mentors fo you wreck yo mentors
-            <table class="table table-striped table-hover"id="manageMentorsTable">
+            <h1> u best check yo mentors fo you wreck yo mentors</h2>
+            <table class="table table-striped"id="manageMentorsTable">
                 <tr><th>Name</th><th>Address</th><th>Photo</th><th></th></tr>
             </table>
         </div>
@@ -112,7 +114,7 @@
             <td><%=User.get('name')%></td>
             <td><%='Address'%></td>
             <td><span class="smallProfilePicture" style="background-image:url('<%= User.get('Photo').url %>');"></span></td>
-            <td><span class="glyphicon glyphicon-pencil"></span>
+            <td><button type="button" class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></button></td>
         </tr>
     </script>
 
@@ -157,7 +159,7 @@
         <h1><%= Name %></h1>
         <div class="visit-info">
             On <b><%= Start.format('MMMM Do YYYY') %></b>
-            at <b><%= Start.format('h:mm a')%></b>,
+            at <b><%= Start.format('h:mm a') %></b>,
             Bobby visited Timmy 
             for <b><%= moment.duration(End.diff(Start)).humanize()%></b>.
         </div>

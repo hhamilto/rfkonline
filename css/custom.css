@@ -56,7 +56,7 @@ Dashboard Container
 }
 
 #signoutButton {
-    margin-right:7px;
+    /*margin-right:7px;*/
     background-color: #222;
     color:white;
 }
@@ -261,12 +261,40 @@ Manage Mentors
     background: white;
     width: 100%;
     height: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
-
 #manageMentorsTable{
-        Width:100%;
-    }
+    width:100%;
+}
+
+#manageMentorsTable td{
+    vertical-align: middle;
+}
+
+#manageMentorsTable .glyphicon{
+    font-size: 20px;
+}
+
+#manageMentorsTable td button{
+    color: white;
+    background-color: #CCC;
+}
+
+#manageMentorsTable td button:hover{
+    color: black;
+}
+
+/*
+#manageMentorsTable .glyphicon:hover{
+    font-size: 30px;
+    width:30px;
+    height:30px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #DDD;
+}*/
 
 /************************************************
 Utility functions and misc cruft
