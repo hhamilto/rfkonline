@@ -57,11 +57,6 @@ $(function() {
     //Collections
     var MentorList = Parse.Collection.extend({
         model: Mentor,
-        /*initialize: function(){
-            var data = this.get("Visits");
-            this.unset("books", {silent: true});
-            this.books = new Books(data);
-        }*/
     });
     
     var VisitList = Parse.Collection.extend({
@@ -254,7 +249,6 @@ $(function() {
             "click .mentor-name": "toggleVisits",
         },
         initialize: function(){
-            //this.$el.html(this.template(this.model.toJSON()));
             this.$el.html(this.template(this.model.attributes));
             _.bindAll(this, 'addOne', 'addAll', 'render');
             this.model.bind('change', this.render);
@@ -328,14 +322,14 @@ $(function() {
         el: "#visit",
         template: _.template($("#visit-template").html()),
         initialize: function(){
-            /**render*/
+            /*render*/
             var visit = this.model.toJSON();
             visit.Start = moment(visit.Start.iso);
             visit.End = moment(visit.End.iso);
             this.$el.html(this.template(visit));
 
             _.bindAll(this, 'addOneTp', 'addAllTp', 'render');
-            //this.$el.html(this.template(this.model.toJSON()));
+            this.$el.html(this.template(this.model.toJSON()));
             this.model.bind('change', this.render);
             this.model.bind('destroy', this.remove);
             // Create our collection of Visits
@@ -409,14 +403,14 @@ $(function() {
             console.log("maxLng" + maxLng());
             console.log("maxLat" + maxLat());
             console.log("minLng" + minLng());
-            //TODO: make sure this works around 0 degrees*/
+            //TODO: make sure this works around 0 degrees/
             map.fitBounds(bounds);
         }
     });
 
     $("#inputEmail").popover();
-    new MainView;
     //Main view is what is drawn on load
+    new MainView;
 });
 
 
