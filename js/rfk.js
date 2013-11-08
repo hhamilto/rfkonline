@@ -317,7 +317,6 @@ $(function() {
         /*for the toggle down visits functionality*/
         toggleVisits: function(){
             this.open = !this.open;
-            console.log(this.open);
             this.$(".visit-list").toggleClass("expanded", open);
         },
         // Add a single visit item to the list by creating a view for it, and
@@ -400,10 +399,6 @@ $(function() {
         },
         render: function() {
             return this;
-        },
-        remove: function(){
-            //this.model.unbind("change", this.render);
-            alert("OHHHH BABY");
         }
     });
 
