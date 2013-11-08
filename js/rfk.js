@@ -306,6 +306,10 @@ $(function() {
             // Setup the query for the collection to look for todos from the current user
             this.visits.query = new Parse.Query(Visit);
             this.visits.query.equalTo("UserId", this.model.attributes.UserId);
+
+            this.visits.query.include("Mentor");
+            this.visits.query.include("Mentor.User");
+            this.visits.query.include("Kid2Visit.Kid");
             
             this.visits.bind('add',     this.addOne);
             this.visits.bind('reset',   this.addAll);
@@ -368,7 +372,7 @@ $(function() {
         template: _.template($("#visit-template").html()),
         initialize: function(){
             /*render*/
-            var visit = this.model.toJSON();
+            var visit = this.model.attributes;
             visit.Start = moment(visit.Start.iso);
             visit.End = moment(visit.End.iso);
             this.$el.html(this.template(visit));
@@ -391,11 +395,9 @@ $(function() {
             this.TravelPoints.fetch();
         },
         addOneTp: function(){
-            console.log("addone called");
         },
         addAllTp: function(){
             new MapView({travelPoints: this.TravelPoints});
-            console.log("added all travel ppoints");
         },
         render: function() {
             return this;
