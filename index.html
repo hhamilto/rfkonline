@@ -102,9 +102,34 @@
 
     <script type="text/template" id="manage-mentors-template">
         <div id="manageMentorsContainer">
-            <h1> u best check yo mentors fo you wreck yo mentors</h2>
+            <h1>Manage Mentors</h2>
             <table class="table table-striped"id="manageMentorsTable">
-                <tr><th>Name</th><th>Address</th><th>Photo</th><th></th></tr>
+                <tr><th>Name</th><th>Address</th><th>Photo</th>
+                    <th>
+                        <button type="button" value="Add User" name="mentorAdd" class="btn btn-success">                
+                            Add Mentor
+                        </button>
+                    </th>
+                </tr>
+                <tr id="mentorAddRow">
+                    <td>
+                        <input name="mentorName" type="text" value="" placeholder="Name" class="form-control" />
+                    </td>
+                    <td>
+                        <input name="mentorAddress" type="text" value="" placeholder="Address" class="form-control" />
+                        <input name="mentorAddress2" type="text" value="" placeholder="Address 2" class="form-control" />
+                        <input name="mentorZipCode" type="text" value="" placeholder="Zip Code" class="form-control smallInput" />
+                        <input name="mentorState" type="text" value="" placeholder="State" class="form-control smallInput" />
+                    </td>
+                    <td>
+                        <input type="file" value="Upload Photo" />
+                    </td>
+                    <td>
+                        <button type="button" value="Add User" name="mentorSave" class="btn btn-success">
+                            Save Mentor
+                        </button>
+                    </td>
+                </tr>
             </table>
         </div>
     </script>

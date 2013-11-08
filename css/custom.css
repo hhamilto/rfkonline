@@ -100,6 +100,7 @@ Visit Viewer View
     border-radius:30px;
     background-size:cover;
     vertical-align:middle;
+    border:1px solid #2c4762;
 }
 
 #mentorNav {
@@ -273,19 +274,32 @@ Manage Mentors
     vertical-align: middle;
 }
 
+#manageMentorsTable #mentorAddRow td{
+    vertical-align: top;
+}
+
+#manageMentorsTable #mentorAddRow td:last-child{
+    vertical-align: bottom;
+}
+
 #manageMentorsTable .glyphicon{
     font-size: 20px;
 }
 
-#manageMentorsTable td button{
+#manageMentorsTable tr:nth-child(n+3) td button{
     color: white;
     background-color: #CCC;
 }
 
-#manageMentorsTable td button:hover{
+#manageMentorsTable tr:nth-child(n+3) td button:hover{
     color: black;
 }
 
+.smallInput {
+    display:inline;
+    width:50%;
+    float:left;
+}
 /*
 #manageMentorsTable .glyphicon:hover{
     font-size: 30px;
