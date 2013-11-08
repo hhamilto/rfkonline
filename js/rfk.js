@@ -375,7 +375,6 @@ $(function() {
             this.$el.html(this.template(visit));
 
             _.bindAll(this, 'addOneTp', 'addAllTp', 'render');
-            this.$el.html(this.template(this.model.toJSON()));
             this.model.bind('change', this.render);
             this.model.bind('destroy', this.remove);
             // Create our collection of Visits
@@ -444,12 +443,7 @@ $(function() {
                 strokeOpacity: 1.0,
                 strokeWeight: 5
             });
-            visitRoute.setMap(map)
-            console.log("minLat" + minLat());
-            console.log("maxLng" + maxLng());
-            console.log("maxLat" + maxLat());
-            console.log("minLng" + minLng());
-            //TODO: make sure this works around 0 degrees/
+            visitRoute.setMap(map);
             map.fitBounds(bounds);
         }
     });
