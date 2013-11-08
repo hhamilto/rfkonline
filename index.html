@@ -87,12 +87,10 @@
                     <li class="<%=currentView == 'visit'?'active':''%>"><a id="visitTopNav" href="#"> Visits</a></li>
                     <li class="<%=currentView == 'manageMentors'?'active':''%>"><a id="mentorsTopNav" href="#">Mentors</a></li>
                 </ul>
-                <div class="nav navbar-nav navbar-right">
-                    <p class="navbar-text">Logged in as <%= currentUsername %> </p>
-                    <form class="navbar-form navbar-left">
-                        <button type="button" class="btn btn-default navbar-btn" id="signoutButton">Sign out <i class="glyphicon glyphicon-log-out"></i></button>
-                    </form>
-                </div>
+                <form class="navbar-form navbar-right">
+                    <button type="button" class="btn btn-default" id="signoutButton">Sign out <i class="glyphicon glyphicon-log-out"></i></button>
+                </form>
+                    <p class="navbar-right navbar-text">Logged in as <%= currentUsername %> </p>
             </div>
         </nav>
 
