@@ -166,6 +166,9 @@ $(function() {
     var ManageMentorsView = Parse.View.extend({
         template: _.template($("#manage-mentors-template").html()),
         el: "#dashboardContainer",
+        events: {
+            "click #addMentorToggle": "toggleAdd",
+        },
         initialize: function(){
             _.bindAll(this, 'addOneMentor', 'addAllMentors', 'render');
             
@@ -196,7 +199,39 @@ $(function() {
             //mentor.set('name', name);
             var view = new ManageMentorRowView({model: mentor});
         },
-        
+        /*for the toggle down visits functionality*/
+        toggleAdd: function(){
+            // slides the add mentor table row up and down
+            $('.toggleRow').stop().slideToggle(300);
+            
+            // changes the text of the add mentor button with the cancel button
+            if($('#addMentorToggle span').text() == "Cancel") {
+                $('#addMentorToggle span').text('Add Mentor');
+            }
+            else {
+                $('#addMentorToggle span').text('Cancel');
+            }
+            
+            // changes the icon between a plus and an 'x'
+            if($('#addMentorToggle i').hasClass('glyphicon-plus')) {                
+                $('#addMentorToggle i').removeClass('glyphicon-plus');
+                $('#addMentorToggle i').addClass('glyphicon-remove');
+            }
+            else {
+                $('#addMentorToggle i').removeClass('glyphicon-remove');                
+                $('#addMentorToggle i').addClass('glyphicon-plus');
+            }
+            
+            // changes the button class between success and danger (green and red)
+            if($('#addMentorToggle').hasClass('btn-success')) {                
+                $('#addMentorToggle').removeClass('btn-success');
+                $('#addMentorToggle').addClass('btn-danger');
+            }
+            else {
+                $('#addMentorToggle').removeClass('btn-danger');                
+                $('#addMentorToggle').addClass('btn-success');
+            }
+        },
         // Add all items in the Mentors collection at once.
         addAllMentors: function(collection, filter) {
             this.$(".addAllMentors").remove()
@@ -444,7 +479,7 @@ $(function() {
             map.fitBounds(bounds);
         }
     });
-
+           
     $("#inputEmail").popover();
     //Main view is what is drawn on load
     new MainView;
