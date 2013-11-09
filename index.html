@@ -101,31 +101,40 @@
     <script type="text/template" id="manage-mentors-template">
         <div id="manageMentorsContainer">
             <h1>Manage Mentors</h2>
-            <table class="table table-striped"id="manageMentorsTable">
+            <table class="table table-striped" id="manageMentorsTable">
                 <tr><th>Name</th><th>Address</th><th>Photo</th>
                     <th>
-                        <button type="button" value="Add User" name="mentorAdd" class="btn btn-success">
-                            Add Mentor
+                        <button type="button" value="Add User" name="mentorAdd" class="btn btn-success" id="addMentorToggle">
+                            <i class="glyphicon glyphicon-plus"></i> <span>Add Mentor</span>
                         </button>
                     </th>
                 </tr>
+                <div>
                 <tr id="mentorAddRow">
                     <td>
-                        <input name="mentorName" type="text" value="" placeholder="Name" class="form-control" />
+                        <div class="toggleRow">
+                           <input name="mentorName" type="text" value="" placeholder="Name" class="form-control" />
+                        </div>
                     </td>
                     <td>
-                        <input name="mentorAddress" type="text" value="" placeholder="Address" class="form-control" />
-                        <input name="mentorAddress2" type="text" value="" placeholder="Address 2" class="form-control" />
-                        <input name="mentorZipCode" type="text" value="" placeholder="Zip Code" class="form-control smallInput" />
-                        <input name="mentorState" type="text" value="" placeholder="State" class="form-control smallInput" />
+                        <div class="toggleRow clearfix">
+                            <input name="mentorAddress" type="text" value="" placeholder="Address" class="form-control" />
+                            <input name="mentorAddress2" type="text" value="" placeholder="Address 2" class="form-control" />
+                            <input name="mentorZipCode" type="text" value="" placeholder="Zip Code" class="form-control smallInput" />
+                            <input name="mentorState" type="text" value="" placeholder="State" class="form-control smallInput" />
+                        </div>
                     </td>
                     <td>
-                        <input type="file" value="Upload Photo" />
+                        <div class="toggleRow">
+                            <input type="file" value="Upload Photo" />
+                        </div>
                     </td>
                     <td>
-                        <button type="button" value="Add User" name="mentorSave" class="btn btn-success">
-                            Save Mentor
-                        </button>
+                        <div class="toggleRow">
+                            <button type="button" value="Add User" name="mentorSave" class="btn btn-success">
+                                <i class="glyphicon glyphicon-ok-sign"></i> Save Mentor 
+                            </button>
+                        </div>
                     </td>
                 </tr>
             </table>

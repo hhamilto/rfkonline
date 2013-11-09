@@ -250,7 +250,7 @@ Visit Viewer View
     cursor:default !important;
 }
 
-.visit-list.expanded {
+.expanded {
     max-height: 10000px;
 }
 
@@ -275,17 +275,23 @@ Manage Mentors
 
 #manageMentorsTable td{
     vertical-align: middle;
+    width:25%;
+}
+
+#manageMentorsTable #mentorAddRow {
+    max-height:10000px;
 }
 
 #manageMentorsTable #mentorAddRow td{
     vertical-align: top;
+    padding:0;
 }
 
 #manageMentorsTable #mentorAddRow td:last-child{
     vertical-align: bottom;
 }
 
-#manageMentorsTable .glyphicon{
+#manageMentorsTable  tr:nth-child(n+3) .glyphicon{
     font-size: 20px;
 }
 
@@ -303,6 +309,12 @@ Manage Mentors
     width:50%;
     float:left;
 }
+
+.toggleRow {
+    padding:8px;
+    height:100%;
+    display:none;
+}
 /*
 #manageMentorsTable .glyphicon:hover{
     font-size: 30px;
@@ -318,8 +330,12 @@ Utility functions and misc cruft
 ************************************************/
 
 .transition-max-height {
-    -webkit-transition: max-height 0.5s ease;
-    -moz-transition: max-height 0.5s ease;
-    -o-transition:  max-height 0.5s ease;
-    transition:  max-height 0.5s ease !important;
+    -webkit-transition: max-height 1.5s ease;
+    -moz-transition: max-height 1.5s ease;
+    -o-transition:  max-height 1.5s ease;
+    transition:  max-height 1.5s ease !important;
+}
+
+.hide {
+	max-height:0;
 }
