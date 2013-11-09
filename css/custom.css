@@ -312,7 +312,6 @@ Manage Mentors
 
 .toggleRow {
     padding:8px;
-    overflow:auto;
     height:100%;
     display:none;
 }
