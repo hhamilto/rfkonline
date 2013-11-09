@@ -341,9 +341,8 @@ $(function() {
             // Setup the query for the collection to look for todos from the current user
             this.visits.query = new Parse.Query(Visit);
             var mentorQuery = new Parse.Query(Mentor);
-            mentorQuery.equalTo("objectId",this.model.id); //column
+            mentorQuery.equalTo("objectId",this.model.id); 
             this.visits.query.matchesKeyInQuery("Mentor", "objectId", mentorQuery);
-            //this.visits.query.equalTo("Mentor.objectId", this.model.id);
 
             this.visits.query.include("Mentor");
             this.visits.query.include("Mentor.User");
@@ -457,19 +456,13 @@ $(function() {
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
             var visitRoutePoints = [];
-            var maxLat = maxTally(-180);
-            var minLat = minTally(180);
-            var maxLng = maxTally(-180);
-            var minLng = minTally(180);
-            var mapElement = this.$el.children('div');
             var bounds = new google.maps.LatLngBounds()
             this.options.travelPoints.map(function(travelPoint){
                 var point = new google.maps.LatLng(travelPoint.attributes.Location.latitude, travelPoint.attributes.Location.longitude)
                 bounds.extend(point);
                 visitRoutePoints.push( point);
             });
-            var latZoom = getZoomFromDegreeWidth( Math.abs(maxLat()-minLat()), mapElement.height());
-            map = new google.maps.Map( mapElement.get(0),
+            map = new google.maps.Map( this.$el.children('div').get(0),
                     mapOptions);
             var visitRoute = new google.maps.Polyline({
                 path: visitRoutePoints,
