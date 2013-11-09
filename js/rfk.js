@@ -340,11 +340,13 @@ $(function() {
             this.visits = new VisitList;
             // Setup the query for the collection to look for todos from the current user
             this.visits.query = new Parse.Query(Visit);
-            this.visits.query.equalTo("UserId", this.model.attributes.UserId);
+            var mentorQuery = new Parse.Query(Mentor);
+            mentorQuery.equalTo("objectId",this.model.id); //column
+            this.visits.query.matchesKeyInQuery("Mentor", "objectId", mentorQuery);
+            //this.visits.query.equalTo("Mentor.objectId", this.model.id);
 
             this.visits.query.include("Mentor");
             this.visits.query.include("Mentor.User");
-            this.visits.query.include("Kid2Visit.Kid");
             
             this.visits.bind('add',     this.addOne);
             this.visits.bind('reset',   this.addAll);
