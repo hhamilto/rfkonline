@@ -167,10 +167,11 @@ $(function() {
         template: _.template($("#manage-mentors-template").html()),
         el: "#dashboardContainer",
         events: {
-            "click #addMentorToggle": "toggleAdd",
+            "click #addMentorToggle":   "toggleAdd",
+            "click #saveNewMentor":     "saveNewMentor"
         },
         initialize: function(){
-            _.bindAll(this, 'addOneMentor', 'addAllMentors', 'render');
+            _.bindAll(this, 'addOneMentor', 'addAllMentors', 'render', 'saveNewMentor', 'toggleAdd');
             
             this.$el.html(this.template());
             // Create our collection of Mentors
@@ -194,10 +195,12 @@ $(function() {
         // Add a single mentor item to the list by creating a view for it, and
         // appending its element to the `<ul>`.
         addOneMentor: function(mentor) {
-            //var user = mentor.get('User');
-            //var name = user.get('name');
-            //mentor.set('name', name);
             var view = new ManageMentorRowView({model: mentor});
+        },
+        saveNewMentor: function(){
+            //mentors are compound objects, so we have to create several things to make a new one
+            //var mentor = new Mentor();
+            //mentor.set('name');
         },
         /*for the toggle down visits functionality*/
         toggleAdd: function(){
@@ -205,32 +208,23 @@ $(function() {
             $('.toggleRow').stop().slideToggle(300);
             
             // changes the text of the add mentor button with the cancel button
-            if($('#addMentorToggle span').text() == "Cancel") {
+            //XXX use an boolean varible in the view instead of the dom as a single-source-of-truth
+            if($('#addMentorToggle span').text() == "Cancel")
                 $('#addMentorToggle span').text('Add Mentor');
-            }
-            else {
+            else 
                 $('#addMentorToggle span').text('Cancel');
-            }
-            
+
             // changes the icon between a plus and an 'x'
-            if($('#addMentorToggle i').hasClass('glyphicon-plus')) {                
-                $('#addMentorToggle i').removeClass('glyphicon-plus');
-                $('#addMentorToggle i').addClass('glyphicon-remove');
-            }
-            else {
-                $('#addMentorToggle i').removeClass('glyphicon-remove');                
-                $('#addMentorToggle i').addClass('glyphicon-plus');
-            }
-            
+            if($('#addMentorToggle i').hasClass('glyphicon-plus'))
+                $('#addMentorToggle i').removeClass('glyphicon-plus').addClass('glyphicon-remove');
+            else 
+                $('#addMentorToggle i').removeClass('glyphicon-remove').addClass('glyphicon-plus');
+
             // changes the button class between success and danger (green and red)
-            if($('#addMentorToggle').hasClass('btn-success')) {                
-                $('#addMentorToggle').removeClass('btn-success');
-                $('#addMentorToggle').addClass('btn-danger');
-            }
-            else {
-                $('#addMentorToggle').removeClass('btn-danger');                
-                $('#addMentorToggle').addClass('btn-success');
-            }
+            if($('#addMentorToggle').hasClass('btn-success')) 
+                $('#addMentorToggle').removeClass('btn-success').addClass('btn-danger');
+            else 
+                $('#addMentorToggle').removeClass('btn-danger').addClass('btn-success');
         },
         // Add all items in the Mentors collection at once.
         addAllMentors: function(collection, filter) {
