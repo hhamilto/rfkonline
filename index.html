@@ -131,7 +131,7 @@
                     </td>
                     <td>
                         <div class="toggleRow">
-                            <input type="file" value="Upload Photo" />
+                            <input type="file" value="Upload Photo" style="width:100%;"/>
                         </div>
                     </td>
                     <td>
@@ -149,7 +149,7 @@
     <script type="text/template" id="manage-mentor-row-template">
         <tr class="addAllMentors">
             <td><%=User.get('name')%></td>
-            <td>ME NEED NUMBER!</td>
+            <td><%='Phone Number'%></td>
             <td><%='Address'%></td>
             <td><span class="smallProfilePicture" style="background-image:url('<%= User.get('Photo').url %>');"></span></td>
             <td><button type="button" class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></button></td>
