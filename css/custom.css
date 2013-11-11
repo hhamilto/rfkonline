@@ -335,7 +335,3 @@ Utility functions and misc cruft
     -o-transition:  max-height 1.5s ease;
     transition:  max-height 1.5s ease !important;
 }
-
-.hide {
-	max-height:0;
-}
