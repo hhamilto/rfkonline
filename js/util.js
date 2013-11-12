@@ -43,3 +43,12 @@ function getZoomFromDegreeWidth(areaWidth, mapWidth){
     return Math.floor(-Math.log(adjustedWidth/360)/
         Math.log(2));
 }
+
+//collection must be an array
+function getKidListString(collection, attribute){
+    return collection.reduce(function(previousValue, currentValue, i, arr){
+        return  i == 0?             previousValue += currentValue.get(attribute):
+                i == arr.length -1? previousValue += "</b> and <b>" + currentValue.get(attribute):
+                                    previousValue += ", " + currentValue.get(attribute);
+    },"<b>") + "</b>";
+}

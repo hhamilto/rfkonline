@@ -6,6 +6,8 @@ $(function() {
     Parse.initialize("5vJjW6VAiJdfBqyIEGgenZEip26b2NC5aZdVrC9A",
                      "cZbPecnNrzpf6NQkbwR09akfcZsfbH19Ps5hUBgf");
     //Models
+    var Kid = Parse.Object.extend("Kid");
+    var Kid2Visit = Parse.Object.extend("Kid2Visit");
     var Mentor = Parse.Object.extend("Mentor", {
         defaults: {
           content: "Mentor not loaded...",
@@ -14,7 +16,6 @@ $(function() {
           if (!this.get("content")) {
             this.set({"content": this.defaults.content});
           }
-          
         }
     });
 
@@ -55,6 +56,10 @@ $(function() {
     });
     
     //Collections
+    var KidList = Parse.Collection.extend({
+        model: Kid,
+    });
+
     var MentorList = Parse.Collection.extend({
         model: Mentor,
     });
@@ -393,7 +398,20 @@ $(function() {
             return this;
         },
         openVisit: function(e){
-            new VisitView({model: this.model});
+            //if(this.model.Kids) new VisitView({model: this.model}); return;
+            var model = this.model;
+            var kidList = new KidList;
+            kidList.query = new Parse.Query(Kid);
+            var kid2Visitquery = new Parse.Query(Kid2Visit);
+            kid2Visitquery.equalTo("VisitId", this.model.id);
+            kidList.query.matchesKeyInQuery("objectId", "KidId", kid2Visitquery);
+
+            kidList.query.find({
+                success: function(kids){
+                    model.attributes.Kids = kids;
+                    new VisitView({model: model});
+                }
+            });
         }
     });
     
