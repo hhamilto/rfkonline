@@ -69,6 +69,10 @@ Dashboard Container
 /************************************************
 Visit Viewer View
 ************************************************/
+#logitem-list {
+    list-style:none;
+}
+
 .li-visit:hover{
     text-decoration: underline;
 }
@@ -205,7 +209,7 @@ Visit Viewer View
     padding:0;
 }
 
-.visitPhoto img {
+.visitPhoto img.thumbnail {
     margin:0;
     display:block;
     width:20%;

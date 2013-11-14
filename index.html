@@ -1,25 +1,27 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Royal Family Kids</title>
-    
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="http://www.parsecdn.com/js/parse-1.1.15.min.js"></script>
-    <script src="js/underscore-min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/moment.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-    
-    <script src="js/util.js"></script>
-    <script src="js/rfk.js"></script>
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="css/bootstrap.css" rel="stylesheet" media="screen">
-    <link rel="stylesheet" type="text/css" href="css/custom.css"/>
-    <link rel="icon" href="img/favicon.png" type="image/png" />
-    <link rel="shortcut icon" href="favicon.ico" />
-  </head>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Royal Family Kids</title>
+        
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="http://www.parsecdn.com/js/parse-1.1.15.min.js"></script>
+        <script src="js/underscore-min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/bootstrap-lightbox.min.js"></script>
+        <script src="js/moment.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        
+        <script src="js/util.js"></script>
+        <script src="js/rfk.js"></script>
+        
+        <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+        <link href="css/bootstrap-lightbox.min.css" rel="stylesheet" media="screen">
+        <link rel="stylesheet" type="text/css" href="css/custom.css"/>
+        <link rel="icon" href="img/favicon.png" type="image/png" />
+        <link rel="shortcut icon" href="favicon.ico" />
+    </head>
 
   <body>
 
@@ -236,11 +238,24 @@
     </script>
 
      <script type="text/template" id="photo-template">
-        <li>
-            <div class="visitPhoto">
-               <span><%= createdAt.format('MMMM Do YYYY') %>
-                <%= createdAt.format('h:mm a')%></span>
-                <img src=<%= Data.url %> />
+        <li>            
+            <div class="visitPhoto" >
+               <span><%= createdAt.format('MMMM Do YYYY') %> <%= createdAt.format('h:mm a')%></span>
+
+                    <!-- This link points to an exact index, needs to be fixed!-->
+
+                    <a href="#demoLightbox" data-toggle="lightbox">
+                        <img class="thumbnail" src=<%= Data.url %> />
+                    </a>
+            </div>
+
+            <!-- This id needs to become unique for each image -->
+            <div id="demoLightbox" class="lightbox fade"  tabindex="-1" role="dialog" aria-hidden="true">
+                <div class='lightbox-dialog'>
+                    <div class='lightbox-content'>
+                        <img src=<%= Data.url %> style="max-width:100%;height:auto;" >
+                    </div>
+                </div>
             </div>
         </li>
     </script>
