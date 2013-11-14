@@ -210,55 +210,6 @@
         <div id="map">
         </div>
         <div id="visitLog">
-            <h1 class="text-center">Comments &amp; Photos</h1>
-            <div class="visitComment">
-                <span>7:47PM October 24, 2013</span>
-                <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do 
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
-                culpa qui officia deserunt mollit anim id est laborum
-               <p>
-            </div>
-            <div class="visitPhoto">
-                <span>7:50PM October 24, 2013</span>
-                <img src="http://placekitten.com/g/600/400" />
-            </div>
-            <div class="visitPhoto">
-                <span>8:10PM October 24, 2013</span>
-                <img src="http://placekitten.com/g/600/500" />
-            </div>
-            <div class="visitComment">
-                <span>8:27PM October 24, 2013</span>
-                <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do 
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
-                culpa qui officia deserunt mollit anim id est laborum
-               <p>
-            </div>
-            <div class="visitComment">
-                <span>8:47PM October 24, 2013</span>
-                <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do 
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
-                culpa qui officia deserunt mollit anim id est laborum
-               <p>
-            </div>
-            <div class="visitPhoto">
-                <span>8:50PM October 24, 2013</span>
-                <img src="http://placekitten.com/g/600/400" />
-            </div>
         </div>
     </script>
     
@@ -268,6 +219,31 @@
         </div>
     </script>
 
+    <script type="text/template" id="loglist-template">
+        <h1 class="text-center">Comments &amp; Photos</h1>
+        <ul id="logitem-list">
+        </ul>
+    </script>
+
+    <script type="text/template" id="comment-template">
+        <li>
+            <div class="visitComment">
+                <span><%= createdAt.format('MMMM Do YYYY') %>
+                <%= createdAt.format('h:mm a')%></b></span>
+                <p><%= Text %><p>
+            </div>
+        </li>
+    </script>
+
+     <script type="text/template" id="photo-template">
+        <li>
+            <div class="visitPhoto">
+               <span><%= createdAt.format('MMMM Do YYYY') %>
+                <%= createdAt.format('h:mm a')%></span>
+                <img src=<%= Data.url %> />
+            </div>
+        </li>
+    </script>
   </body>
 
 </html>
