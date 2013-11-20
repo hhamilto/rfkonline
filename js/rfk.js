@@ -503,7 +503,7 @@ $(function() {
             this.Comments.fetch();
             this.latch = latch(2,this,function(collection1, collection2){
                 /* DE-IMBECILE collections. seriously, how are its it to *actually* 
-                  implment the backbone interface you say you implement in you effing docs!?!?*/
+                  implment the backbone interface you say you implement in your effing docs!?!?*/
                 collection1.unshift = function(){
                     var toReturn = this.at(0);
                     this.remove(toReturn);
