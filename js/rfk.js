@@ -8,52 +8,20 @@ $(function() {
     //Models
     var Kid = Parse.Object.extend("Kid");
     var Kid2Visit = Parse.Object.extend("Kid2Visit");
-    var Mentor = Parse.Object.extend("Mentor", {
-        defaults: {
-          content: "Mentor not loaded...",
-        },
-        initialize: function() {
-          if (!this.get("content")) {
-            this.set({"content": this.defaults.content});
-          }
-        }
-    });
-
+    var Mentor = Parse.Object.extend("Mentor");
+    // I *UTTERLY DESPISE* parse for not providing a non-hacky, convient way 
+    // to set defaults for undefined attributes in fetchewd objects
     var User = Parse.Object.extend("User", {
-        defaults: {
-        
-          content: "Mentor not loaded...",
-        },
-        initialize: function() {
-          if (!this.get("content")) {
-            this.set({"content": this.defaults.content});
-          }
-          
+        _rebuildAllEstimatedData: function(){
+            var retVal = Parse.Object.prototype._rebuildAllEstimatedData.apply(this, arguments);
+            _.defaults(this.attributes, {
+                Photo: {url:"img/anon.jpg"}
+            });
+            return retVal;
         }
     });
-    
-    var TravelPoint = Parse.Object.extend("TravelPoint", {
-        defaults: {
-          content: "Travel point not loaded...",
-        },
-        initialize: function() {
-          if (!this.get("content")) {
-            this.set({"content": this.defaults.content});
-          }
-          
-        }
-    });
-    
-    var Visit = Parse.Object.extend("Visit", {
-        defaults: {
-          content: "Visit not loaded...",
-        },
-        initialize: function() {
-          if (!this.get("content")) {
-            this.set({"content": this.defaults.content});
-          }
-        }
-    });
+    var TravelPoint = Parse.Object.extend("TravelPoint");
+    var Visit = Parse.Object.extend("Visit");
     
     //Collections
     var KidList = Parse.Collection.extend({
@@ -204,8 +172,23 @@ $(function() {
         },
         saveNewMentor: function(){
             //mentors are compound objects, so we have to create several things to make a new one
-            //var mentor = new Mentor();
-            //mentor.set('name');
+            var user = new User();
+            user.set('name', this.$el.find('[name=mentorName]').val());
+            user.set('username', this.$el.find('[name=mentorUsername]').val());
+            user.set('password','test22');
+            user.save(null, {
+                success: function(user) {
+                    // Execute any logic that should take place after the object is saved.
+                    alert('New user created with objectId: ' + user);
+                    var mentor = new Mentor();
+                    mentor.set('User', {"__type":"Pointer","className":"_User","objectId": user.id});
+                    mentor.save(null, {
+                        success: function(mentor) {
+                            alert('New mentor created with objectId: ' + mentor.id);
+                        }
+                    });
+                }
+            });
         },
         /*for the toggle down visits functionality*/
         toggleAdd: function(){
@@ -303,7 +286,8 @@ $(function() {
         addOne: function(mentor) {
             //var user = mentor.get('User');
             //var name = user.get('name');
-            //mentor.set('name', name);
+            /*if(!mentor.get('User').get('Photo'))
+                mentor.get('User').set('Photo', {url:'img/anon.jpg'});*/
             var view = new MentorListItemView({model: mentor});
             this.$("#mentor-list").append(view.render().el);
         },
