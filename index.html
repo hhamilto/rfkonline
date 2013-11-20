@@ -14,12 +14,14 @@
         <script src="js/bootstrap.min.js"></script>
         <script src="js/moment.min.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+        <script src="js/bootstrap-lightbox.min.js"></script>
 
         <script src="js/util.js"></script>
         <script src="js/rfk.js"></script>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-lightbox.min.css"/>
         <link rel="stylesheet" type="text/css" href="css/custom.css"/>
         <link rel="icon" href="img/favicon.png" type="image/png" />
         <link rel="shortcut icon" href="favicon.ico" />
@@ -232,8 +234,7 @@
     <script type="text/template" id="comment-template">
         <li>
             <div class="visitComment">
-                <span><%= createdAt.format('MMMM Do YYYY') %>
-                <%= createdAt.format('h:mm a')%></b></span>
+                <span><b><%= createdAt.format('MMMM Do YYYY h:mm a')%></b></span>
                 <p><%= Text %><p>
             </div>
         </li>
@@ -242,23 +243,21 @@
      <script type="text/template" id="photo-template">
         <li>            
             <div class="visitPhoto" >
-               <span><%= createdAt.format('MMMM Do YYYY') %> <%= createdAt.format('h:mm a')%></span>
+               <span><%= createdAt.format('MMMM Do YYYY h:mm a')%></span>
 
-                    <!-- This link points to an exact index, needs to be fixed!-->
+                    <!--This link points to an exact index, needs to be fixed -->
 
-                    <a href="#demoLightbox" data-toggle="lightbox">
-                        <img class="thumbnail" src=<%= Data.url %> />
+                    <a href="#<%=id%>" data-toggle="lightbox">
+                        <img class="thumbnail" src="<%= Data.url %>" />
                     </a>
             </div>
-
-            <!-- This id needs to become unique for each image -->
-            <div id="demoLightbox" class="lightbox fade"  tabindex="-1" role="dialog" aria-hidden="true">
+            <div id="<%=id%>" class="lightbox fade"  tabindex="-1" role="dialog" aria-hidden="true">
                 <div class='lightbox-dialog'>
                     <div class='lightbox-content'>
-                        <img src=<%= Data.url %> style="max-width:100%;height:auto;" >
+                        <img src=<%= Data.url %> style="max-width:100%;height:auto;" />
                     </div>
                 </div>
-            </div>
+            </div
         </li>
     </script>
   </body>

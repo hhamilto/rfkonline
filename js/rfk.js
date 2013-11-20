@@ -30,8 +30,8 @@ $(function() {
     var MentorList = Parse.Collection.extend({ model: Mentor });
     var VisitList = Parse.Collection.extend({ model: Visit });
     var TravelPointList = Parse.Collection.extend({ model: TravelPoint });
-    var CommentList = Parse.Collection.extend({ model: Visit });
-    var PhotoList = Parse.Collection.extend({ model: Visit });
+    var CommentList = Parse.Collection.extend({ model: Comment });
+    var PhotoList = Parse.Collection.extend({ model: Photo });
 
     //Views
     Parse.View.prototype.close = function(){
@@ -475,7 +475,7 @@ $(function() {
         initialize: function(){
             //this.render();
             this.$el.html(this.template());
-            _.bindAll(this, "render", "addOneComment", "addAllComments", "addOnePhoto", "addAllPhotos");
+            _.bindAll(this, "addOneComment", "addAllComments", "addOnePhoto", "addAllPhotos");
             this.Photos = new PhotoList;
             this.Photos.query = new Parse.Query(Photo);
             this.Photos.query.equalTo("VisitId", this.model.id);
@@ -484,6 +484,9 @@ $(function() {
             this.Photos.bind('add',     this.addOnePhoto);
             this.Photos.bind('reset',   this.addAllPhotos);
             this.Photos.bind('all',     this.render);
+            this.Photos.comparator = function(photo){
+                return photo.createdAt;
+            }
             this.Photos.fetch();
 
             this.Comments = new CommentList;
@@ -494,21 +497,45 @@ $(function() {
             this.Comments.bind('add',       this.addOneLogItem);
             this.Comments.bind('reset',     this.addAllComments);
             this.Comments.bind('all',       this.render);
+            this.Comments.comparator = function(comment){
+                return comment.createdAt;
+            }
             this.Comments.fetch();
+            this.latch = latch(2,this,function(collection1, collection2){
+                /* DE-IMBECILE collections. seriously, how are its it to *actually* 
+                  implment the backbone interface you say you implement in you effing docs!?!?*/
+                collection1.unshift = function(){
+                    var toReturn = this.at(0);
+                    this.remove(toReturn);
+                    return toReturn;
+                }
+                collection2.unshift = collection1.unshift;
+                while(collection1.length + collection2.length > 0){
+                    !function(model){
+                        if(model.className === "Comment")
+                            new CommentView({model: model});
+                        else if(model.className === "Photo")
+                            new PhotoView({model: model});
+                    }( collection2.length === 0 || (collection1.length > 0 && collection1.at(0).createdAt < collection2.at(0).createdAt )?
+                             collection1.unshift():collection2.unshift());
+                }
+            });
         },
         addOneComment: function(comment){
             var view = new CommentView({model: comment});
             //this.$("#logitem-list").append(view.render().el);
         },
         addAllComments: function(collection, filter){
-            collection.forEach(this.addOneComment);
+            //collection.forEach(this.addOneComment);
+            this.latch(collection);
         },
         addOnePhoto: function(photo){
             var view = new PhotoView({model: photo});
             //this.$("#logitem-list").append(view.render().el);
         },
         addAllPhotos: function(collection, filter){
-            collection.forEach(this.addOnePhoto);
+            this.latch(collection);
+            //collection.forEach(this.addOnePhoto);
         }
         /*render: function() {
             return this;
@@ -529,6 +556,7 @@ $(function() {
         template: _.template($("#photo-template").html()),
         initialize: function(){
             this.model.attributes.createdAt = moment(this.model.createdAt);
+            this.model.attributes.id = this.model.id;
             this.$el.append(this.template(this.model.attributes));
         },
     });
