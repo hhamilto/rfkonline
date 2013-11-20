@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Royal Family Kids</title>
-    
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-    <script src="http://www.parsecdn.com/js/parse-1.1.15.min.js"></script>
-    <!-- USE THIS ONE FOR DEBUGGING WHEN YOU WANT TO SEE THE PARSE SOURCE.
-         JUST REMEMBER TO RE-COMMENT IT. ALSO, watch out because its up a minor version, and somethings are
-         different. for example, in parse photo objects, url is now a function. 
-     script src="https://parse.com/downloads/javascript/parse-1.2.13.js"></script-->
-    <script src="js/underscore-min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/moment.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-    
-    <script src="js/util.js"></script>
-    <script src="js/rfk.js"></script>
-    
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="css/bootstrap.css" rel="stylesheet" media="screen">
-    <link rel="stylesheet" type="text/css" href="css/custom.css"/>
-    <link rel="icon" href="img/favicon.png" type="image/png" />
-    <link rel="shortcut icon" href="favicon.ico" />
-  </head>
+    <head>
+        <meta charset="utf-8">
+        <title>Royal Family Kids</title>
 
-  <body>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="http://www.parsecdn.com/js/parse-1.1.15.min.js"></script>
+        <!-- USE THIS ONE FOR DEBUGGING WHEN YOU WANT TO SEE THE PARSE SOURCE.
+             JUST REMEMBER TO RE-COMMENT IT. ALSO, watch out because its up a minor version, and somethings are
+             different. for example, in parse photo objects, url is now a function. 
+         script src="https://parse.com/downloads/javascript/parse-1.2.13.js"></script-->
+        <script src="js/underscore-min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/moment.min.js"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+
+        <script src="js/util.js"></script>
+        <script src="js/rfk.js"></script>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+        <link rel="stylesheet" type="text/css" href="css/custom.css"/>
+        <link rel="icon" href="img/favicon.png" type="image/png" />
+        <link rel="shortcut icon" href="favicon.ico" />
+    </head>
+
+    <body>
 
     <div id="mainApp">
         <div class="content">
@@ -120,7 +120,7 @@
                            <input name="mentorName" type="text" value="" placeholder="Name" class="form-control" />
                         </div>
                     </td>
-					<td>
+                    <td>
                         <div class="toggleRow">
                            <input name="mentorUsername" type="text" value="" placeholder="Username" class="form-control" />
                         </div>
@@ -214,55 +214,6 @@
         <div id="map">
         </div>
         <div id="visitLog">
-            <h1 class="text-center">Comments &amp; Photos</h1>
-            <div class="visitComment">
-                <span>7:47PM October 24, 2013</span>
-                <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do 
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
-                culpa qui officia deserunt mollit anim id est laborum
-               <p>
-            </div>
-            <div class="visitPhoto">
-                <span>7:50PM October 24, 2013</span>
-                <img src="http://placekitten.com/g/600/400" />
-            </div>
-            <div class="visitPhoto">
-                <span>8:10PM October 24, 2013</span>
-                <img src="http://placekitten.com/g/600/500" />
-            </div>
-            <div class="visitComment">
-                <span>8:27PM October 24, 2013</span>
-                <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do 
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
-                culpa qui officia deserunt mollit anim id est laborum
-               <p>
-            </div>
-            <div class="visitComment">
-                <span>8:47PM October 24, 2013</span>
-                <p>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do 
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla 
-                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in 
-                culpa qui officia deserunt mollit anim id est laborum
-               <p>
-            </div>
-            <div class="visitPhoto">
-                <span>8:50PM October 24, 2013</span>
-                <img src="http://placekitten.com/g/600/400" />
-            </div>
         </div>
     </script>
     
@@ -272,6 +223,44 @@
         </div>
     </script>
 
+    <script type="text/template" id="loglist-template">
+        <h1 class="text-center">Comments &amp; Photos</h1>
+        <ul id="logitem-list">
+        </ul>
+    </script>
+
+    <script type="text/template" id="comment-template">
+        <li>
+            <div class="visitComment">
+                <span><%= createdAt.format('MMMM Do YYYY') %>
+                <%= createdAt.format('h:mm a')%></b></span>
+                <p><%= Text %><p>
+            </div>
+        </li>
+    </script>
+
+     <script type="text/template" id="photo-template">
+        <li>            
+            <div class="visitPhoto" >
+               <span><%= createdAt.format('MMMM Do YYYY') %> <%= createdAt.format('h:mm a')%></span>
+
+                    <!-- This link points to an exact index, needs to be fixed!-->
+
+                    <a href="#demoLightbox" data-toggle="lightbox">
+                        <img class="thumbnail" src=<%= Data.url %> />
+                    </a>
+            </div>
+
+            <!-- This id needs to become unique for each image -->
+            <div id="demoLightbox" class="lightbox fade"  tabindex="-1" role="dialog" aria-hidden="true">
+                <div class='lightbox-dialog'>
+                    <div class='lightbox-content'>
+                        <img src=<%= Data.url %> style="max-width:100%;height:auto;" >
+                    </div>
+                </div>
+            </div>
+        </li>
+    </script>
   </body>
 
 </html>

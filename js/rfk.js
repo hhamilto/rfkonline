@@ -22,24 +22,17 @@ $(function() {
     });
     var TravelPoint = Parse.Object.extend("TravelPoint");
     var Visit = Parse.Object.extend("Visit");
+    var Comment = Parse.Object.extend("Comment");
+    var Photo = Parse.Object.extend("Photo");
     
     //Collections
-    var KidList = Parse.Collection.extend({
-        model: Kid,
-    });
+    var KidList = Parse.Collection.extend({ model: Kid });
+    var MentorList = Parse.Collection.extend({ model: Mentor });
+    var VisitList = Parse.Collection.extend({ model: Visit });
+    var TravelPointList = Parse.Collection.extend({ model: TravelPoint });
+    var CommentList = Parse.Collection.extend({ model: Visit });
+    var PhotoList = Parse.Collection.extend({ model: Visit });
 
-    var MentorList = Parse.Collection.extend({
-        model: Mentor,
-    });
-    
-    var VisitList = Parse.Collection.extend({
-        model: Visit
-    });
-    
-    var TravelPointList = Parse.Collection.extend({
-        model: TravelPoint
-    });
-    
     //Views
     Parse.View.prototype.close = function(){
         this.remove();
@@ -425,8 +418,13 @@ $(function() {
             
             // Fetch all the todo itemsh for this user
             this.TravelPoints.fetch();
+            this.getLogItems();
         },
         addOneTp: function(){
+        },
+        getLogItems: function(){
+            this.$("#visitlog").html("");
+            new VisitLogView({model: this.model});
         },
         addAllTp: function(){
             new MapView({travelPoints: this.TravelPoints});
@@ -469,6 +467,70 @@ $(function() {
             visitRoute.setMap(map);
             map.fitBounds(bounds);
         }
+    });
+
+    var VisitLogView = Parse.View.extend({
+        el: "#visitLog",
+        template: _.template($("#loglist-template").html()),
+        initialize: function(){
+            //this.render();
+            this.$el.html(this.template());
+            _.bindAll(this, "render", "addOneComment", "addAllComments", "addOnePhoto", "addAllPhotos");
+            this.Photos = new PhotoList;
+            this.Photos.query = new Parse.Query(Photo);
+            this.Photos.query.equalTo("VisitId", this.model.id);
+            this.Photos.query.limit(1000);
+            this.Photos.query.ascending("createdAt");
+            this.Photos.bind('add',     this.addOnePhoto);
+            this.Photos.bind('reset',   this.addAllPhotos);
+            this.Photos.bind('all',     this.render);
+            this.Photos.fetch();
+
+            this.Comments = new CommentList;
+            this.Comments.query = new Parse.Query(Comment);
+            this.Comments.query.equalTo("VisitId", this.model.id);
+            this.Comments.query.limit(1000);
+            this.Comments.query.ascending("createdAt");
+            this.Comments.bind('add',       this.addOneLogItem);
+            this.Comments.bind('reset',     this.addAllComments);
+            this.Comments.bind('all',       this.render);
+            this.Comments.fetch();
+        },
+        addOneComment: function(comment){
+            var view = new CommentView({model: comment});
+            //this.$("#logitem-list").append(view.render().el);
+        },
+        addAllComments: function(collection, filter){
+            collection.forEach(this.addOneComment);
+        },
+        addOnePhoto: function(photo){
+            var view = new PhotoView({model: photo});
+            //this.$("#logitem-list").append(view.render().el);
+        },
+        addAllPhotos: function(collection, filter){
+            collection.forEach(this.addOnePhoto);
+        }
+        /*render: function() {
+            return this;
+        }*/
+    });
+
+    var CommentView = Parse.View.extend({
+        el: '#logitem-list',
+        template: _.template($("#comment-template").html()),
+        initialize: function(){
+            this.model.attributes.createdAt = moment(this.model.createdAt);
+            this.$el.append(this.template(this.model.attributes));
+        },
+    });
+
+    var PhotoView = Parse.View.extend({
+        el: '#logitem-list',
+        template: _.template($("#photo-template").html()),
+        initialize: function(){
+            this.model.attributes.createdAt = moment(this.model.createdAt);
+            this.$el.append(this.template(this.model.attributes));
+        },
     });
            
     $("#inputEmail").popover();
