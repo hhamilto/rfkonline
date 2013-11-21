@@ -122,7 +122,6 @@ Visit Viewer View
     top:0;
     bottom:0;
     left:0;
-    padding-top:4px;
 }
 
 #sidebar ul{
@@ -133,8 +132,7 @@ Visit Viewer View
     cursor: pointer;
 }
 
-/*jankiest bit of code in this file*/
-#mentorlistfilter{
+/*jankiest bit of code in this file*
     height: 43px;
     background: #2c4762;
     position: absolute;
@@ -143,14 +141,32 @@ Visit Viewer View
     left:0;
     right:18px;
     z-index: 1;
+}*/
+
+#mentorlistfilter{
+    padding:5px;
+    box-shadow: 0 7px 10px -7px #000;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
 }
 
-#searchBar {
-    width:78%;
+#mentorlistfilter .input-group-addon{
+    background: #2c4762;
+    color:white;
+    border-right: none;
+    padding-top: 4px;
+}
+
+#searchInput {
     background: #2c4762;
     float:left;
-    margin-left:1%;
+    color: #FFF;
+    border-left: none;
 }
+
 
 #searchButton {
     width:19%;
@@ -161,13 +177,14 @@ Visit Viewer View
 #mentor-list {
     color: white;
     width: 100%;
-    padding: 45px 10px 5px 10px;
+    padding: 0 10px 5px 10px;
     list-style: none;
     position: absolute;
-    top: 0px;
+    top: 45px;
     bottom: 0px;
     margin: 0;
     overflow-y: scroll;
+    z-index: 0;
 }
 
 .mentor-name {

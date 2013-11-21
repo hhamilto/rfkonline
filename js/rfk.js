@@ -249,6 +249,9 @@ $(function() {
     
     var SidebarView = Parse.View.extend({
         el: "#sidebar",
+        events: {
+            "keyup #searchInput": "filter",
+        },
         template: _.template($("#side-bar-template").html()),
         initialize: function(){
             var self = this;
@@ -273,7 +276,9 @@ $(function() {
             
             this.mentors = mentors;
         },
-        
+        filter: function(){
+            alert("yo");
+        },
         // Add a single mentor item to the list by creating a view for it, and
         // appending its element to the `<ul>`.
         addOne: function(mentor) {

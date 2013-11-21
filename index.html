@@ -160,7 +160,7 @@
     <script type="text/template" id="manage-mentor-row-template">
         <tr class="addAllMentors">
             <td><%=User.get('name')%></td>
-			<td><%='Username'%></td>
+            <td><%='Username'%></td>
             <td><%='Phone Number'%></td>
             <td><%='Address'%></td>
             <td><span class="smallProfilePicture" style="background-image:url('<%= User.get('Photo').url %>');"></span></td>
@@ -179,9 +179,11 @@
     </script>
 
     <script type="text/template" id="side-bar-template">
-        <form id="mentorlistfilter">
-                <input class="form-control" type="text" placeholder="Filter Mentors..." id="searchBar">
-                <input class="form-control" type="button" value="Filter" id="searchButton">
+        <form id="mentorlistfilter" action="#">
+            <div class="input-group">
+              <span class="input-group-addon glyphicon glyphicon-search"></span>
+              <input class="form-control" type="text" placeholder="Filter Mentors..." id="searchInput">
+            </div>
         </form>
         <ul id="mentor-list">
             Loading Mentor List...
