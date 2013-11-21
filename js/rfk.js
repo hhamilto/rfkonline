@@ -96,9 +96,6 @@ $(function() {
     var DashboardView = Parse.View.extend({
         events: {
             "click #signoutButton" : "logout",
-            // *** Should be able to be deleted, saving temporarily incase needed
-            //"click #mentorsTopNav" : "showManageMentorsView",
-            //"click #visitTopNav" : "showVisitView",
         },
         model:{currentView: navBarCurrentView},
         template: _.template($("#dashboard-template").html()),
@@ -108,7 +105,6 @@ $(function() {
             this.model.currentUsername = Parse.User.current().getUsername();
             this.delegateEvents();
             this.showVisitView();
-            console.log(this.model);
         },
         render: function(){
             this.$el.html(this.template(this.model));
@@ -123,15 +119,6 @@ $(function() {
             this.render();
             this.view = new VisitViewerView();
         }
-
-        /*, *** Should be able to be deleted, saving temporarily incase needed
-        showManageMentorsView: function(){
-            this.model.currentView = 'manageMentors';
-            this.render();
-            //delete this.view;
-            this.view = new ManageMentorsView();
-        }
-        */
     });
 
     var ManageMentorsView = Parse.View.extend({
@@ -273,36 +260,35 @@ $(function() {
             mentors.bind('add',     this.addOne);
             mentors.bind('reset',   this.addAll);
             mentors.bind('all',     this.render);
-                        
+
+            this.filterRegex = /./;
             mentors.fetch();
-            
-            this.mentors = mentors;
         },
         filter: function(){
-            alert("yo");
+            this.filterRegex = new RegExp(this.$el.find('#searchInput').val(),'i');
+            this.render();
         },
         // Add a single mentor item to the list by creating a view for it, and
         // appending its element to the `<ul>`.
         addOne: function(mentor) {
-            //var user = mentor.get('User');
-            //var name = user.get('name');
-            /*if(!mentor.get('User').get('Photo'))
-                mentor.get('User').set('Photo', {url:'img/anon.jpg'});*/
             var view = new MentorListItemView({model: mentor});
             this.$("#mentor-list").append(view.render().el);
         },
         
         // Add all items in the Mentors collection at once.
         addAll: function(collection, filter) {
-            this.$("#mentor-list").html("");
-            collection.forEach(this.addOne);
+            this.mentors = collection;
+            this.render();
         },
         
         render: function() {
-            //NO! bad. do not do this.
-            //this.$el.html(this.template("yodummmy"));
+            this.$("#mentor-list").html("");
             
-            this.delegateEvents();
+            var filter = this.filterRegex;
+            var filtered = this.mentors.filter(function(mentor){
+                return filter.test(mentor.get('User').get('name'));
+            });
+            filtered.map(this.addOne);
         }
     });
     
@@ -382,7 +368,6 @@ $(function() {
             return this;
         },
         openVisit: function(e){
-            //if(this.model.Kids) new VisitView({model: this.model}); return;
             var model = this.model;
             var kidList = new KidList;
             kidList.query = new Parse.Query(Kid);
@@ -480,7 +465,6 @@ $(function() {
         el: "#visitLog",
         template: _.template($("#loglist-template").html()),
         initialize: function(){
-            //this.render();
             this.$el.html(this.template());
             _.bindAll(this, "addOneComment", "addAllComments", "addOnePhoto", "addAllPhotos");
             this.Photos = new PhotoList;
@@ -530,23 +514,16 @@ $(function() {
         },
         addOneComment: function(comment){
             var view = new CommentView({model: comment});
-            //this.$("#logitem-list").append(view.render().el);
         },
         addAllComments: function(collection, filter){
-            //collection.forEach(this.addOneComment);
             this.latch(collection);
         },
         addOnePhoto: function(photo){
             var view = new PhotoView({model: photo});
-            //this.$("#logitem-list").append(view.render().el);
         },
         addAllPhotos: function(collection, filter){
             this.latch(collection);
-            //collection.forEach(this.addOnePhoto);
         }
-        /*render: function() {
-            return this;
-        }*/
     });
 
     var CommentView = Parse.View.extend({
