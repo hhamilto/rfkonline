@@ -33,6 +33,8 @@ $(function() {
     var CommentList = Parse.Collection.extend({ model: Comment });
     var PhotoList = Parse.Collection.extend({ model: Photo });
 
+    var navBarCurrentView = 'visit';
+
     //Views
     Parse.View.prototype.close = function(){
         this.remove();
@@ -92,13 +94,13 @@ $(function() {
     });
 
     var DashboardView = Parse.View.extend({
-        //TODO: Make less gay by using some sort of routing functionality in backbone
         events: {
             "click #signoutButton" : "logout",
-            "click #mentorsTopNav" : "showManageMentorsView",
-            "click #visitTopNav" : "showVisitView",
+            // *** Should be able to be deleted, saving temporarily incase needed
+            //"click #mentorsTopNav" : "showManageMentorsView",
+            //"click #visitTopNav" : "showVisitView",
         },
-        model:{},
+        model:{currentView: navBarCurrentView},
         template: _.template($("#dashboard-template").html()),
         el: ".content",
         initialize: function(){
@@ -106,6 +108,10 @@ $(function() {
             this.model.currentUsername = Parse.User.current().getUsername();
             this.delegateEvents();
             this.showVisitView();
+            console.log(this.model);
+        },
+        render: function(){
+            this.$el.html(this.template(this.model));
         },
         logout: function() {
             Parse.User.logOut();
@@ -113,20 +119,19 @@ $(function() {
             this.undelegateEvents();
             delete this;
         },
-        render: function(){
-            this.$el.html(this.template(this.model));
-        },
         showVisitView: function(){
-            this.model.currentView = 'visit';
             this.render();
             this.view = new VisitViewerView();
-        },
+        }
+
+        /*, *** Should be able to be deleted, saving temporarily incase needed
         showManageMentorsView: function(){
             this.model.currentView = 'manageMentors';
             this.render();
             //delete this.view;
             this.view = new ManageMentorsView();
         }
+        */
     });
 
     var ManageMentorsView = Parse.View.extend({
@@ -156,6 +161,8 @@ $(function() {
             mentors.fetch();
             
             this.mentors = mentors;
+            // whether the add mentor button is on Add or Cancel (Current button is Add = true, Current button is Cancel = false)
+            addMentor = true;
         },
 
         // Add a single mentor item to the list by creating a view for it, and
@@ -188,24 +195,19 @@ $(function() {
             // slides the add mentor table row up and down
             $('.toggleRow').stop().slideToggle(300);
             
-            // changes the text of the add mentor button with the cancel button
-            //XXX use an boolean varible in the view instead of the dom as a single-source-of-truth
-            if($('#addMentorToggle span').text() == "Cancel")
-                $('#addMentorToggle span').text('Add Mentor');
-            else 
-                $('#addMentorToggle span').text('Cancel');
-
-            // changes the icon between a plus and an 'x'
-            if($('#addMentorToggle i').hasClass('glyphicon-plus'))
-                $('#addMentorToggle i').removeClass('glyphicon-plus').addClass('glyphicon-remove');
-            else 
-                $('#addMentorToggle i').removeClass('glyphicon-remove').addClass('glyphicon-plus');
-
-            // changes the button class between success and danger (green and red)
-            if($('#addMentorToggle').hasClass('btn-success')) 
+            // changes the text, icon & color of the add mentor button with the cancel button
+            if(addMentor) {
                 $('#addMentorToggle').removeClass('btn-success').addClass('btn-danger');
-            else 
+                $('#addMentorToggle span').text('Cancel');
+                $('#addMentorToggle i').removeClass('glyphicon-plus').addClass('glyphicon-remove');
+                addMentor = false;
+            }
+            else {
                 $('#addMentorToggle').removeClass('btn-danger').addClass('btn-success');
+                $('#addMentorToggle span').text('Add Mentor');
+                $('#addMentorToggle i').removeClass('glyphicon-remove').addClass('glyphicon-plus');
+                addMentor = true;
+            }
         },
         // Add all items in the Mentors collection at once.
         addAllMentors: function(collection, filter) {
@@ -564,6 +566,34 @@ $(function() {
     $("#inputEmail").popover();
     //Main view is what is drawn on load
     new MainView;
+
+    var AppRouter = Parse.Router.extend({
+        routes: {
+            "visits": "visitPage",
+            "mentors": "manageMentors",
+            "*actions": "defaultRoute" // Backbone will try match the route above first
+        }
+    });
+
+    // Instantiate the router
+    var app_router = new AppRouter;
+    app_router.on('route:visitPage', function () {
+        navBarCurrentView = 'visit';
+        new VisitViewerView();
+    });
+
+    app_router.on('route:manageMentors', function () {
+        // navBarCurrentView NEEEEEEEDS TO WORK! No idea...
+        navBarCurrentView = 'manageMentors';
+        new ManageMentorsView();
+    });
+
+    app_router.on('route:defaultRoute', function (actions) {
+       
+    });
+
+    // Start history a necessary step for bookmarkable URL's
+    Parse.history.start(); 
 });
 
 
