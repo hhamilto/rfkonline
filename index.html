@@ -11,6 +11,7 @@
              JUST REMEMBER TO RE-COMMENT IT. ALSO, watch out because its up a minor version, and somethings are
              different. for example, in parse photo objects, url is now a function. 
          script src="https://parse.com/downloads/javascript/parse-1.2.13.js"></script-->
+        <script src="js/parsley.js" ></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/moment.min.js"></script>
         <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
@@ -116,7 +117,7 @@
                     </th>
                 </tr>
                 <div>
-                <tr id="mentorAddRow">
+                <tr id="mentorAddRow" parsley-validate parsley-bind>
                     <td>
                         <div class="toggleRow">
                            <input name="mentorName" type="text" value="" placeholder="Name" class="form-control" />
@@ -129,7 +130,7 @@
                     </td>
                     <td>
                         <div class="toggleRow">
-                           <input name="mentorPhone" type="text" value="" placeholder="Phone Number" class="form-control" />
+                           <input name="mentorPhone" type="text" value="" parsley-type="phone" parsley-trigger="keyup" class="form-control" />
                         </div>
                     </td>
                     <td>

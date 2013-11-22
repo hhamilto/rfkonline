@@ -512,14 +512,8 @@ $(function() {
                 }
             });
         },
-        addOneComment: function(comment){
-            var view = new CommentView({model: comment});
-        },
         addAllComments: function(collection, filter){
             this.latch(collection);
-        },
-        addOnePhoto: function(photo){
-            var view = new PhotoView({model: photo});
         },
         addAllPhotos: function(collection, filter){
             this.latch(collection);

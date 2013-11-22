@@ -158,6 +158,7 @@ Visit Viewer View
     color:white;
     border-right: none;
     padding-top: 4px;
+    position: static;
 }
 
 #searchInput {

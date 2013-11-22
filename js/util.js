@@ -10,7 +10,6 @@ jQuery.fn.shake = function(intShakes, intDistance, intDuration) {
 return this;
 };
 
-
 function maxTally(init){
     var max = init;
     return function(n){
