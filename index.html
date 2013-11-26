@@ -45,7 +45,7 @@
                     <div class="form-group" id="loginFormGroup">
                     <label for="inputEmail" class="col-lg-3 control-label">Email</label>
                     <div class="col-lg-9">
-                        <input class="form-control" id="inputEmail" placeholder="Email"
+                        <input class="form-control form-control-static" id="inputEmail" placeholder="Email"
                             data-content="Invalid email/password" data-trigger="manual">
                     </div>
                     </div>
@@ -116,7 +116,6 @@
                         </button>
                     </th>
                 </tr>
-                <div>
                 <tr id="mentorAddRow" parsley-validate parsley-bind>
                     <td>
                         <div class="toggleRow">
@@ -160,12 +159,15 @@
 
     <script type="text/template" id="manage-mentor-row-template">
         <tr class="addAllMentors">
-            <td><%=User.get('name')%></td>
+            <td><input name="mentorName" type="text" value="<%=User.get('name')%>" placeholder="Name" class="form-control" /></td>
             <td><%='Username'%></td>
             <td><%='Phone Number'%></td>
             <td><%='Address'%></td>
             <td><span class="smallProfilePicture" style="background-image:url('<%= User.get('Photo').url %>');"></span></td>
-            <td><button type="button" class="btn btn-default"><i class="glyphicon glyphicon-pencil"></i></button></td>
+            <td>
+                <button type="button" class="btn btn-default" title="edit"><i class="glyphicon glyphicon-pencil"></i></button>
+                <button type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-remove"></i></button>
+            </td>
         </tr>
     </script>
 

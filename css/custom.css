@@ -168,6 +168,11 @@ Visit Viewer View
     border-left: none;
 }
 
+#searchInput:focus{
+    box-shadow: none;
+    border: 1px solid #CCCCCC;
+    border-left: none;
+}
 
 #searchButton {
     width:19%;
@@ -324,6 +329,10 @@ Manage Mentors
 
 #manageMentorsTable tr:nth-child(n+3) td button:hover{
     color: black;
+}
+
+#manageMentorsTable tr:nth-child(n+3) td button:nth-child(2):hover{
+    color: red;
 }
 
 .smallInput {
