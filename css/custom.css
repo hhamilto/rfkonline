@@ -216,6 +216,16 @@ Visit Viewer View
     color:#BBB;
 }
 
+#logitem-list{
+    padding:0;
+}
+
+#no-comments{
+    font-size:22px;
+    color:#999;
+    text-align: center;
+}
+
 .visitComment, .visitPhoto {
     width:80%;
     margin:10px auto;
@@ -296,6 +306,13 @@ Manage Mentors
     overflow-x: hidden;
 }
 
+#manageMentorsContainer > h1{
+    color:white;
+    background-color: #2C4762;
+    margin:0;
+    padding:20px 10px 17px 10px;
+}
+
 #manageMentorsTable{
     width:100%;
 }
@@ -312,6 +329,12 @@ Manage Mentors
 #manageMentorsTable #mentorAddRow td{
     vertical-align: top;
     padding:0;
+}
+
+#manageMentorsTable tr th {
+    vertical-align: middle;
+    color:white;
+    background-color: #2C4762;
 }
 
 #manageMentorsTable #mentorAddRow td:last-child{

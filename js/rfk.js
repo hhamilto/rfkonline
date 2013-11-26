@@ -466,7 +466,7 @@ $(function() {
         template: _.template($("#loglist-template").html()),
         initialize: function(){
             this.$el.html(this.template());
-            _.bindAll(this, "addOneComment", "addAllComments", "addOnePhoto", "addAllPhotos");
+            _.bindAll(this, "addAllComments", "addAllPhotos");
             this.Photos = new PhotoList;
             this.Photos.query = new Parse.Query(Photo);
             this.Photos.query.equalTo("VisitId", this.model.id);
@@ -493,7 +493,12 @@ $(function() {
             }
             this.Comments.fetch();
             this.latch = latch(2,this,function(collection1, collection2){
-                /* DE-IMBECILE collections. seriously, how are its it to *actually* 
+                if(collection1.length+collection2.length == 0){
+                    // hack in a 'yo,homes we don't got no comments'
+                    // legitimately, this sucks and is horrible and should be in a view.
+                    $('#logitem-list').append('<li id="no-comments" class="visitComment">&laquo; No comments were made on this visit &raquo;</li>');
+                }
+                /* DE-IMBECILE collections. seriously, how is it to *actually* 
                   implment the backbone interface you say you implement in your effing docs!?!?*/
                 collection1.unshift = function(){
                     var toReturn = this.at(0);
