@@ -116,45 +116,63 @@
                         </button>
                     </th>
                 </tr>
-                <tr id="mentorAddRow" parsley-validate parsley-bind>
-                    <td>
-                        <div class="toggleRow">
-                           <input name="mentorName" type="text" value="" placeholder="Name" class="form-control" />
-                        </div>
-                    </td>
-                    <td>
-                        <div class="toggleRow">
-                           <input name="mentorUsername" type="text" value="" placeholder="Username" class="form-control" />
-                        </div>
-                    </td>
-                    <td>
-                        <div class="toggleRow">
-                           <input name="mentorPhone" type="text" value="" parsley-type="phone" parsley-trigger="keyup" class="form-control" />
-                        </div>
-                    </td>
-                    <td>
-                        <div class="toggleRow clearfix">
-                            <input name="mentorAddress" type="text" value="" placeholder="Address" class="form-control" />
-                            <input name="mentorAddress2" type="text" value="" placeholder="Address 2" class="form-control" />
-                            <input name="mentorZipCode" type="text" value="" placeholder="Zip Code" class="form-control smallInput" />
-                            <input name="mentorState" type="text" value="" placeholder="State" class="form-control smallInput" />
-                        </div>
-                    </td>
-                    <td>
-                        <div class="toggleRow">
-                            <input type="file" value="Upload Photo" style="width:100%;"/>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="toggleRow">
-                            <button type="button" value="Add User" id="saveNewMentor" class="btn btn-success">
-                                <i class="glyphicon glyphicon-ok-sign"></i> Save Mentor 
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+                
             </table>
         </div>
+    </script>
+
+    <script type="text/template" id="manage-mentor-row-template">
+        <tr parsley-validate parsley-bind>
+            <td>
+                <% if(editMode){%>
+                <input name="mentorName" type="text" value="<%=newForm?'':User.get('name')%>" placeholder="Name" class="form-control" />
+                <%}else{%>
+                <%=User.get('name')%>
+                <%}%>
+            </td>
+            <td>
+                <% if(editMode){%>
+                <input name="mentorUsername" type="text" value="" placeholder="Username" class="form-control" /> 
+                <%}else{%>
+                <%=User.get('name')%>
+                <%}%>
+            </td>
+            <td>
+                <% if(editMode){%>
+                <input name="mentorPhone" type="text" value="" parsley-type="phone" parsley-trigger="keyup" class="form-control" />
+                <%}else{%>
+                <%=User.get('name')%>
+                <%}%>
+            </td>
+            <td>
+                <% if(editMode){%>
+                <input name="mentorAddress" type="text" value="" placeholder="Address" class="form-control" />
+                <input name="mentorAddress2" type="text" value="" placeholder="Address 2" class="form-control" />
+                <input name="mentorZipCode" type="text" value="" placeholder="Zip Code" class="form-control smallInput" />
+                <input name="mentorState" type="text" value="" placeholder="State" class="form-control smallInput" />
+                <%}else{%>
+                <%=User.get('name')%>
+                <%}%>
+            </td>
+            <td>
+                <% if(editMode){%>
+                <input type="file" value="Upload Photo" style="width:100%;"/>
+                <%}else{%>
+                <%=User.get('name')%>
+                <%}%>
+            </td>
+            <td>
+                <%if(editMode){%>
+                <button type="button" value="Add User" id="saveNewMentor" class="btn btn-success">
+                    <i class="glyphicon glyphicon-ok-sign"></i> Save Mentor 
+                </button>
+                <%}else{%>
+                <button type="button" class="btn btn-default" title="edit"><i class="glyphicon glyphicon-pencil"></i></button>
+                <button type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-remove"></i></button>
+                <%}%>
+            </td>
+        </tr>
+
     </script>
 
     <script type="text/template" id="manage-mentor-row-template">
@@ -170,6 +188,8 @@
             </td>
         </tr>
     </script>
+
+
 
     <script type="text/template" id="visit-viewer-template">
         <div id="sidebar">

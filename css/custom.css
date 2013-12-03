@@ -320,6 +320,7 @@ Manage Mentors
 #manageMentorsTable td{
     vertical-align: middle;
     width:16.666%;
+    font-weight: bold;
 }
 
 #manageMentorsTable #mentorAddRow {

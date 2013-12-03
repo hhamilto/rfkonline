@@ -10,7 +10,7 @@ $(function() {
     var Kid2Visit = Parse.Object.extend("Kid2Visit");
     var Mentor = Parse.Object.extend("Mentor");
     // I *UTTERLY DESPISE* parse for not providing a non-hacky, convient way 
-    // to set defaults for undefined attributes in fetchewd objects
+    // to set defaults for undefined attributes in fetched objects
     var User = Parse.Object.extend("User", {
         _rebuildAllEstimatedData: function(){
             var retVal = Parse.Object.prototype._rebuildAllEstimatedData.apply(this, arguments);
@@ -144,18 +144,12 @@ $(function() {
             mentors.bind('add',     this.addOneMentor);
             mentors.bind('reset',   this.addAllMentors);
             mentors.bind('all',     this.render);
-                        
             mentors.fetch();
             
             this.mentors = mentors;
             // whether the add mentor button is on Add or Cancel (Current button is Add = true, Current button is Cancel = false)
-            addMentor = true;
-        },
-
-        // Add a single mentor item to the list by creating a view for it, and
-        // appending its element to the `<ul>`.
-        addOneMentor: function(mentor) {
-            var view = new ManageMentorRowView({model: mentor});
+            this.addMentor = true;
+            this.render;
         },
         saveNewMentor: function(){
             //mentors are compound objects, so we have to create several things to make a new one
@@ -183,26 +177,32 @@ $(function() {
             $('.toggleRow').stop().slideToggle(300);
             
             // changes the text, icon & color of the add mentor button with the cancel button
-            if(addMentor) {
+            if(!(this.addMentor = !this.addMentor)) {
                 $('#addMentorToggle').removeClass('btn-success').addClass('btn-danger');
                 $('#addMentorToggle span').text('Cancel');
                 $('#addMentorToggle i').removeClass('glyphicon-plus').addClass('glyphicon-remove');
-                addMentor = false;
-            }
-            else {
+            }else {
                 $('#addMentorToggle').removeClass('btn-danger').addClass('btn-success');
                 $('#addMentorToggle span').text('Add Mentor');
                 $('#addMentorToggle i').removeClass('glyphicon-remove').addClass('glyphicon-plus');
-                addMentor = true;
             }
         },
+        // Add a single mentor item to the list by creating a view for it, and
+        // appending its element to the `<ul>`.
+        addOneMentor: function(mentor) {
+            var view = new ManageMentorRowView({
+                model: mentor});
+        },
         // Add all items in the Mentors collection at once.
-        addAllMentors: function(collection, filter) {
-            this.$(".addAllMentors").remove()
-            collection.forEach(this.addOneMentor);
+        addAllMentors: function(mentors, filter) {
+            this.mentors = mentors;
+            this.render();
         },
 
         render: function() {
+            this.$("#manageMentorsTable tr:nth-child(n+2)").remove()
+            new ManageMentorRowView({editMode:true,newForm:true});
+            this.mentors.forEach(this.addOneMentor);
             this.delegateEvents();
         }
     });
@@ -211,13 +211,22 @@ $(function() {
         template: _.template($("#manage-mentor-row-template").html()),
         el: "#manageMentorsTable",
         initialize: function(){
+            this.options = this.options || {};
+            this.model = this.model || {};
+            _.defaults(this.options, {
+                newForm: false,
+                editMode: false
+            });
             _.bindAll(this, "render");
             this.render();
         },
         
         render: function() {
-            this.$el.children('tbody').append(this.template(this.model.attributes));
-            //new SidebarView();
+            var row = this.$el.children('tbody').append(this.template(_.extend({},this.model.attributes, this.options))).children('tr');
+            if(this.options.newForm){
+                row.children('td').wrapInner('<div class="toggleRow clearfix"></div>');
+                row.find('.toggleRow').hide();
+            }
             this.delegateEvents();
         }
     });
