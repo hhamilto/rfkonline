@@ -132,16 +132,16 @@
             </td>
             <td>
                 <% if(editMode){%>
-                <input name="mentorUsername" type="text" value="" placeholder="Username" class="form-control" /> 
+                <input name="mentorUsername" type="text" value="<%=newForm?'':User.get('username')%>" placeholder="Username" class="form-control" /> 
                 <%}else{%>
-                <%=User.get('name')%>
+                <%=User.get('username')%>
                 <%}%>
             </td>
             <td>
                 <% if(editMode){%>
-                <input name="mentorPhone" type="text" value="" parsley-type="phone" parsley-trigger="keyup" class="form-control" />
+                <input name="mentorPhone" type="text" value="<%=newForm?'':User.get('phone')%>" parsley-type="phone" parsley-trigger="keyup" class="form-control" />
                 <%}else{%>
-                <%=User.get('name')%>
+                <%=User.get('phone')%>
                 <%}%>
             </td>
             <td>
@@ -158,7 +158,7 @@
                 <% if(editMode){%>
                 <input type="file" value="Upload Photo" style="width:100%;"/>
                 <%}else{%>
-                <%=User.get('name')%>
+                <span class="smallProfilePicture" style="background-image:url('<%= User.get('Photo').url %>');"></span>
                 <%}%>
             </td>
             <td>
