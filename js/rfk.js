@@ -138,6 +138,7 @@ $(function() {
             var userQ = new Parse.Query(User);
 
             mentors.query.include("User");
+            mentors.query.include('User.Address');
             mentors.comparator = function(mentor){
                 return mentor.get('User').get('name');
             }

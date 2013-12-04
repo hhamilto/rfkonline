@@ -150,8 +150,15 @@
                 <input name="mentorAddress2" type="text" value="" placeholder="Address 2" class="form-control" />
                 <input name="mentorZipCode" type="text" value="" placeholder="Zip Code" class="form-control smallInput" />
                 <input name="mentorState" type="text" value="" placeholder="State" class="form-control smallInput" />
+                <%}else if(User.get('Address') != undefined){%>
+                <address>
+                    <%= User.get('Address').get('Address')!=undefined? User.get('Address').get('Address') + '<br/>':'' %>
+                    <%= User.get('Address').get('Address2')!=undefined? User.get('Address').get('Address2') + '<br/>':'' %>
+                    <%= User.get('Address').get('State') %>
+                    <%= User.get('Address').get('Zip')!=undefined? User.get('Address').get('Zip') + '<br/>':'' %>
+                </address>
                 <%}else{%>
-                <%=User.get('name')%>
+                No Address
                 <%}%>
             </td>
             <td>
