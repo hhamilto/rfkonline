@@ -365,6 +365,20 @@ Manage Mentors
     float:left;
 }
 
+#manageMentorsTable .parsley-error-list {
+    margin-top:6px;
+    padding:2px;
+    list-style-type: none;
+    position: absolute;
+    background: #FCC; 
+    border-radius: 5px;
+    border: 1px solid #FAA;
+    width: 200px;
+}
+
+#manageMentorsTable .parsley-error-list li {
+}
+
 .toggleRow {
     padding:8px;
     height:100%;

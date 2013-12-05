@@ -154,6 +154,7 @@
                 <address>
                     <%= User.get('Address').get('Address')!=undefined? User.get('Address').get('Address') + '<br/>':'' %>
                     <%= User.get('Address').get('Address2')!=undefined? User.get('Address').get('Address2') + '<br/>':'' %>
+                    <%= User.get('Address').get('City')!=undefined? User.get('Address').get('City') + ',':'' %>
                     <%= User.get('Address').get('State') %>
                     <%= User.get('Address').get('Zip')!=undefined? User.get('Address').get('Zip') + '<br/>':'' %>
                 </address>
