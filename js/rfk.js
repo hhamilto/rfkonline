@@ -227,11 +227,13 @@ $(function() {
         },
 
         toggleEdit: function(event){
-            this.editMode = !this.editMode;
+            this.options.editMode = !this.options.editMode;
             this.render();
         },
         render: function() {
-            this.$el.replaceWith(this.template(_.extend({},this.model.attributes, this.options)));
+            var newEl = $(this.template(_.extend({},this.model.attributes, this.options)));
+            this.$el.replaceWith(newEl);
+            this.$el = newEl;
             if(this.options.newForm){
                 this.$el.children('td').wrapInner('<div class="toggleRow clearfix"></div>');
                 this.$el.find('.toggleRow').hide();
