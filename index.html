@@ -146,10 +146,11 @@
             </td>
             <td>
                 <% if(editMode){%>
-                <input name="mentorAddress" type="text" value="" placeholder="Address" class="form-control" />
-                <input name="mentorAddress2" type="text" value="" placeholder="Address 2" class="form-control" />
-                <input name="mentorZipCode" type="text" value="" placeholder="Zip Code" class="form-control smallInput" />
-                <input name="mentorState" type="text" value="" placeholder="State" class="form-control smallInput" />
+                <input name="mentorAddress" type="text" value="<%= newForm?'':User.get('Address').get('Address')!=undefined? User.get('Address').get('Address'):'' %>" placeholder="Address" class="form-control" />
+                <input name="mentorAddress2" type="text" value="<%= newForm?'':User.get('Address').get('Address2')!=undefined? User.get('Address').get('Address2'):'' %>" placeholder="Address 2" class="form-control" />
+                <input name="mentorCity" type="text" value="<%= newForm?'':User.get('Address').get('City')!=undefined? User.get('Address').get('City'):'' %>" placeholder="City" class="form-control" />
+                <input name="mentorZipCode" type="text" value="<%= newForm?'':User.get('Address').get('Zip')!=undefined? User.get('Address').get('Zip'):'' %>" placeholder="Zip Code" class="form-control smallInput" />
+                <input name="mentorState" type="text" value="<%= newForm?'':User.get('Address').get('State')!=undefined? User.get('Address').get('State'):'' %>" placeholder="State" class="form-control smallInput" />
                 <%}else if(User.get('Address') != undefined){%>
                 <address>
                     <%= User.get('Address').get('Address')!=undefined? User.get('Address').get('Address') + '<br/>':'' %>

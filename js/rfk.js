@@ -210,7 +210,8 @@ $(function() {
 
     var ManageMentorRowView = Parse.View.extend({
         events: {
-            "click .edit-mentor":   "toggleEdit"
+            "click .edit-mentor":   "toggleEdit",
+            "click .cancel-edit-mentor" : "toggleEdit"
         },
         template: _.template($("#manage-mentor-row-template").html()),
         initialize: function(){

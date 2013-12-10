@@ -346,23 +346,23 @@ Manage Mentors
     font-size: 20px;
 }
 
-#manageMentorsTable tr:nth-child(n+3) td button{
+#manageMentorsTable tr:nth-child(n+3) button{
     color: white;
     background-color: #CCC;
 }
 
-#manageMentorsTable tr:nth-child(n+3) td button:hover{
+#manageMentorsTable tr:nth-child(n+3) button:hover{
     color: black;
 }
 
-#manageMentorsTable tr:nth-child(n+3) td button:nth-child(2):hover{
+#manageMentorsTable tr:nth-child(n+3) button.delete-mentor:hover{
     color: red;
 }
 
-.cancel-edit-mentor{
+#manageMentorsTable button.cancel-edit-mentor{
     transform: scaleX(-1);
 }
-.cancel-edit-mentor:hover{
+#manageMentorsTable tr button.cancel-edit-mentor:hover{
     color: rgb(0,0,160);
 }
 
@@ -387,7 +387,6 @@ Manage Mentors
 }
 
 .toggleRow {
-    padding:8px;
     height:100%;
     display:none;
 }
