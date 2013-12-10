@@ -9,7 +9,7 @@
         <script src="http://www.parsecdn.com/js/parse-1.1.15.min.js"></script>
         <!-- USE THIS ONE FOR DEBUGGING WHEN YOU WANT TO SEE THE PARSE SOURCE.
              JUST REMEMBER TO RE-COMMENT IT. ALSO, watch out because its up a minor version, and somethings are
-             different. for example, in parse photo objects, url is now a function. 
+             different. for example, in Parse photo objects, url is now a function. 
          script src="https://parse.com/downloads/javascript/parse-1.2.13.js"></script-->
         <script src="js/parsley.js" ></script>
         <script src="js/bootstrap.min.js"></script>
@@ -175,12 +175,11 @@
                     <i class="glyphicon glyphicon-ok-sign"></i> Save Mentor 
                 </button>
                 <%}else{%>
-                <button type="button" class="btn btn-default" title="edit"><i class="glyphicon glyphicon-pencil"></i></button>
-                <button type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-remove"></i></button>
+                <button type="button" class="btn btn-default edit-mentor" title="edit"><i class="glyphicon glyphicon-pencil"></i></button>
+                <button type="button" class="btn btn-default delete-mentor" title="delete"><i class="glyphicon glyphicon-remove"></i></button>
                 <%}%>
             </td>
         </tr>
-
     </script>
 
     <script type="text/template" id="manage-mentor-row-template">

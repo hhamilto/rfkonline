@@ -192,7 +192,7 @@ $(function() {
         // appending its element to the `<ul>`.
         addOneMentor: function(mentor) {
             var view = new ManageMentorRowView({
-                model: mentor});
+                model: mentor, table: this.$el.find($('#manageMentorsTable'))});
         },
         // Add all items in the Mentors collection at once.
         addAllMentors: function(mentors, filter) {
@@ -202,31 +202,39 @@ $(function() {
 
         render: function() {
             this.$("#manageMentorsTable tr:nth-child(n+2)").remove()
-            new ManageMentorRowView({editMode:true,newForm:true});
+            new ManageMentorRowView({editMode:true,newForm:true, table:this.$el.find($('#manageMentorsTable'))});
             this.mentors.forEach(this.addOneMentor);
             this.delegateEvents();
         }
     });
 
     var ManageMentorRowView = Parse.View.extend({
+        events: {
+            "click .edit-mentor":   "toggleEdit"
+        },
         template: _.template($("#manage-mentor-row-template").html()),
-        el: "#manageMentorsTable",
         initialize: function(){
             this.options = this.options || {};
+            _.bindAll(this, 'toggleEdit', 'render');
             this.model = this.model || {};
             _.defaults(this.options, {
                 newForm: false,
                 editMode: false
             });
-            _.bindAll(this, "render");
+            this.el = $(this.options.table).append('<tr></tr>').find('tr').last();
+            this.$el = $(this.el);
             this.render();
         },
-        
+
+        toggleEdit: function(event){
+            this.editMode = !this.editMode;
+            this.render();
+        },
         render: function() {
-            var row = this.$el.children('tbody').append(this.template(_.extend({},this.model.attributes, this.options))).children('tr');
+            this.$el.replaceWith(this.template(_.extend({},this.model.attributes, this.options)));
             if(this.options.newForm){
-                row.children('td').wrapInner('<div class="toggleRow clearfix"></div>');
-                row.find('.toggleRow').hide();
+                this.$el.children('td').wrapInner('<div class="toggleRow clearfix"></div>');
+                this.$el.find('.toggleRow').hide();
             }
             this.delegateEvents();
         }
