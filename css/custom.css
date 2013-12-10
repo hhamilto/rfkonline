@@ -359,6 +359,13 @@ Manage Mentors
     color: red;
 }
 
+.cancel-edit-mentor{
+    transform: scaleX(-1);
+}
+.cancel-edit-mentor:hover{
+    color: rgb(0,0,160);
+}
+
 .smallInput {
     display:inline;
     width:50%;
