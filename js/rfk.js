@@ -33,8 +33,6 @@ $(function() {
     var CommentList = Parse.Collection.extend({ model: Comment });
     var PhotoList = Parse.Collection.extend({ model: Photo });
 
-    var navBarCurrentView = 'visit';
-
     //Views
     Parse.View.prototype.close = function(){
         this.remove();
@@ -53,7 +51,7 @@ $(function() {
         },
         render: function() {
             if (Parse.User.current()) {
-                new DashboardView();
+                this.dashboard = new DashboardView();
             } else {
                 new LogInView();
             }
@@ -97,7 +95,7 @@ $(function() {
         events: {
             "click #signoutButton" : "logout",
         },
-        model:{currentView: navBarCurrentView},
+        model: {},
         template: _.template($("#dashboard-template").html()),
         el: ".content",
         initialize: function(){
@@ -118,6 +116,25 @@ $(function() {
         showVisitView: function(){
             this.render();
             this.view = new VisitViewerView();
+        },
+        highlight: function(link) {
+            $( "#navLinks li" ).each(function() {
+                      $( this ).removeClass( "active" );
+                    });
+            switch(link) {
+                case "visits":
+                    $("#visitTopNav").addClass("active");
+                    
+                break;
+                case "mentors":
+                    $("#mentorsTopNav").addClass("active");
+                break;
+                case "directors":
+                    $("#directorsTopNav").addClass("active");
+                break;
+                default:
+                break;
+            }
         }
     });
 
@@ -582,37 +599,32 @@ $(function() {
            
     $("#inputEmail").popover();
     //Main view is what is drawn on load
-    var main = new MainView;
+    var mainView = new MainView;
 
     var AppRouter = Parse.Router.extend({
         routes: {
             "visits": "visitPage",
             "mentors": "manageMentors",
             "directors": "directorsPanel",
-            "*actions": "defaultRoute" // Backbone will try match the route above first
+            "*actions": "visitPage" // Backbone will try match the route above first
         }
     });
 
     // Instantiate the router
     var app_router = new AppRouter;
     app_router.on('route:visitPage', function () {
-        navBarCurrentView = 'visit';
         new VisitViewerView();
+        mainView.dashboard.highlight("visits");
     });
 
     app_router.on('route:manageMentors', function () {
-        // navBarCurrentView NEEEEEEEDS TO WORK! No idea...
-        navBarCurrentView = 'manageMentors';
         new ManageMentorsView();
+        mainView.dashboard.highlight("mentors");
     });
 
     app_router.on('route:directorsPanel', function () {
-        navBarCurrentView = 'directorsPanel';
         new DirectorsPanelView();
-    });
-
-    app_router.on('route:defaultRoute', function (actions) {
-       
+        mainView.dashboard.highlight("directors");
     });
 
     // Start history a necessary step for bookmarkable URL's
