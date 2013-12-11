@@ -75,7 +75,7 @@
             
         </div> <!-- /container -->
     </script>
-
+    
     <script type="text/template" id="dashboard-template">
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="navbar-header">
@@ -93,6 +93,7 @@
                 <ul class="nav navbar-nav">
                     <li class="<%=currentView == 'visit'?'active':''%>"><a id="visitTopNav" href="#visits"> Visits</a></li>
                     <li class="<%=currentView == 'manageMentors'?'active':''%>"><a id="mentorsTopNav" href="#mentors">Mentors</a></li>
+                    <li class="<%=currentView == 'directorsPanel'?'active':''%>"><a id="directorsTopNav" href="#directors">Directors</a></li>
                 </ul>
                 <form class="navbar-form navbar-right">
                     <button type="button" class="btn btn-default" id="signoutButton">Sign out <i class="glyphicon glyphicon-log-out"></i></button>
@@ -107,7 +108,7 @@
 
     <script type="text/template" id="manage-mentors-template">
         <div id="manageMentorsContainer">
-            <h1>Manage Mentors</h2>
+            <h1>Manage Mentors</h1>
             <table class="table table-striped" id="manageMentorsTable">
                 <tr><th>Name</th><th>Username</th><th>Phone Number</th><th>Address</th><th>Photo</th>
                     <th>
@@ -116,6 +117,15 @@
                         </button>
                     </th>
                 </tr>
+                
+            </table>
+        </div>
+    </script>
+
+    <script type="text/template" id="directors-panel-template">
+        <div id="directorsPanelContainer">
+            <h1>Directors Panel</h1>
+            <table class="table table-striped" id="directorsPanelTable">
                 
             </table>
         </div>
