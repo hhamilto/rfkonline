@@ -67,3 +67,14 @@ function latch(n, self, callback , args){
             callback.apply(self, args);
     };
 }
+
+function getSafely(def){
+    var retVal = arguments[1];
+    for(var i = 2; i < arguments.length; i++){
+        var temp = retVal[arguments[i]];
+        if(temp == undefined)
+            return def;
+        retVal = temp;
+    }
+    return retVal;
+}

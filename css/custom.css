@@ -342,18 +342,14 @@ Manage Mentors
     vertical-align: bottom;
 }
 
-#manageMentorsTable  tr:nth-child(n+3) .glyphicon{
-    font-size: 20px;
-}
-
+/*
 #manageMentorsTable tr:nth-child(n+3) button{
     color: white;
-    background-color: #CCC;
 }
 
 #manageMentorsTable tr:nth-child(n+3) button:hover{
     color: black;
-}
+}*/
 
 #manageMentorsTable tr:nth-child(n+3) button.delete-mentor:hover{
     color: red;
