@@ -118,22 +118,26 @@ $(function() {
             this.view = new VisitViewerView();
         },
         highlight: function(link) {
+            // remove active from all tab
             $( "#navLinks li" ).each(function() {
-                      $( this ).removeClass( "active" );
-                    });
+                $( this ).removeClass("active");
+            });
+            // add active to the desired tab
             switch(link) {
                 case "visits":
                     $("#visitTopNav").addClass("active");
-                    
-                break;
+                    break;
                 case "mentors":
                     $("#mentorsTopNav").addClass("active");
-                break;
+                    break;
                 case "directors":
                     $("#directorsTopNav").addClass("active");
-                break;
+                    break;
                 default:
-                break;
+                    // default to visit view
+                    $("#visitTopNav").addClass("active");
+                    break;
+                    break;
             }
         }
     });
