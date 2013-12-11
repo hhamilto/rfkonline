@@ -49,7 +49,7 @@ $(function() {
         // the App already present in the HTML.
         el: $("#mainApp"),
         initialize: function() {
-            this.render();
+            this.render();            
         },
         render: function() {
             if (Parse.User.current()) {
@@ -205,6 +205,21 @@ $(function() {
             new ManageMentorRowView({editMode:true,newForm:true, table:this.$el.find($('#manageMentorsTable'))});
             this.mentors.forEach(this.addOneMentor);
             this.delegateEvents();
+        }
+    });
+
+    var DirectorsPanelView = Parse.View.extend({
+        template: _.template($("#directors-panel-template").html()),
+        el: "#dashboardContainer",
+        events: {
+        },
+        initialize: function(){
+            _.bindAll(this, 'render');            
+            this.$el.html(this.template());
+            this.render;
+        },
+        render: function() {
+            
         }
     });
 
@@ -567,12 +582,13 @@ $(function() {
            
     $("#inputEmail").popover();
     //Main view is what is drawn on load
-    new MainView;
+    var main = new MainView;
 
     var AppRouter = Parse.Router.extend({
         routes: {
             "visits": "visitPage",
             "mentors": "manageMentors",
+            "directors": "directorsPanel",
             "*actions": "defaultRoute" // Backbone will try match the route above first
         }
     });
@@ -588,6 +604,11 @@ $(function() {
         // navBarCurrentView NEEEEEEEDS TO WORK! No idea...
         navBarCurrentView = 'manageMentors';
         new ManageMentorsView();
+    });
+
+    app_router.on('route:directorsPanel', function () {
+        navBarCurrentView = 'directorsPanel';
+        new DirectorsPanelView();
     });
 
     app_router.on('route:defaultRoute', function (actions) {
