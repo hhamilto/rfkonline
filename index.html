@@ -117,7 +117,6 @@
                         </button>
                     </th>
                 </tr>
-                
             </table>
         </div>
     </script>
@@ -125,10 +124,43 @@
     <script type="text/template" id="directors-panel-template">
         <div id="directorsPanelContainer">
             <h1>Directors Panel</h1>
-            <table class="table table-striped" id="directorsPanelTable">
-                
+            <h3>Directors</h3>
+            <table class="table table-striped" id="directorsTable">
+                <tr><th>Name</th><th>Username</th><th>Phone Number</th><th>Address</th><th>Photo</th><th>Region</th>
+                    <th>
+                        <button type="button" value="Add Director" name="directorAdd" class="btn btn-success" id="addDirectorToggle">
+                            <i class="glyphicon glyphicon-plus"></i> <span>Add Director</span>
+                        </button>
+                    </th>
+                </tr>
+            </table>
+            <h3>Regions</h3>
+            <table class="table table-striped" id="regionsTable">
+                <tr><th>Name</th><th>Location?</th><th>Phone Number?</th><th>Address?</th>
+                    <th>
+                        <button type="button" value="Add Director" name="regionAdd" class="btn btn-success" id="addRegionToggle">
+                            <i class="glyphicon glyphicon-plus"></i> <span>Add Region</span>
+                        </button>
+                    </th>
+                </tr>
             </table>
         </div>
+    </script>
+
+    <script type="text/template" id="directors-panel-row-template">
+    /*
+        <tr class="addAllMentors">
+            <td><input name="mentorName" type="text" value="<%=User.get('name')%>" placeholder="Name" class="form-control" /></td>
+            <td><%='Username'%></td>
+            <td><%='Phone Number'%></td>
+            <td><%='Address'%></td>
+            <td><span class="smallProfilePicture" style="background-image:url('<%= User.get('Photo').url %>');"></span></td>
+            <td>
+                <button type="button" class="btn btn-default" title="edit"><i class="glyphicon glyphicon-pencil"></i></button>
+                <button type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-remove"></i></button>
+            </td>
+        </tr>
+        */
     </script>
 
     <script type="text/template" id="manage-mentor-row-template">
