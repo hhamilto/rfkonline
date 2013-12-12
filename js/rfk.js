@@ -226,7 +226,8 @@ $(function() {
     var ManageMentorRowView = Parse.View.extend({
         events: {
             "click .edit-mentor":   "toggleEdit",
-            "click .cancel-edit-mentor" : "toggleEdit"
+            "click .cancel-edit-mentor" : "toggleEdit",
+            "click .delete-mentor" : "deleteMentor"
         },
         template: _.template($("#manage-mentor-row-template").html()),
         initialize: function(){
@@ -245,6 +246,13 @@ $(function() {
         toggleEdit: function(event){
             this.options.editMode = !this.options.editMode;
             this.render();
+        },
+        deleteMentor: function(event){
+            var username = this.model.get('User').get('username')
+            if(prompt('Are you sure you want to delete the Mentor "'+username+
+                '"? to confirm, please type the Mentor\'s username:') != username)
+                return;
+            alert("I deleted him");
         },
         render: function() {
             var newEl = $(this.template(_.extend({},this.model.attributes, this.options)));

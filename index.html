@@ -149,7 +149,7 @@
             </td>
             <td>
                 <% if(editMode){%>
-                <input name="mentorPhone" type="text" value="<%=newForm?'':User.get('phone')%>" parsley-type="phone" parsley-trigger="keyup" class="form-control" />
+                <input name="mentorPhone" type="text" value="<%=newForm?'':User.get('phone')%>" parsley-type="phone" placeholder="Phone" parsley-trigger="keyup" class="form-control" />
                 <%}else{%>
                 <%=User.get('phone')%>
                 <%}%>
