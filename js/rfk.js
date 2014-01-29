@@ -399,7 +399,6 @@ $(function() {
             var view = new VisitListItemView({model: visit});
             this.$(".visit-list").append(view.render().el);
         },
-        
         // Add all items in the visit collection at once.
         addAll: function(collection, filter) {
             this.$(".visit-list").html("");
@@ -506,6 +505,7 @@ $(function() {
                 center: new google.maps.LatLng(37.33018889, -122.0258605),
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             };
+
             var visitRoutePoints = [];
             var bounds = new google.maps.LatLngBounds()
             this.options.travelPoints.map(function(travelPoint){
@@ -521,6 +521,13 @@ $(function() {
                 strokeOpacity: 1.0,
                 strokeWeight: 5
             });
+            /* THIS IS HOW TO ADD MARKERS :)
+            var marker = new google.maps.Marker({
+                  position: new google.maps.LatLng(-25.363882,131.044922),
+                  map: map,
+                  title: 'Hello World!'
+              });
+            */
             visitRoute.setMap(map);
             map.fitBounds(bounds);
         }
