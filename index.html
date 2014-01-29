@@ -4,13 +4,9 @@
         <meta charset="utf-8">
         <title>Royal Family Kids</title>
 
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
         <script src="js/underscore-min.js"></script>
-        <script src="http://www.parsecdn.com/js/parse-1.1.15.min.js"></script>
-        <!-- USE THIS ONE FOR DEBUGGING WHEN YOU WANT TO SEE THE PARSE SOURCE.
-             JUST REMEMBER TO RE-COMMENT IT. ALSO, watch out because its up a minor version, and somethings are
-             different. for example, in Parse photo objects, url is now a function. 
-         script src="https://parse.com/downloads/javascript/parse-1.2.13.js"></script-->
+        <script src="https://www.parsecdn.com/js/parse-1.2.16.min.js"></script>
         <script src="js/parsley.js" ></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/moment.min.js"></script>
@@ -148,7 +144,7 @@
     </script>
 
     <script type="text/template" id="directors-panel-row-template">
-    /*
+    <!--s/*
         <tr class="addAllMentors">
             <td><input name="mentorName" type="text" value="<%=User.get('name')%>" placeholder="Name" class="form-control" /></td>
             <td><%='Username'%></td>
@@ -160,7 +156,7 @@
                 <button type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-remove"></i></button>
             </td>
         </tr>
-        */
+        */-->
     </script>
 
     <script type="text/template" id="manage-mentor-row-template">
@@ -209,7 +205,7 @@
                 <% if(editMode){%>
                 <input type="file" value="Upload Photo" style="width:100%;"/>
                 <%}else{%>
-                <span class="smallProfilePicture" style="background-image:url('<%= User.get('Photo').url %>');"></span>
+                <span class="smallProfilePicture" style="background-image:url('<%= User.get('Photo').url() %>');"></span>
                 <%}%>
             </td>
             <td>
@@ -229,6 +225,8 @@
         </tr>
     </script>
 
+<!-- THIS TEMPLATE IS A DUPLICATE - Probaby just delete it...
+
     <script type="text/template" id="manage-mentor-row-template">
         <tr class="addAllMentors">
             <td><input name="mentorName" type="text" value="<%=User.get('name')%>" placeholder="Name" class="form-control" /></td>
@@ -241,7 +239,7 @@
                 <button type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-remove"></i></button>
             </td>
         </tr>
-    </script>
+    </script> -->
 
 
 
@@ -271,7 +269,7 @@
     <script type="text/template" id="mentor-item-template">
         <li class="mentor">
             <div class="mentor-name">
-            <span class="smallProfilePicture" style="background-image:url('<%= User.get('Photo').url %>');"></span>
+            <span class="smallProfilePicture" style="background-image:url('<%= User.get('Photo').url() %>');"></span>
             <%= User.get('name') %></div>
             <ul class="visit-list">
                 loading visits...
@@ -327,7 +325,7 @@
                     <!--This link points to an exact index, needs to be fixed -->
 
                     <a href="#<%=id%>" data-toggle="lightbox">
-                        <img class="thumbnail" src="<%= Data.url %>" />
+                        <img class="thumbnail" src="<%= Data.url() %>" />
                     </a>
             </div>
             <div id="<%=id%>" class="lightbox fade"  tabindex="-1" role="dialog" aria-hidden="true">
