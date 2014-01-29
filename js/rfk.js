@@ -455,8 +455,8 @@ $(function() {
         initialize: function(){
             /*render*/
             var visit = this.model.attributes;
-            visit.Start = moment(visit.Start.iso);
-            visit.End = moment(visit.End.iso);
+            visit.Start = moment(visit.Start);
+            visit.End = moment(visit.End);
             this.$el.html(this.template(visit));
 
             _.bindAll(this, 'addOneTp', 'addAllTp', 'render');
