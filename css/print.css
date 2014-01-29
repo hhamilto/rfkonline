@@ -1,0 +1,25 @@
+/* used to hide all the stuff that isn't the visit view */
+
+#sidebar{
+    display: none !important;
+}
+
+.navbar{
+    display: none !important;
+}
+
+#visit-wrapper{
+    position: static !important;
+    width: auto !important;
+    overflow-y: default !important;
+}
+
+#dashboardContainer {
+    position: static !important;
+    width: auto !important;
+}
+
+.content {
+    position: static !important;
+    width: auto !important;
+}

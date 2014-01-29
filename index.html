@@ -18,8 +18,10 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="css/bootstrap.css" rel="stylesheet" media="screen">
+
         <link rel="stylesheet" type="text/css" href="css/bootstrap-lightbox.min.css"/>
         <link rel="stylesheet" type="text/css" href="css/custom.css"/>
+        <link href="css/print.css" media="print" rel="stylesheet" />
         <link rel="icon" href="img/favicon.png" type="image/png" />
         <link rel="shortcut icon" href="favicon.ico" />
     </head>
@@ -241,8 +243,6 @@
         </tr>
     </script> -->
 
-
-
     <script type="text/template" id="visit-viewer-template">
         <div id="sidebar">
         </div>
@@ -285,10 +285,10 @@
         <h1><%= Name %></h1>
         <div class="visit-info">
             On <b><%= Start.format('MMMM Do YYYY') %></b>
-            at <b><%= Start.format('h:mm a') %></b>,
+            at <b><%= Start.format('h:mm:ss a') %></b>,
             <b><%= Mentor.get('User').get('name') %></b> visited 
             <%= getKidListString(Kids, 'FirstName')%>
-            for <b><%= moment.duration(End.diff(Start)).humanize()%></b>.
+            for <b><%= moment.duration(End.diff(Start)).humanize() %></b>.
         </div>
         <div id="map">
         </div>
