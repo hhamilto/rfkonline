@@ -127,16 +127,12 @@ $(function() {
                 case "visits":
                     $("#visitTopNav").addClass("active");
                     break;
-                case "mentors":
-                    $("#mentorsTopNav").addClass("active");
-                    break;
-                case "directors":
-                    $("#directorsTopNav").addClass("active");
+                case "admin":
+                    $("#adminTopNav").addClass("active");
                     break;
                 default:
                     // default to visit view
                     $("#visitTopNav").addClass("active");
-                    break;
                     break;
             }
         }
@@ -623,8 +619,7 @@ $(function() {
     var AppRouter = Parse.Router.extend({
         routes: {
             "visits": "visitPage",
-            "mentors": "manageMentors",
-            "directors": "directorsPanel",
+            "admin": "adminPanel",
             "*actions": "visitPage" // Backbone will try match the route above first
         }
     });
@@ -636,14 +631,9 @@ $(function() {
         mainView.dashboard.highlight("visits");
     });
 
-    app_router.on('route:manageMentors', function () {
+    app_router.on('route:adminPanel', function () {
         new ManageMentorsView();
-        mainView.dashboard.highlight("mentors");
-    });
-
-    app_router.on('route:directorsPanel', function () {
-        new DirectorsPanelView();
-        mainView.dashboard.highlight("directors");
+        mainView.dashboard.highlight("admin");
     });
 
     // Start history a necessary step for bookmarkable URL's
