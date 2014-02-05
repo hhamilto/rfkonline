@@ -225,21 +225,6 @@ $(function() {
         }
     });
 
-    var DirectorsPanelView = Parse.View.extend({
-        template: _.template($("#directors-panel-template").html()),
-        el: "#dashboardContainer",
-        events: {
-        },
-        initialize: function(){
-            _.bindAll(this, 'render');            
-            this.$el.html(this.template());
-            this.render;
-        },
-        render: function() {
-            
-        }
-    });
-
     var ManageMentorRowView = Parse.View.extend({
         events: {
             "click .edit-mentor":   "toggleEdit",
