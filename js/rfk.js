@@ -139,7 +139,7 @@ $(function() {
     });
 
     var ManageMentorsView = Parse.View.extend({
-        template: _.template($("#manage-mentors-template").html()),
+        template: _.template($("#admin-template").html()),
         el: "#dashboardContainer",
         events: {
             "click #addMentorToggle":   "toggleAdd",

@@ -103,7 +103,45 @@
         </div>
     </script>
 
-    <script type="text/template" id="manage-mentors-template">
+    <script type="text/template" id="admin-template">
+        THIS IS ADMIN
+    </script>
+
+    <script type="text/template" id="admin-list-view-template">
+        THIS IS 
+    </script>
+
+    <script type="text/template" id="admin-director-list-item-template">
+        THIS IS 
+    </script>
+
+    <script type="text/template" id="admin-mentor-list-item-template">
+        THIS IS 
+    </script>
+
+    <script type="text/template" id="admin-kid-list-item-template">
+        THIS IS 
+    </script>
+
+    <script type="text/template" id="admin-director-detail-template">
+        THIS IS 
+    </script>
+
+    <script type="text/template" id="admin-mentor-detail-template">
+        THIS IS 
+    </script>
+
+    <script type="text/template" id="admin-kid-detail-template">
+        THIS IS 
+    </script>
+
+    <script type="text/template" id="admin-add-organization-template">
+        THIS IS 
+    </script>
+
+
+
+    <!--<script type="text/template" id="manage-mentors-template">
         <div id="manageMentorsContainer">
             <h1>Manage Mentors</h1>
             <table class="table table-striped" id="manageMentorsTable">
@@ -117,9 +155,11 @@
             </table>
         </div>
     </script>
+    -->
 
+<!--
     <script type="text/template" id="directors-panel-row-template">
-    <!--s/*
+    
         <tr class="addAllMentors">
             <td><input name="mentorName" type="text" value="<%=User.get('name')%>" placeholder="Name" class="form-control" /></td>
             <td><%='Username'%></td>
@@ -131,9 +171,8 @@
                 <button type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-remove"></i></button>
             </td>
         </tr>
-        */-->
     </script>
-
+    
     <script type="text/template" id="manage-mentor-row-template">
         <tr parsley-validate parsley-bind>
             <td>
@@ -189,7 +228,7 @@
                     <i class="glyphicon glyphicon-ok-sign"></i> Save Mentor 
                 </button>
                 <%if(!newForm) {%>
-                    <!-- this uses css transforms to change repeat into undo -->
+                    //this uses css transforms to change repeat into undo 
                     <button type="button" class="btn btn-default cancel-edit-mentor" title="cancel"><i class="glyphicon glyphicon-repeat"></i></button>
                 <%}%>
                 <%}else{%>
@@ -199,22 +238,7 @@
             </td>
         </tr>
     </script>
-
-<!-- THIS TEMPLATE IS A DUPLICATE - Probaby just delete it...
-
-    <script type="text/template" id="manage-mentor-row-template">
-        <tr class="addAllMentors">
-            <td><input name="mentorName" type="text" value="<%=User.get('name')%>" placeholder="Name" class="form-control" /></td>
-            <td><%='Username'%></td>
-            <td><%='Phone Number'%></td>
-            <td><%='Address'%></td>
-            <td><span class="smallProfilePicture" style="background-image:url('<%= User.get('Photo').url %>');"></span></td>
-            <td>
-                <button type="button" class="btn btn-default" title="edit"><i class="glyphicon glyphicon-pencil"></i></button>
-                <button type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-remove"></i></button>
-            </td>
-        </tr>
-    </script> -->
+    -->
 
     <script type="text/template" id="visit-viewer-template">
         <div id="sidebar">
@@ -238,7 +262,7 @@
         </ul>
         <div class="clear-fix"/>
     </script>
-    
+    <!--
     <script type="text/template" id="mentor-item-template">
         <li class="mentor">
             <div class="mentor-name">
@@ -249,6 +273,7 @@
             </ul>
         </li>
     </script>
+    -->
     
     <script type="text/template" id="visit-item-template">
         <li class="li-visit"><%= Name %></li>
