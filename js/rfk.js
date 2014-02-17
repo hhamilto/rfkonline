@@ -161,8 +161,8 @@ $(function() {
 
 
 	var AdminListView = Parse.View.extend({
-		template: _.template($("#admin-template").html()),
-		el: "#dashboardContainer",
+		template: _.template($("#admin-list-pane-template").html()),
+		el: "#adminListPane",
 		initialize: function() {
 			_.bindAll(this, "render");
 			this.render();
@@ -174,7 +174,7 @@ $(function() {
 
 	var AdminMentorDetailView = Parse.View.extend({
 		template: _.template($("#admin-mentor-detail-template").html()),
-		el: "#adminDetailPane",
+		el: "#adminListPane",
 
 		model: {},
 		events: {},
