@@ -1,288 +1,288 @@
 /* Please alphabetize CSS so it is easier to search through, thanks :) */
 
 html {
-    width: 100%;
-    height:100%;
+	width: 100%;
+	height:100%;
 }
 
 /* 400px screen resolution & bigger display the background image */
 @media (min-width: 400px) {
-    body { 
-        background: url("../img/bg.jpg") no-repeat center center fixed; 
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-        height: 100%;
-    }
+	body { 
+		background: url("../img/bg.jpg") no-repeat center center fixed; 
+		-webkit-background-size: cover;
+		-moz-background-size: cover;
+		-o-background-size: cover;
+		background-size: cover;
+		height: 100%;
+	}
 }
 
 body {
-    background-color:transparent !important;
-    height: 100%;
+	background-color:transparent !important;
+	height: 100%;
 }
 
 .content {
-    position: absolute;
-    left:0;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
+	position: absolute;
+	left:0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: 100%;
 }
 
 #mainApp {
-    width: 100%;
-    height: 100%;
+	width: 100%;
+	height: 100%;
 }
 
 /************************************************
 Login stuff
 ************************************************/
 #loginFormGroup .popover-content{
-    color: red;
+	color: red;
 }
 
 /************************************************
 Dashboard Container
 ************************************************/
 #dashboardContainer {
-    position: absolute;
-    left:0;
-    bottom: 0;
-    top: 50px;
-    right:0;
-    background-color: #fff;
+	position: absolute;
+	left:0;
+	bottom: 0;
+	top: 50px;
+	right:0;
+	background-color: #fff;
 }
 
 #signoutButton {
-    /*margin-right:7px;*/
-    background-color: #222;
-    color:white;
+	/*margin-right:7px;*/
+	background-color: #222;
+	color:white;
 }
 
 #signoutButton:hover {
-    background-color: #000;
-    color:white;
+	background-color: #000;
+	color:white;
 }
 
 /************************************************
 Visit Viewer View
 ************************************************/
 #logitem-list {
-    list-style:none;
+	list-style:none;
 }
 
 .li-visit:hover{
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
 #map{
-    width: 100%;
-    height:400px;
-    background-image: url('../img/spinner.gif');
-    background-repeat: no-repeat;
-    background-position: center;
+	width: 100%;
+	height:400px;
+	background-image: url('../img/spinner.gif');
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 #map > div{
-    height:100%;
+	height:100%;
 }
 
 .mentor {
-    display:block;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    padding:10px 0 0;
+	display:block;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	padding:10px 0 0;
 }
 
 .smallProfilePicture {
-    display:inline-block;
-    width:60px;
-    height:60px;
-    border-radius:30px;
-    background-size:cover;
-    vertical-align:middle;
-    border:1px solid #2c4762;
+	display:inline-block;
+	width:60px;
+	height:60px;
+	border-radius:30px;
+	background-size:cover;
+	vertical-align:middle;
+	border:1px solid #2c4762;
 }
 
 #mentorNav {
-    margin-bottom: 0px;
+	margin-bottom: 0px;
 }
 
 #sidebar {
-    width:30%;
-    background:#2c4762;
-    height:100%;
-    position:absolute;
-    top:0;
-    bottom:0;
-    left:0;
+	width:30%;
+	background:#2c4762;
+	height:100%;
+	position:absolute;
+	top:0;
+	bottom:0;
+	left:0;
 }
 
 #sidebar ul{
-    list-style-type: none;
+	list-style-type: none;
 }
 
 #sidebar ul li{
-    cursor: pointer;
+	cursor: pointer;
 }
 
 #mentorlistfilter{
-    padding:5px;
-    box-shadow: 0 7px 13px -10px #000;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1;
+	padding:5px;
+	box-shadow: 0 7px 13px -10px #000;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	z-index: 1;
 }
 
 #mentorlistfilter .input-group-addon{
-    background: #2c4762;
-    color:white;
-    border-right: none;
-    padding-top: 4px;
-    position: static;
+	background: #2c4762;
+	color:white;
+	border-right: none;
+	padding-top: 4px;
+	position: static;
 }
 
 #searchInput {
-    background: #2c4762;
-    float:left;
-    color: #FFF;
-    border-left: none;
+	background: #2c4762;
+	float:left;
+	color: #FFF;
+	border-left: none;
 }
 
 #searchInput:focus{
-    box-shadow: none;
-    border: 1px solid #CCCCCC;
-    border-left: none;
+	box-shadow: none;
+	border: 1px solid #CCCCCC;
+	border-left: none;
 }
 
 #searchButton {
-    width:19%;
-    float:right;
-    margin-right:1%;
+	width:19%;
+	float:right;
+	margin-right:1%;
 }
 
 #mentor-list {
-    color: white;
-    width: 100%;
-    padding: 0 10px 5px 10px;
-    list-style: none;
-    position: absolute;
-    top: 45px;
-    bottom: 0px;
-    margin: 0;
-    overflow-y: scroll;
-    z-index: 0;
+	color: white;
+	width: 100%;
+	padding: 0 10px 5px 10px;
+	list-style: none;
+	position: absolute;
+	top: 45px;
+	bottom: 0px;
+	margin: 0;
+	overflow-y: scroll;
+	z-index: 0;
 }
 
 .mentor-name {
-    font-size:22px;
-    height:60px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+	font-size:22px;
+	height:60px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 .mentor-name:hover {
-    color:#D1D1D1;
-    text-shadow:0px 0px 2px #000;
+	color:#D1D1D1;
+	text-shadow:0px 0px 2px #000;
 }
 
 #visit {
-    margin:0 auto;
-    max-width:960px;
+	margin:0 auto;
+	max-width:960px;
 }
 
 #main-pane-welcome{
-    font-size: 110px;
-    color:#BBB;
+	font-size: 110px;
+	color:#BBB;
 }
 
 #logitem-list{
-    padding:0;
+	padding:0;
 }
 
 #no-comments{
-    font-size:22px;
-    color:#999;
-    text-align: center;
+	font-size:22px;
+	color:#999;
+	text-align: center;
 }
 
 .visitComment, .visitPhoto {
-    width:80%;
-    margin:10px auto;
+	width:80%;
+	margin:10px auto;
 }
 
 .visitComment span, .visitPhoto span {
-    display:block;
-    font-weight:bold;
+	display:block;
+	font-weight:bold;
 }
 
 #visitLog {
-    width:100%;
-    margin:10px 0 0;
-    padding:0;
+	width:100%;
+	margin:10px 0 0;
+	padding:0;
 }
 
 .visitPhoto img.thumbnail {
-    margin:0;
-    display:block;
-    width:20%;
+	margin:0;
+	display:block;
+	width:20%;
 }
 
 #visit-wrapper{
-    right:0;
-    width:70%;
-    padding: 10px;
-    position: absolute;
-    top:0;
-    bottom:0;
-    background: white;
-    overflow-y: scroll;
-    float:right;
+	right:0;
+	width:70%;
+	padding: 10px;
+	position: absolute;
+	top:0;
+	bottom:0;
+	background: white;
+	overflow-y: scroll;
+	float:right;
 }
 
 .visit-list{
-    width:95%;
-    max-height: 0px;
-    overflow: hidden;
+	width:95%;
+	max-height: 0px;
+	overflow: hidden;
 }
 
 .visit-list li:before { 
-    content: "";
-    border-color: transparent #fff;
-    border-style: solid;
-    border-width: 0.35em 0 0.35em 0.45em;
-    display: block;
-    max-height: 0;
-    width: 0;
-    left: -1em;
-    top: 0.9em;
-    position: relative;
+	content: "";
+	border-color: transparent #fff;
+	border-style: solid;
+	border-width: 0.35em 0 0.35em 0.45em;
+	display: block;
+	max-height: 0;
+	width: 0;
+	left: -1em;
+	top: 0.9em;
+	position: relative;
 }
 
 .visit-list li.emptyItem:before {
-    border-color:transparent;
+	border-color:transparent;
 }
 
 .visit-list li.emptyItem:hover {
-    cursor:default !important;
+	cursor:default !important;
 }
 
 .expanded {
-    max-height: 10000px;
+	max-height: 10000px;
 }
 
 .visit-list:first-child {
-    margin-top: 10px;
+	margin-top: 10px;
 }
 
 /************************************************
@@ -294,22 +294,22 @@ Admin
 Admin Detail
 ************************************************/
 #adminDetailPane {
-    width: 50%;
-    top: 70px;
-    position: absolute;
-    right: 0;
-    bottom: 0;
+	width: 50%;
+	top: 70px;
+	position: absolute;
+	right: 0;
+	bottom: 0;
 }
 
 /************************************************
 Admin List
 ************************************************/
 #adminListPane {
-    width: 50%;
-    top: 70px;
-    position: absolute;
-    left: 0;
-    bottom: 0;
+	width: 50%;
+	top: 70px;
+	position: absolute;
+	left: 0;
+	bottom: 0;
 }
 
 /************************************************
@@ -317,8 +317,8 @@ Utility functions and misc cruft
 ************************************************/
 
 .transition-max-height {
-    -webkit-transition: max-height 1.5s ease;
-    -moz-transition: max-height 1.5s ease;
-    -o-transition:  max-height 1.5s ease;
-    transition:  max-height 1.5s ease !important;
+	-webkit-transition: max-height 1.5s ease;
+	-moz-transition: max-height 1.5s ease;
+	-o-transition:  max-height 1.5s ease;
+	transition:  max-height 1.5s ease !important;
 }
