@@ -47,7 +47,7 @@ $(function() {
         // the App already present in the HTML.
         el: $("#mainApp"),
         initialize: function() {
-            this.render();            
+            this.render();
         },
         render: function() {
             if (Parse.User.current()) {
@@ -145,6 +145,28 @@ $(function() {
         events: {},
         initialize: function() {
             _.bindAll(this, "render");
+            this.render();
+            new AdminMentorDetailView();
+        },
+        render: function() {
+            this.$el.html(this.template());
+        }
+    });
+
+        var AdminMentorDetailView = Parse.View.extend({
+        template: _.template($("#admin-mentor-detail-template").html()),
+        el: "#adminDetailPane",
+        model: {},
+        events: {},
+        initialize: function() {
+            _.bindAll(this, "render");
+
+            this.$el.html(this.template());
+
+            // get mentor details
+            var mentor = Parse.Object.extend("User");
+			var query = new Parse.Query(GameScore);
+
             this.render();
         },
         render: function() {
