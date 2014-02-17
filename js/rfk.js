@@ -137,7 +137,22 @@ $(function() {
             }
         }
     });
+    
+    var AdminView = Parse.View.extend({
+        template: _.template($("#admin-template").html()),
+        el: "#dashboardContainer",
+        model: {},
+        events: {},
+        initialize: function() {
+            _.bindAll(this, "render");
+            this.render();
+        },
+        render: function() {
+            this.$el.html(this.template());
+        }
+    });
 
+/* DELETE THESE AFTER A FEW COMMITS
     var ManageMentorsView = Parse.View.extend({
         template: _.template($("#admin-template").html()),
         el: "#dashboardContainer",
@@ -189,8 +204,8 @@ $(function() {
                 }
             });
         },
-        /*for the toggle down visits functionality*/
-        toggleAdd: function(){
+        //for the toggle down visits functionality
+        tggleAdd: function(){
             // slides the add mentor table row up and down
             $('.toggleRow').stop().slideToggle(300);
             
@@ -267,7 +282,7 @@ $(function() {
             this.delegateEvents();
         }
     });
-
+    */
     var VisitViewerView = Parse.View.extend({
         template: _.template($("#visit-viewer-template").html()),
         el: "#dashboardContainer",
@@ -369,7 +384,7 @@ $(function() {
             // Fetch all the todo items for this user
             this.visits.fetch();
         },
-        /*for the toggle down visits functionality*/
+        // for the toggle down visits functionality
         toggleVisits: function(){
             this.open = !this.open;
             this.$(".visit-list").toggleClass("expanded", open);
@@ -617,7 +632,7 @@ $(function() {
     });
 
     app_router.on('route:adminPanel', function () {
-        new ManageMentorsView();
+        new AdminView();
         mainView.dashboard.highlight("admin");
     });
 

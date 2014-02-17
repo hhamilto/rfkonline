@@ -53,6 +53,7 @@ Dashboard Container
     bottom: 0;
     top: 50px;
     right:0;
+    background-color: #fff;
 }
 
 #signoutButton {
@@ -131,17 +132,6 @@ Visit Viewer View
 #sidebar ul li{
     cursor: pointer;
 }
-
-/*jankiest bit of code in this file*
-    height: 43px;
-    background: #2c4762;
-    position: absolute;
-    padding: 5px 0;
-    top:0;
-    left:0;
-    right:18px;
-    z-index: 1;
-}*/
 
 #mentorlistfilter{
     padding:5px;
@@ -296,148 +286,31 @@ Visit Viewer View
 }
 
 /************************************************
-Manage Mentors
+Admin
 ************************************************/
-#manageMentorsContainer {
-    background: white;
-    width: 100%;
-    height: 100%;
-    overflow-y: scroll;
-    overflow-x: hidden;
-}
 
-#manageMentorsContainer > h1 {
-    color:white;
-    background-color: #2C4762;
-    margin:0;
-    padding:20px 10px 17px 10px;
-}
-
-#manageMentorsTable {
-    width:100%;
-}
-
-#manageMentorsTable td, #manageMentorsTable th{
-    vertical-align: middle;
-    width:16.666%;
-    font-weight: bold;
-}
-
-#manageMentorsTable #mentorAddRow {
-    max-height:10000px;
-}
-
-#manageMentorsTable #mentorAddRow td{
-    vertical-align: top;
-    padding:0;
-}
-
-#manageMentorsTable tr th {
-    vertical-align: middle;
-    color:white;
-    background-color: #2C4762;
-}
-
-#manageMentorsTable #mentorAddRow td:last-child{
-    vertical-align: bottom;
-}
-
-/*
-#manageMentorsTable tr:nth-child(n+3) button{
-    color: white;
-}
-
-#manageMentorsTable tr:nth-child(n+3) button:hover{
-    color: black;
-}*/
-
-#manageMentorsTable tr:nth-child(n+3) button.delete-mentor:hover{
-    color: red;
-}
-
-#manageMentorsTable button.cancel-edit-mentor{
-    transform: scaleX(-1);
-}
-#manageMentorsTable tr button.cancel-edit-mentor:hover{
-    color: rgb(0,0,160);
-}
-
-.smallInput {
-    display:inline;
-    width:50%;
-    float:left;
-}
-
-#manageMentorsTable .parsley-error-list {
-    margin-top:6px;
-    padding:2px;
-    list-style-type: none;
-    position: absolute;
-    background: #FCC; 
-    border-radius: 5px;
-    border: 1px solid #FAA;
-    width: 200px;
-}
-
-#manageMentorsTable .parsley-error-list li {
-}
-
-.toggleRow {
-    height:100%;
-    display:none;
-}
-
-/*
-#manageMentorsTable .glyphicon:hover{
-    font-size: 30px;
-    width:30px;
-    height:30px;
-    cursor: pointer;
-    border-radius: 5px;
-    background-color: #DDD;
-}*/
 
 /************************************************
-Directors Panel
+Admin Detail
 ************************************************/
-
-#directorsPanelContainer {
-    background: white;
-    width: 100%;
-    height: 100%;
-    overflow-y: scroll;
-    overflow-x: hidden;
+#adminDetailPane {
+    width: 50%;
+    top: 70px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
 }
 
-#directorsPanelContainer > h1{
-    color:white;
-    background-color: #2C4762;
-    margin:0;
-    padding:20px 10px 17px 10px;
+/************************************************
+Admin List
+************************************************/
+#adminListPane {
+    width: 50%;
+    top: 70px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
 }
-
-#directorsTable, #regionsTable {
-    width:100%;
-}
-
-#directorsTable td, #directorsTable th{
-    vertical-align: middle;
-    width:14.285%;
-    font-weight: bold;
-}
-
-#regionsTable td, #regionsTable th{
-    vertical-align: middle;
-    /*width:14.285%; */
-    font-weight: bold;
-}
-
-#directorsTable tr th, #regionsTable tr th {
-    vertical-align: middle;
-    color:white;
-    background-color: #2C4762;
-}
-
 
 /************************************************
 Utility functions and misc cruft
