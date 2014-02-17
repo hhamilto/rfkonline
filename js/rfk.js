@@ -146,6 +146,23 @@ $(function() {
         initialize: function() {
             _.bindAll(this, "render");
             this.render();
+            new AdminMentorDetailView();
+            new AdminListView();
+        },
+        render: function() {
+            this.$el.html(this.template());
+        }
+    });
+
+    var AdminListView = Parse.View.extend({
+        template: _.template($("#admin-template").html()),
+        el: "#dashboardContainer",
+        model: {},
+        events: {},
+        initialize: function() {
+            _.bindAll(this, "render");
+            this.render();
+            new 
         },
         render: function() {
             this.$el.html(this.template());
