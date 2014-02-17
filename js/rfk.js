@@ -148,9 +148,16 @@ $(function() {
 			this.render();
 
 			// get mentor details
-			//var mentor = Parse.Object.extend("User");
-			//var query = new Parse.Query(GameScore);
-			new AdminMentorDetailView();
+			var query = new Parse.Query(Mentor);
+			query.include("User");
+			query.get("ndLs8W0xok", {
+				success: function(mentor) {
+					new AdminMentorDetailView({model: mentor});
+				},
+				error: function(object, error) {
+					alert("There was an error fetching this mentor.");
+				}
+			});
 
 			new AdminListView();
 		},
@@ -175,17 +182,16 @@ $(function() {
 	var AdminMentorDetailView = Parse.View.extend({
 		template: _.template($("#admin-mentor-detail-template").html()),
 		el: "#adminDetailPane",
-
-		model: {},
 		events: {},
 		initialize: function() {
 			_.bindAll(this, "render");
 
+			this.model.get("User").get("username");
 
 			this.render();
 		},
 		render: function() {
-			this.$el.html(this.template());
+			this.$el.html(this.template(this.model));
 		}
 	});
 

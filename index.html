@@ -133,11 +133,14 @@
 	</script>
 
 	<script type="text/template" id="admin-director-detail-template">
-		THIS IS DIRECTOR DETAIL 
+		THIS IS DIRECTOR DETAIL
 	</script>
 
 	<script type="text/template" id="admin-mentor-detail-template">
-		THIS IS MENTOR DETAIL
+		<h1><%= get("User").get("name") %></h1>
+		<img src="<%= get('User').get('Photo').url() %>" />
+
+
 	</script>
 
 	<script type="text/template" id="admin-kid-detail-template">
