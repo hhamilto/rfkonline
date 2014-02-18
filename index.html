@@ -104,7 +104,7 @@
 	</script>
 
 	<script type="text/template" id="admin-template">
-		<div id="adminListPane">
+		<div id="adminListPane" class="">
 		</div>
 		<div id="adminDetailPane">
 			Select a person from the list
@@ -113,11 +113,12 @@
 
 	<script type="text/template" id="admin-list-pane-template">
 		<div id="adminListFilterControls">
-			<button class="btn active">Mentors</button>
-			<button class="btn active">Directors</button>
-			<button class="btn active">Kids</button>
+			<button class="btn btn-xs active">Mentors</button>
+			<button class="btn btn-xs active">Directors</button>
+			<button class="btn btn-xs active">Kids</button>
 		</div>
-		<div>kid1</div>
+		<ul id="adminList">
+		</ul>
 	</script>
 
 	<script type="text/template" id="admin-director-list-item-template">
@@ -125,7 +126,9 @@
 	</script>
 
 	<script type="text/template" id="admin-mentor-list-item-template">
-		THIS IS MENTOR LIST ITEM
+		<li>
+			
+		<li>
 	</script>
 
 	<script type="text/template" id="admin-kid-list-item-template">
