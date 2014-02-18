@@ -301,6 +301,20 @@ Admin Detail
 	bottom: 0;
 }
 
+#adminDetailPane h1 {
+	margin: 0 auto;
+	text-align: center;
+}
+
+#adminDetailPane img {
+	width: 50px;
+}
+
+.center {
+	margin: 0 auto;
+	display: block;
+}
+
 /************************************************
 Admin List
 ************************************************/
