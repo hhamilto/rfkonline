@@ -306,6 +306,15 @@ Admin Detail
 	text-align: center;
 }
 
+#adminDetailPane img {
+	width: 50px;
+}
+
+.center {
+	margin: 0 auto;
+	display: block;
+}
+
 /************************************************
 Admin List
 ************************************************/
