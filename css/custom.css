@@ -339,6 +339,31 @@ Admin List
 	width: 100%;
 	bottom: 0px;
 	overflow-y: scroll;
+	list-style-type: none;
+	padding:5px;
+}
+
+#adminList > li {
+	cursor: pointer;
+}
+
+#adminList > li > span {
+	font-size: 20px;
+	padding: 3px 5px;
+}
+
+#adminList > li.beingViewed > span {
+	background: #DDD;
+	border-radius: 3px;
+	padding: 2px 4px;
+	border: 1px solid #CCC;
+}
+
+#adminList > li:hover > span {
+	background: #EEE;
+	border-radius: 3px;
+	padding: 2px 4px;
+	border: 1px solid #DDD;
 }
 
 /************************************************

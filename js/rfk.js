@@ -146,19 +146,6 @@ $(function() {
 		initialize: function() {
 			_.bindAll(this, "render");
 			this.render();
-
-			// get mentor details
-			var query = new Parse.Query(Mentor);
-			query.include("User");
-			query.get("ndLs8W0xok", {
-				success: function(mentor) {
-					new AdminMentorDetailView({model: mentor});
-				},
-				error: function(object, error) {
-					alert("There was an error fetching this mentor.");
-				}
-			});
-
 			new AdminListView();
 		},
 		render: function() {
@@ -172,7 +159,7 @@ $(function() {
 		el: "#adminListPane",
 		includeMentors: true, includeDirectors: true, includeKids: true,
 		initialize: function() {
-			_.bindAll(this, 'render', 'getUserObjects', 'toggleUserInclude');
+			_.bindAll(this, 'render', 'getUserObjects', 'toggleUserInclude', 'clearViewHighlight');
 			this.$el.html(this.template());
 			this.list = [];
 			this.getUserObjects();
@@ -190,7 +177,7 @@ $(function() {
 				mentors.query.include('User.Address');
 				mentors.bind('add',     function(){alert('add')}.bind(this));
 				mentors.bind('reset', function(toAdd){
-						toAdd.models.map(function(e){this.list.push(e)}.bind(this));
+						toAdd.models.map(function(e){this.list.push({model:e})}.bind(this));
 						this.list.sort(function(a,b){
 							return a.get('User').get('username').localeCompare(
 									b.get('User').get('username'));
@@ -205,13 +192,20 @@ $(function() {
 			}
 			var listLatch = latch(latchCount,this,this.render);
 		},
-
+		clearViewHighlight: function(){
+			this.list.map(function(user){
+				if(user.view.beingViewed){
+					user.view.beingViewed = false;
+					user.view.render();
+				}
+			});
+		},
 		render: function() {
 			this.$el.find('#adminList').html('');
 			this.list.map(function(user){
-				if(user instanceof Mentor){
+				if(user.model instanceof Mentor){
 					var el = this.$el.find('#adminList').append('<li></li>').find('li').last();
-					new AdminMentorListItemView({model: user, el: el});
+					user.view = new AdminMentorListItemView({model: user.model, el: el, parentList: this});
 				}
 			}.bind(this));
 		}
@@ -219,12 +213,24 @@ $(function() {
 
 	var AdminMentorListItemView = Parse.View.extend({
 		template: _.template($("#admin-mentor-list-item-template").html()),
-		initialize: function() {
-			_.bindAll(this, "render");
+		events: {
+			"click":   "openDetail"
+		},
+		beingViewed: false,
+		initialize: function(options) {
+			_.bindAll(this, "render", "openDetail");
+			this.render();
+			this.parentList = options.parentList;
+		},
+		openDetail: function(){
+			new AdminMentorDetailView({model: this.model});
+			this.parentList.clearViewHighlight();
+			this.beingViewed = true;
 			this.render();
 		},
 		render: function() {
 			this.$el.html(this.template(this.model));
+			if(this.beingViewed) this.$el.addClass('beingViewed');
 		}
 	});
 
