@@ -170,12 +170,61 @@ $(function() {
 	var AdminListView = Parse.View.extend({
 		template: _.template($("#admin-list-pane-template").html()),
 		el: "#adminListPane",
+		includeMentors: true, includeDirectors: true, includeKids: true,
+		initialize: function() {
+			_.bindAll(this, 'render', 'getUserObjects', 'toggleUserInclude');
+			this.$el.html(this.template());
+			this.list = [];
+			this.getUserObjects();
+		},
+		toggleUserInclude: function(userType){
+
+		},
+		getUserObjects: function(){
+			var latchCount = 0;
+			if(this.includeMentors){
+				latchCount++;
+				var mentors = new MentorList;
+				mentors.query = new Parse.Query(Mentor);
+				mentors.query.include("User");
+				mentors.query.include('User.Address');
+				mentors.bind('add',     function(){alert('add')}.bind(this));
+				mentors.bind('reset', function(toAdd){
+						toAdd.models.map(function(e){this.list.push(e)}.bind(this));
+						this.list.sort(function(a,b){
+							return a.get('User').get('username').localeCompare(
+									b.get('User').get('username'));
+						});
+						listLatch();
+					}.bind(this));
+				mentors.fetch();
+			}
+			if(this.includeDirectors){
+			}
+			if(this.includeKids){
+			}
+			var listLatch = latch(latchCount,this,this.render);
+		},
+
+		render: function() {
+			this.$el.find('#adminList').html('');
+			this.list.map(function(user){
+				if(user instanceof Mentor){
+					var el = this.$el.find('#adminList').append('<li></li>').find('li').last();
+					new AdminMentorListItemView({model: user, el: el});
+				}
+			}.bind(this));
+		}
+	});
+
+	var AdminMentorListItemView = Parse.View.extend({
+		template: _.template($("#admin-mentor-list-item-template").html()),
 		initialize: function() {
 			_.bindAll(this, "render");
 			this.render();
 		},
 		render: function() {
-			this.$el.html(this.template());
+			this.$el.html(this.template(this.model));
 		}
 	});
 
@@ -605,11 +654,11 @@ $(function() {
 			this.Comments.fetch();
 			this.latch = latch(2,this,function(collection1, collection2){
 				if(collection1.length+collection2.length == 0){
-					// hack in a 'yo,homes we don't got no comments'
+					// hack in a 'yo, homes we don't got no comments'
 					// legitimately, this sucks and is horrible and should be in a view.
 					$('#logitem-list').append('<li id="no-comments" class="visitComment">&laquo; No comments were made on this visit &raquo;</li>');
 				}
-				/* DE-IMBECILE collections. seriously, how is it to *actually* 
+				/* DE-IMBECILE collections. seriously, how hard is it to *actually* 
 				  implment the backbone interface you say you implement in your effing docs!?!?*/
 				collection1.unshift = function(){
 					var toReturn = this.at(0);

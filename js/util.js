@@ -53,13 +53,10 @@ function getKidListString(collection, attribute){
 }
 
 function latch(n, self, callback , args){
-    //if we don't need 'this' context, shift params
-    if(!callback){
-        callback = self;
-        args = callback;
-    }
     args = args || [];
     var count = 0;
+    if(count == n)
+        callback.apply(self, args);
     return function(arg){
         args.push(arg);
         count++;
