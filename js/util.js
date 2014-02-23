@@ -1,22 +1,3 @@
-/*
-	How to add a user to the director role :)
-
-	var roleQuery = new Parse.Query(Parse.Role);
-	roleQuery.equalTo("name", "Director");
-	roleQuery.find({
-		success: function(role){
-			var query = new Parse.Query(Parse.User);
-			query.equalTo("username", "director"); 
-			query.find({
-				success: function(director) {
-					role[0].getUsers().add(director[0]);
-					role[0].save();
-				}
-			});     
-		}
-	});
-*/
-
 jQuery.fn.shake = function(intShakes, intDistance, intDuration) {
 	this.each(function() {
 		$(this).css("position","relative"); 
@@ -93,4 +74,21 @@ function getSafely(def){
 		retVal = temp;
 	}
 	return retVal;
+}
+
+function addUserToRole(user, role){
+	var roleQuery = new Parse.Query(Parse.Role);
+	roleQuery.equalTo("name", role);
+	roleQuery.find({
+		success: function(role){
+			var query = new Parse.Query(Parse.User);
+			query.equalTo("username", user); 
+			query.find({
+				success: function(director) {
+					role[0].getUsers().add(director[0]);
+					role[0].save();
+				}
+			});
+		}
+	});
 }
