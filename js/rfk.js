@@ -163,6 +163,19 @@ $(function() {
 			this.$el.html(this.template());
 			this.list = [];
 			this.getUserObjects();
+
+
+			/* FOR TESTING KID VIEW ... until hurricane finally gets it to work...
+			var query = new Parse.Query(Kid);
+			query.get("UyBWSI1f0B", {
+				success: function(kid) {
+					new AdminKidDetailView({model: kid});
+				},
+				error: function(object, error) {
+					alert("There was an error fetching this kid.");
+				}
+			});
+			*/
 		},
 		toggleUserInclude: function(userType){
 
@@ -243,6 +256,22 @@ $(function() {
 			_.bindAll(this, "render");
 
 			this.model.Birth = moment(this.model.get("User").get("Birth"));
+
+			this.render();
+		},
+		render: function() {
+			this.$el.html(this.template(this.model));
+		}
+	});
+
+	var AdminKidDetailView = Parse.View.extend({
+		template: _.template($("#admin-kid-detail-template").html()),
+		el: "#adminDetailPane",
+		events: {},
+		initialize: function() {
+			_.bindAll(this, "render");
+
+			//this.model.Birth = moment(this.model.get("Kid").get("Birth"));
 
 			this.render();
 		},
