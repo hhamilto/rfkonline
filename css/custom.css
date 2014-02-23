@@ -314,6 +314,11 @@ Admin Detail
 	margin: 0 auto;
 	display: block;
 }
+.adminMoreDetails div {
+	width: 50%;
+	float: left;
+	text-align: center;
+}
 
 /************************************************
 Admin List
