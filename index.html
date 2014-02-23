@@ -162,6 +162,21 @@
 			<div>
 				<%= Birth.format('MMMM Do YYYY') %>
 			</div>
+			<div>
+				<%= get("User").get('username') %>
+			</div>
+		</div>
+		<div class="clearfix adminMoreDetails">
+			<div>
+				<%= get("User").get('email') %>
+			</div>
+			<div>
+				<%if(get("User").get('organization') != undefined){%>
+					<%= get("User").get('organization').get('Name')!=undefined ? get("User").get('organization').get('Name') :'' %>
+				<%}else{%>
+					No Organization
+				<%}%>
+			</div>
 		</div>
 	</script>
 
