@@ -175,6 +175,7 @@ $(function() {
 				mentors.query = new Parse.Query(Mentor);
 				mentors.query.include("User");
 				mentors.query.include('User.Address');
+				mentors.query.include("User.organization");
 				mentors.bind('add',     function(){alert('add')}.bind(this));
 				mentors.bind('reset', function(toAdd){
 						toAdd.models.map(function(e){this.list.push({model:e})}.bind(this));

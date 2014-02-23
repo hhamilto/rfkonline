@@ -318,6 +318,10 @@ Admin Detail
 	width: 50%;
 	float: left;
 	text-align: center;
+	padding: 0 0 10px 0;
+}
+.adminMoreDetails address {
+	margin: 0;
 }
 
 /************************************************
