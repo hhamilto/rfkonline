@@ -5,10 +5,8 @@ $(function() {
 	// Initialize Parse with your Parse application javascript keys
 	Parse.initialize("5vJjW6VAiJdfBqyIEGgenZEip26b2NC5aZdVrC9A",
 					 "cZbPecnNrzpf6NQkbwR09akfcZsfbH19Ps5hUBgf");
+
 	//Models
-	var Kid = Parse.Object.extend("Kid");
-	var Kid2Visit = Parse.Object.extend("Kid2Visit");
-	var Mentor = Parse.Object.extend("Mentor");
 	// I *UTTERLY DESPISE* parse for not providing a non-hacky, convient way 
 	// to set defaults for undefined attributes in fetched objects
 	var User = Parse.Object.extend("User", {
@@ -20,12 +18,18 @@ $(function() {
 			return retVal;
 		}
 	});
+
+	var Role = Parse.Object.extend("_Role");
+	var Kid = Parse.Object.extend("Kid");
+	var Kid2Visit = Parse.Object.extend("Kid2Visit");
+	var Mentor = Parse.Object.extend("Mentor");
 	var TravelPoint = Parse.Object.extend("TravelPoint");
 	var Visit = Parse.Object.extend("Visit");
 	var Comment = Parse.Object.extend("Comment");
 	var Photo = Parse.Object.extend("Photo");
 	
 	//Collections
+	var UserList = Parse.Collection.extend({ model: User });
 	var KidList = Parse.Collection.extend({ model: Kid });
 	var MentorList = Parse.Collection.extend({ model: Mentor });
 	var VisitList = Parse.Collection.extend({ model: Visit });
@@ -153,7 +157,6 @@ $(function() {
 		}
 	});
 
-
 	var AdminListView = Parse.View.extend({
 		template: _.template($("#admin-list-pane-template").html()),
 		el: "#adminListPane",
@@ -171,26 +174,50 @@ $(function() {
 			var latchCount = 0;
 			if(this.includeMentors){
 				latchCount++;
-				var mentors = new MentorList;
+				var mentors = new MentorList();
 				mentors.query = new Parse.Query(Mentor);
 				mentors.query.include("User");
 				mentors.query.include('User.Address');
 				mentors.bind('add',     function(){alert('add')}.bind(this));
 				mentors.bind('reset', function(toAdd){
 						toAdd.models.map(function(e){this.list.push({model:e})}.bind(this));
-						this.list.sort(function(a,b){
-							return a.get('User').get('username').localeCompare(
-									b.get('User').get('username'));
-						});
 						listLatch();
 					}.bind(this));
 				mentors.fetch();
 			}
 			if(this.includeDirectors){
+				latchCount++;
+				var directorRoleQuery = new Parse.Query(Role);
+				directorRoleQuery.equalTo("name", "Director");
+				directorRoleQuery.first({
+					success: function(role) {
+						var directors = new UserList();
+						directors.query = role.relation('users').query();
+						directors.bind('reset', function(toAdd){
+							toAdd.models.map(function(e){this.list.push({model:e})}.bind(this));
+							listLatch();
+						}.bind(this));
+						directors.fetch();
+					}.bind(this),
+					error: function(error) {
+						console.log("Error: " + error.code + " " + error.message);
+					}
+				});
 			}
 			if(this.includeKids){
 			}
-			var listLatch = latch(latchCount,this,this.render);
+			var listLatch = latch(latchCount, this, function(){
+				this.list.sort(function(a,b){
+					var getUsername = function(o){
+						if(o instanceof Mentor) return o.get('User').get('username');
+						if(o instanceof User) return o.get('username');
+						alert("couldn't get username"); return "";
+					};
+					return getUsername(b.model).localeCompare(
+							getUsername(a.model));
+				});
+				this.render()
+			}.bind(this));
 		},
 		clearViewHighlight: function(){
 			this.list.map(function(user){
@@ -206,13 +233,15 @@ $(function() {
 				if(user.model instanceof Mentor){
 					var el = this.$el.find('#adminList').append('<li></li>').find('li').last();
 					user.view = new AdminMentorListItemView({model: user.model, el: el, parentList: this});
+				}else if(user.model instanceof User){
+					var el = this.$el.find('#adminList').append('<li></li>').find('li').last();
+					user.view = new AdminDirectorListItemView({model: user.model, el: el, parentList: this});
 				}
 			}.bind(this));
 		}
 	});
 
-	var AdminMentorListItemView = Parse.View.extend({
-		template: _.template($("#admin-mentor-list-item-template").html()),
+	var AdminListItemView = Parse.View.extend({
 		events: {
 			"click":   "openDetail"
 		},
@@ -223,7 +252,7 @@ $(function() {
 			this.parentList = options.parentList;
 		},
 		openDetail: function(){
-			new AdminMentorDetailView({model: this.model});
+			new (this.detailview())({model: this.model});
 			this.parentList.clearViewHighlight();
 			this.beingViewed = true;
 			this.render();
@@ -232,6 +261,16 @@ $(function() {
 			this.$el.html(this.template(this.model));
 			if(this.beingViewed) this.$el.addClass('beingViewed');
 		}
+	});
+
+	var AdminDirectorListItemView = AdminListItemView.extend({
+		template: _.template($("#admin-director-list-item-template").html()),
+		detailview: function(){return AdminDirectorDetailView}
+	});
+
+	var AdminMentorListItemView = AdminListItemView.extend({
+		template: _.template($("#admin-mentor-list-item-template").html()),
+		detailview: function(){return AdminMentorDetailView}
 	});
 
 	var AdminMentorDetailView = Parse.View.extend({
