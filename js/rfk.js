@@ -5,6 +5,7 @@ $(function() {
 	// Initialize Parse with your Parse application javascript keys
 	Parse.initialize("5vJjW6VAiJdfBqyIEGgenZEip26b2NC5aZdVrC9A",
 					 "cZbPecnNrzpf6NQkbwR09akfcZsfbH19Ps5hUBgf");
+
 	//Models
 	var Kid = Parse.Object.extend("Kid");
 	var Kid2Visit = Parse.Object.extend("Kid2Visit");
