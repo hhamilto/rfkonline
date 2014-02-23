@@ -354,6 +354,7 @@ Admin List
 
 #adminList > li {
 	cursor: pointer;
+	margin:4px;
 }
 
 #adminList > li > span {

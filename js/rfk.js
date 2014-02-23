@@ -192,7 +192,6 @@ $(function() {
 				mentors.query.include("User");
 				mentors.query.include('User.Address');
 				mentors.query.include("User.organization");
-				mentors.bind('add',     function(){alert('add')}.bind(this));
 				mentors.bind('reset', function(toAdd){
 						toAdd.models.map(function(e){this.list.push({model:e})}.bind(this));
 						listLatch();
@@ -207,6 +206,8 @@ $(function() {
 					success: function(role) {
 						var directors = new UserList();
 						directors.query = role.relation('users').query();
+						directors.query.include('Address');
+						directors.query.include('organization');
 						directors.bind('reset', function(toAdd){
 							toAdd.models.map(function(e){this.list.push({model:e})}.bind(this));
 							listLatch();
@@ -219,16 +220,25 @@ $(function() {
 				});
 			}
 			if(this.includeKids){
+				latchCount++;
+				var kids = new KidList();
+				kids.query = new Parse.Query(Kid);
+				kids.bind('reset', function(toAdd){
+						toAdd.models.map(function(e){this.list.push({model:e})}.bind(this));
+						listLatch();
+					}.bind(this));
+				kids.fetch();
 			}
 			var listLatch = latch(latchCount, this, function(){
 				this.list.sort(function(a,b){
 					var getUsername = function(o){
-						if(o instanceof Mentor) return o.get('User').get('username');
-						if(o instanceof User) return o.get('username');
+						if(o instanceof Mentor) return o.get('User').get('name');
+						if(o instanceof User) return o.get('name');
+						if(o instanceof Kid) return o.get('FirstName');
 						alert("couldn't get username"); return "";
 					};
-					return getUsername(b.model).localeCompare(
-							getUsername(a.model));
+					return getUsername(a.model).trim().localeCompare(
+							getUsername(b.model).trim());
 				});
 				this.render()
 			}.bind(this));
@@ -250,6 +260,9 @@ $(function() {
 				}else if(user.model instanceof User){
 					var el = this.$el.find('#adminList').append('<li></li>').find('li').last();
 					user.view = new AdminDirectorListItemView({model: user.model, el: el, parentList: this});
+				}else if(user.model instanceof Kid){
+					var el = this.$el.find('#adminList').append('<li></li>').find('li').last();
+					user.view = new AdminKidListItemView({model: user.model, el: el, parentList: this});
 				}
 			}.bind(this));
 		}
@@ -285,6 +298,11 @@ $(function() {
 	var AdminMentorListItemView = AdminListItemView.extend({
 		template: _.template($("#admin-mentor-list-item-template").html()),
 		detailview: function(){return AdminMentorDetailView}
+	});
+
+	var AdminKidListItemView = AdminListItemView.extend({
+		template: _.template($("#admin-kid-list-item-template").html()),
+		detailview: function(){return AdminKidDetailView}
 	});
 
 	var AdminMentorDetailView = Parse.View.extend({
