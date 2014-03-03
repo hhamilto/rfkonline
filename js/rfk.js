@@ -298,9 +298,6 @@ $(function() {
 		events: {},
 		initialize: function() {
 			_.bindAll(this, "render");
-
-			this.model.Birth = moment(this.model.get("User").get("Birth"));
-
 			this.render();
 		},
 		render: function() {
@@ -315,9 +312,6 @@ $(function() {
 		events: {},
 		initialize: function() {
 			_.bindAll(this, "render");
-
-			//this.model.Birth = moment(this.model.get("Kid").get("Birth"));
-
 			this.render();
 		},
 		render: function() {
@@ -332,9 +326,6 @@ $(function() {
 		events: {},
 		initialize: function() {
 			_.bindAll(this, "render");
-
-			//this.model.Birth = moment(this.model.get("Kid").get("Birth"));
-
 			this.render();
 		},
 		render: function() {

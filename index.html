@@ -138,6 +138,7 @@
 		<h1><%= get("name") %></h1>
 		<div class="clearfix adminMoreDetails">
 			<div>
+				<span>Address:</span>
 				<%if(get('Address') != undefined){%>
 				<address>
 					<%= get('Address').get('Address')!=undefined? get("User").get('Address').get('Address') + '<br/>':'' %>
@@ -151,11 +152,13 @@
 				<%}%>
 			</div>
 			<div>
+				<span>Phone Number:</span>
 				<%= get("phone") %>
 			</div>
 		</div>
 		<div class="clearfix adminMoreDetails">
 			<div>
+				<span>Birth Date:</span>
 				<% if(get('Birth') != undefined){ %>
 					<%= moment(get('Birth')).format('MMMM Do YYYY') %>
 				<% }else{ %>
@@ -163,14 +166,17 @@
 				<% } %>
 			</div>
 			<div>
+				<span>Username:</span>
 				<%= get('username') %>
 			</div>
 		</div>
 		<div class="clearfix adminMoreDetails">
 			<div>
+				<span>Email:</span>
 				<%= get('email') %>
 			</div>
 			<div>
+				<span>Organization:</span>
 				<%if(get('organization') != undefined){%>
 					<%= get('organization').get('Name')!=undefined ? get('organization').get('Name') :'' %>
 				<%}else{%>
@@ -185,6 +191,7 @@
 		<h1><%= get("User").get("name") %></h1>
 		<div class="clearfix adminMoreDetails">
 			<div>
+				<span>Address:</span>
 				<%if(get("User").get('Address') != undefined){%>
 				<address>
 					<%= get("User").get('Address').get('Address')!=undefined? get("User").get('Address').get('Address') + '<br/>':'' %>
@@ -198,22 +205,31 @@
 				<%}%>
 			</div>
 			<div>
+				<span>Phone Number:</span>
 				<%= get("User").get("phone") %>
 			</div>
 		</div>
 		<div class="clearfix adminMoreDetails">
 			<div>
-				<%= Birth.format('MMMM Do YYYY') %>
+				<span>Birth Date:</span>
+				<% if(get('User').get('Birth') != undefined){ %>
+					<%= moment(get('User').get('Birth')).format('MMMM Do YYYY') %>
+				<% }else{ %>
+					No Birth Date
+				<% } %>
 			</div>
 			<div>
+				<span>Username:</span>
 				<%= get("User").get('username') %>
 			</div>
 		</div>
 		<div class="clearfix adminMoreDetails">
 			<div>
+				<span>Email:</span>
 				<%= get("User").get('email') %>
 			</div>
 			<div>
+				<span>Organization:</span>
 				<%if(get("User").get('organization') != undefined){%>
 					<%= get("User").get('organization').get('Name')!=undefined ? get("User").get('organization').get('Name') :'' %>
 				<%}else{%>
