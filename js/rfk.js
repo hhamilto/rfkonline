@@ -292,6 +292,7 @@ $(function() {
 		detailview: function(){return AdminKidDetailView}
 	});
 
+	// detail view for a mentor
 	var AdminMentorDetailView = Parse.View.extend({
 		template: _.template($("#admin-mentor-detail-template").html()),
 		el: "#adminDetailPane",

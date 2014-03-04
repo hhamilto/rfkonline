@@ -242,7 +242,24 @@
 	<script type="text/template" id="admin-kid-detail-template">
 		<span class="smallProfilePicture center" style="background-image:url('<%= get('photo').url() %>');"></span>
 		<h1><%= get("FirstName") + " " + get("LastInitial") %></h1>
-		
+		<div class="clearfix adminMoreDetails">
+			<div>
+				<span>Birth Date:</span>
+				<% if(get('Birthday') != undefined){ %>
+					<%= moment(get('Birthday')).format('MMMM Do YYYY') %>
+				<% }else{ %>
+					No Birth Date
+				<% } %>
+			</div>
+			<div>
+				<span>Organization:</span>
+				<%if(get('organization') != undefined){%>
+					<%= get('organization').get('Name')!=undefined ? get('organization').get('Name') :'' %>
+				<%}else{%>
+					No Organization
+				<%}%>
+			</div>
+		</div>
 	</script>
 
 	<script type="text/template" id="admin-add-organization-template">
