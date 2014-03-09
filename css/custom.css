@@ -288,7 +288,9 @@ Visit Viewer View
 /************************************************
 Admin
 ************************************************/
-
+#adminListFilterControls button.active:before{
+	content: "\e067";
+}
 
 /************************************************
 Admin Detail

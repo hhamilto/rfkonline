@@ -160,75 +160,79 @@ $(function() {
 	var AdminListView = Parse.View.extend({
 		template: _.template($("#admin-list-pane-template").html()),
 		el: "#adminListPane",
-		includeMentors: true, includeDirectors: true, includeKids: true,
+		events: {
+			"click #toggleMentors": "toggleUserInclude",
+			"click #toggleDirectors": "toggleUserInclude",
+			"click #toggleKids": "toggleUserInclude",
+		},
+		include:{
+			mentors:   true,
+			kids:      true,
+			directors: true
+		},
 		initialize: function() {
 			_.bindAll(this, 'render', 'getUserObjects', 'toggleUserInclude', 'clearViewHighlight');
 			this.$el.html(this.template());
 			this.list = [];
 			this.getUserObjects();
-
-
-			/* FOR TESTING KID VIEW ... until hurricane finally gets it to work...
-			var query = new Parse.Query(Kid);
-			query.get("UyBWSI1f0B", {
-				success: function(kid) {
-					new AdminKidDetailView({model: kid});
-				},
-				error: function(object, error) {
-					alert("There was an error fetching this kid.");
-				}
-			});
-			*/
 		},
-		toggleUserInclude: function(userType){
+		toggleUserInclude: function(e){
+			var includeType = $(e.currentTarget).attr('id').match(/toggle(.*)/)[1].toLowerCase();
+			this.include[includeType] = !this.include[includeType];
+			$(e.currentTarget).children('.glyphicon').toggleClass("glyphicon-check", this.include[includeType]);
+			$(e.currentTarget).children('.glyphicon').toggleClass("glyphicon-unchecked", !this.include[includeType]);
 
+			this.list = this.cleanList.filter(function(user){
+				if(user.model instanceof User && this.include.directors){
+					return true;
+				}else if(user.model instanceof Kid && this.include.kids){
+					return true;
+				}else if(user.model instanceof Mentor && this.include.mentors){
+					return true;
+				}else return false;
+			}.bind(this));
+			this.render();
 		},
 		getUserObjects: function(){
 			var latchCount = 0;
-			if(this.includeMentors){
-				latchCount++;
-				var mentors = new MentorList();
-				mentors.query = new Parse.Query(Mentor);
-				mentors.query.include("User");
-				mentors.query.include('User.Address');
-				mentors.query.include("User.organization");
-				mentors.bind('reset', function(toAdd){
+			latchCount++;
+			var mentors = new MentorList();
+			mentors.query = new Parse.Query(Mentor);
+			mentors.query.include("User");
+			mentors.query.include('User.Address');
+			mentors.query.include("User.organization");
+			mentors.bind('reset', function(toAdd){
+					toAdd.models.map(function(e){this.list.push({model:e})}.bind(this));
+					listLatch();
+				}.bind(this));
+			mentors.fetch();
+			latchCount++;
+			var directorRoleQuery = new Parse.Query(Role);
+			directorRoleQuery.equalTo("name", "Director");
+			directorRoleQuery.first({
+				success: function(role) {
+					var directors = new UserList();
+					directors.query = role.relation('users').query();
+					directors.query.include('Address');
+					directors.query.include('organization');
+					directors.bind('reset', function(toAdd){
 						toAdd.models.map(function(e){this.list.push({model:e})}.bind(this));
 						listLatch();
 					}.bind(this));
-				mentors.fetch();
-			}
-			if(this.includeDirectors){
-				latchCount++;
-				var directorRoleQuery = new Parse.Query(Role);
-				directorRoleQuery.equalTo("name", "Director");
-				directorRoleQuery.first({
-					success: function(role) {
-						var directors = new UserList();
-						directors.query = role.relation('users').query();
-						directors.query.include('Address');
-						directors.query.include('organization');
-						directors.bind('reset', function(toAdd){
-							toAdd.models.map(function(e){this.list.push({model:e})}.bind(this));
-							listLatch();
-						}.bind(this));
-						directors.fetch();
-					}.bind(this),
-					error: function(error) {
-						console.log("Error: " + error.code + " " + error.message);
-					}
-				});
-			}
-			if(this.includeKids){
-				latchCount++;
-				var kids = new KidList();
-				kids.query = new Parse.Query(Kid);
-				kids.bind('reset', function(toAdd){
-						toAdd.models.map(function(e){this.list.push({model:e})}.bind(this));
-						listLatch();
-					}.bind(this));
-				kids.fetch();
-			}
+					directors.fetch();
+				}.bind(this),
+				error: function(error) {
+					console.log("Error: " + error.code + " " + error.message);
+				}
+			});
+			latchCount++;
+			var kids = new KidList();
+			kids.query = new Parse.Query(Kid);
+			kids.bind('reset', function(toAdd){
+					toAdd.models.map(function(e){this.list.push({model:e})}.bind(this));
+					listLatch();
+				}.bind(this));
+			kids.fetch();
 			var listLatch = latch(latchCount, this, function(){
 				this.list.sort(function(a,b){
 					var getUsername = function(o){
@@ -240,6 +244,7 @@ $(function() {
 					return getUsername(a.model).trim().localeCompare(
 							getUsername(b.model).trim());
 				});
+				this.cleanList = this.list.slice();
 				this.render()
 			}.bind(this));
 		},
@@ -286,7 +291,7 @@ $(function() {
 		},
 		render: function() {
 			this.$el.html(this.template(this.model));
-			if(this.beingViewed) this.$el.addClass('beingViewed');
+			this.$el.toggleClass('beingViewed',this.beingViewed);
 		}
 	});
 
