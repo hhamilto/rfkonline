@@ -134,7 +134,56 @@
 	</script>
 
 	<script type="text/template" id="admin-director-detail-template">
-		THIS IS DIRECTOR DETAIL
+		<span class="smallProfilePicture center" style="background-image:url('<%= get('Photo').url() %>');"></span>
+		<h1><%= get("name") %></h1>
+		<div class="clearfix adminMoreDetails">
+			<div>
+				<span>Address:</span>
+				<%if(get('Address') != undefined){%>
+				<address>
+					<%= get('Address').get('Address')!=undefined? get("User").get('Address').get('Address') + '<br/>':'' %>
+					<%= get('Address').get('Address2')!=undefined? get("User").get('Address').get('Address2') + '<br/>':'' %>
+					<%= get('Address').get('City')!=undefined? get("User").get('Address').get('City') + ',':'' %>
+					<%= get('Address').get('State')!=undefined? get("User").get('Address').get('State') :'' %>
+					<%= get('Address').get('Zip')!=undefined? get("User").get('Address').get('Zip') + '<br/>':'' %>
+				</address>
+				<%}else{%>
+				No Address
+				<%}%>
+			</div>
+			<div>
+				<span>Phone Number:</span>
+				<%= get("phone") %>
+			</div>
+		</div>
+		<div class="clearfix adminMoreDetails">
+			<div>
+				<span>Birth Date:</span>
+				<% if(get('Birth') != undefined){ %>
+					<%= moment(get('Birth')).format('MMMM Do YYYY') %>
+				<% }else{ %>
+					No Birth Date
+				<% } %>
+			</div>
+			<div>
+				<span>Username:</span>
+				<%= get('username') %>
+			</div>
+		</div>
+		<div class="clearfix adminMoreDetails">
+			<div>
+				<span>Email:</span>
+				<%= get('email') %>
+			</div>
+			<div>
+				<span>Organization:</span>
+				<%if(get('organization') != undefined){%>
+					<%= get('organization').get('Name')!=undefined ? get('organization').get('Name') :'' %>
+				<%}else{%>
+					No Organization
+				<%}%>
+			</div>
+		</div>
 	</script>
 
 	<script type="text/template" id="admin-mentor-detail-template">
@@ -142,6 +191,7 @@
 		<h1><%= get("User").get("name") %></h1>
 		<div class="clearfix adminMoreDetails">
 			<div>
+				<span>Address:</span>
 				<%if(get("User").get('Address') != undefined){%>
 				<address>
 					<%= get("User").get('Address').get('Address')!=undefined? get("User").get('Address').get('Address') + '<br/>':'' %>
@@ -155,22 +205,31 @@
 				<%}%>
 			</div>
 			<div>
+				<span>Phone Number:</span>
 				<%= get("User").get("phone") %>
 			</div>
 		</div>
 		<div class="clearfix adminMoreDetails">
 			<div>
-				<%= Birth.format('MMMM Do YYYY') %>
+				<span>Birth Date:</span>
+				<% if(get('User').get('Birth') != undefined){ %>
+					<%= moment(get('User').get('Birth')).format('MMMM Do YYYY') %>
+				<% }else{ %>
+					No Birth Date
+				<% } %>
 			</div>
 			<div>
+				<span>Username:</span>
 				<%= get("User").get('username') %>
 			</div>
 		</div>
 		<div class="clearfix adminMoreDetails">
 			<div>
+				<span>Email:</span>
 				<%= get("User").get('email') %>
 			</div>
 			<div>
+				<span>Organization:</span>
 				<%if(get("User").get('organization') != undefined){%>
 					<%= get("User").get('organization').get('Name')!=undefined ? get("User").get('organization').get('Name') :'' %>
 				<%}else{%>
@@ -183,7 +242,24 @@
 	<script type="text/template" id="admin-kid-detail-template">
 		<span class="smallProfilePicture center" style="background-image:url('<%= get('photo').url() %>');"></span>
 		<h1><%= get("FirstName") + " " + get("LastInitial") %></h1>
-		
+		<div class="clearfix adminMoreDetails">
+			<div>
+				<span>Birth Date:</span>
+				<% if(get('Birthday') != undefined){ %>
+					<%= moment(get('Birthday')).format('MMMM Do YYYY') %>
+				<% }else{ %>
+					No Birth Date
+				<% } %>
+			</div>
+			<div>
+				<span>Organization:</span>
+				<%if(get('organization') != undefined){%>
+					<%= get('organization').get('Name')!=undefined ? get('organization').get('Name') :'' %>
+				<%}else{%>
+					No Organization
+				<%}%>
+			</div>
+		</div>
 	</script>
 
 	<script type="text/template" id="admin-add-organization-template">

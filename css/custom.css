@@ -319,8 +319,12 @@ Admin Detail
 .adminMoreDetails div {
 	width: 50%;
 	float: left;
-	text-align: center;
-	padding: 0 0 10px 0;
+	text-align: left;
+	padding: 20px 0 10px 10px;
+}
+.adminMoreDetails div span {
+	display: block;
+	font-weight: bold;
 }
 .adminMoreDetails address {
 	margin: 0;

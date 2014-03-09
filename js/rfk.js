@@ -310,15 +310,13 @@ $(function() {
 		detailview: function(){return AdminKidDetailView}
 	});
 
+	// detail view for a mentor
 	var AdminMentorDetailView = Parse.View.extend({
 		template: _.template($("#admin-mentor-detail-template").html()),
 		el: "#adminDetailPane",
 		events: {},
 		initialize: function() {
 			_.bindAll(this, "render");
-
-			this.model.Birth = moment(this.model.get("User").get("Birth"));
-
 			this.render();
 		},
 		render: function() {
@@ -326,15 +324,13 @@ $(function() {
 		}
 	});
 
+	// detail view for a kid
 	var AdminKidDetailView = Parse.View.extend({
 		template: _.template($("#admin-kid-detail-template").html()),
 		el: "#adminDetailPane",
 		events: {},
 		initialize: function() {
 			_.bindAll(this, "render");
-
-			//this.model.Birth = moment(this.model.get("Kid").get("Birth"));
-
 			this.render();
 		},
 		render: function() {
@@ -342,7 +338,21 @@ $(function() {
 		}
 	});
 
-/* DELETE THESE AFTER A FEW COMMITS
+	// detail view for a director
+	var AdminDirectorDetailView = Parse.View.extend({
+		template: _.template($("#admin-director-detail-template").html()),
+		el: "#adminDetailPane",
+		events: {},
+		initialize: function() {
+			_.bindAll(this, "render");
+			this.render();
+		},
+		render: function() {
+			this.$el.html(this.template(this.model));
+		}
+	});
+
+/* these are not needed
 	var ManageMentorsView = Parse.View.extend({
 		template: _.template($("#admin-template").html()),
 		el: "#dashboardContainer",
