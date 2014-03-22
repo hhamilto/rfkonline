@@ -362,15 +362,29 @@ Admin List
 	padding: 3px 5px;
 }
 
-#adminList > li.beingViewed > span {
-	
+#adminList > li.beingViewed > span > :last-child {
+	font-size: 17px;
+	color: #666;
 }
+
+#adminList > li > span > .badge {
+    vertical-align:middle;
+    margin-top: -0.3em;
+}
+/*
+#adminList > li > span > span.user-type {
+	font-weight: bold;
+	font-size: 14px;
+	color: #AAA;
+	line-height: 100%;
+}*/
 
 #adminList > li:hover > span {
 	background: #EEE;
 	border-radius: 3px;
 	padding: 2px 4px;
 	border: 1px solid #DDD;
+	color: #2c4792;
 }
 
 /************************************************

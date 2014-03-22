@@ -128,15 +128,15 @@
 	</script>
 
 	<script type="text/template" id="admin-director-list-item-template">
-		<span> <span class="glyphicon"></span> <%= get("name") %> <span class="glyphicon"></span> </span>
+		<span> <span class="badge">D</span> <%= get("name") %> <span class="glyphicon"></span> </span>
 	</script>
 
 	<script type="text/template" id="admin-mentor-list-item-template">
-		<span><%= get("User").get("name") %><span>
+		<span><span class="badge">M</span> <%= get("User").get("name") %> <span class="glyphicon"></span> </span>
 	</script>
 
 	<script type="text/template" id="admin-kid-list-item-template">
-		<span><%= get("FirstName") %><span>
+		<span><span class="badge">K</span> <%= get("FirstName") %> <span class="glyphicon"></span> </span>
 	</script>
 
 	<script type="text/template" id="admin-director-detail-template">
