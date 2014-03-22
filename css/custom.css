@@ -219,7 +219,9 @@ Visit Viewer View
 
 .visitComment span, .visitPhoto span {
 	display:block;
-	font-weight:bold;
+}
+.visitComment span i {
+	color: #666;
 }
 
 #visitLog {
