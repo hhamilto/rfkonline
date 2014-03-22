@@ -164,14 +164,16 @@ $(function() {
 			"click #toggleMentors": "toggleUserInclude",
 			"click #toggleDirectors": "toggleUserInclude",
 			"click #toggleKids": "toggleUserInclude",
+			"keyup .searchInput": "filter",
 		},
+		filterRegex: /./,
 		include:{
 			mentors:   true,
 			kids:      true,
 			directors: true
 		},
 		initialize: function() {
-			_.bindAll(this, 'render', 'getUserObjects', 'toggleUserInclude', 'clearViewHighlight');
+			_.bindAll(this, 'render', 'getUserObjects', 'toggleUserInclude', 'clearViewHighlight', 'filter');
 			this.$el.html(this.template());
 			this.list = [];
 			this.getUserObjects();
@@ -256,16 +258,23 @@ $(function() {
 				}
 			});
 		},
+		filter: function(){
+			this.filterRegex = new RegExp(this.$el.find('.searchInput').val(),'i');
+			this.render();
+		},
 		render: function() {
 			this.$el.find('#adminList').html('');
 			this.list.map(function(user){
-				if(user.model instanceof Mentor){
+				if(user.model instanceof Mentor &&
+						this.filterRegex.test(user.model.get('User').get('name'))){
 					var el = this.$el.find('#adminList').append('<li></li>').find('li').last();
 					user.view = new AdminMentorListItemView({model: user.model, el: el, parentList: this});
-				}else if(user.model instanceof User){
+				}else if(user.model instanceof User &&
+						this.filterRegex.test(user.model.get('name'))){
 					var el = this.$el.find('#adminList').append('<li></li>').find('li').last();
 					user.view = new AdminDirectorListItemView({model: user.model, el: el, parentList: this});
-				}else if(user.model instanceof Kid){
+				}else if(user.model instanceof Kid &&
+						this.filterRegex.test(user.model.get('FirstName'))){
 					var el = this.$el.find('#adminList').append('<li></li>').find('li').last();
 					user.view = new AdminKidListItemView({model: user.model, el: el, parentList: this});
 				}
@@ -291,7 +300,8 @@ $(function() {
 		},
 		render: function() {
 			this.$el.html(this.template(this.model));
-			this.$el.toggleClass('beingViewed',this.beingViewed);
+			this.$el.toggleClass('beingViewed', this.beingViewed);
+			this.$el.find("span > span:last-child").toggleClass('glyphicon-chevron-right', this.beingViewed);
 		}
 	});
 
@@ -500,7 +510,7 @@ $(function() {
 	var SidebarView = Parse.View.extend({
 		el: "#sidebar",
 		events: {
-			"keyup #searchInput": "filter",
+			"keyup .searchInput": "filter",
 		},
 		template: _.template($("#side-bar-template").html()),
 		initialize: function(){
@@ -526,7 +536,7 @@ $(function() {
 			mentors.fetch();
 		},
 		filter: function(){
-			this.filterRegex = new RegExp(this.$el.find('#searchInput').val(),'i');
+			this.filterRegex = new RegExp(this.$el.find('.searchInput').val(),'i');
 			this.render();
 		},
 		// Add a single mentor item to the list by creating a view for it, and

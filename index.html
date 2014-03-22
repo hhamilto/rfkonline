@@ -112,17 +112,23 @@
 	</script>
 
 	<script type="text/template" id="admin-list-pane-template">
-		<div id="adminListFilterControls">
-			<button id="toggleMentors" class="btn btn-sm"><span class="glyphicon glyphicon-check"/> Mentors</button>
-			<button id="toggleDirectors" class="btn btn-sm"><span class="glyphicon glyphicon-check"/> Directors</button>
-			<button id="toggleKids" class="btn btn-sm"><span class="glyphicon glyphicon-check"/> Kids</button>
-		</div>
+		<form id="adminListFilter">
+			<div class="input-group">
+				<button id="toggleMentors" class="btn btn-sm"><span class="glyphicon glyphicon-check"/> Mentors</button>
+				<button id="toggleDirectors" class="btn btn-sm"><span class="glyphicon glyphicon-check"/> Directors</button>
+				<button id="toggleKids" class="btn btn-sm"><span class="glyphicon glyphicon-check"/> Kids</button>
+			</div>
+			<div class="input-group">
+				<span class="input-group-addon glyphicon glyphicon-filter"></span>
+				<input class="form-control searchInput" type="text" placeholder="Filter Users..." >
+			</div>
+		</form>
 		<ul id="adminList">
 		</ul>
 	</script>
 
 	<script type="text/template" id="admin-director-list-item-template">
-		<span><%= get("name") %><span>
+		<span> <span class="glyphicon"></span> <%= get("name") %> <span class="glyphicon"></span> </span>
 	</script>
 
 	<script type="text/template" id="admin-mentor-list-item-template">
@@ -378,10 +384,10 @@
 	</script>
 
 	<script type="text/template" id="side-bar-template">
-		<form id="mentorlistfilter" action="#">
+		<form id="mentorListFilter" action="#">
 			<div class="input-group">
-			  <span class="input-group-addon glyphicon glyphicon-search"></span>
-			  <input class="form-control" type="text" placeholder="Filter Mentors..." id="searchInput">
+				<span class="input-group-addon glyphicon glyphicon-search"></span>
+				<input class="form-control searchInput" type="text" placeholder="Filter Mentors..." />
 			</div>
 		</form>
 		<ul id="mentor-list">
@@ -442,17 +448,15 @@
 	</script>
 
 	 <script type="text/template" id="photo-template">
-		<li>            
+		<li>
 			<div class="visitPhoto" >
-			   <span><%= createdAt.format('MMMM Do YYYY h:mm a')%></span>
-
-					<!--This link points to an exact index, needs to be fixed -->
-
+				<span><%= createdAt.format('MMMM Do YYYY h:mm a')%></span>
+					<!--//This link points to an exact index, needs to be fixed -->
 					<a href="#<%=id%>" data-toggle="lightbox">
 						<img class="thumbnail" src="<%= Data.url() %>" />
 					</a>
 			</div>
-			<div id="<%=id%>" class="lightbox fade"  tabindex="-1" role="dialog" aria-hidden="true">
+			<div id="<%=id%>" class="lightbox fade" tabindex="-1" role="dialog" aria-hidden="true">
 				<div class='lightbox-dialog'>
 					<div class='lightbox-content'>
 						<img src=<%= Data.url() %> style="max-width:100%;height:auto;" />
