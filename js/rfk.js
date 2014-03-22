@@ -681,6 +681,14 @@ $(function() {
 			// Fetch all the todo itemsh for this user
 			this.TravelPoints.fetch();
 			this.getLogItems();
+
+			// fetch all the comments for this visit
+			this.Comments = new CommentList;
+			this.Comments.query = new Parse.Query(Comment);
+			this.Comments.query.equalTo("VisitId", this.model.id);
+			this.Comments.query.limit(1000);
+			this.Comments.fetch();
+
 		},
 		addOneTp: function(){
 		},
@@ -689,7 +697,7 @@ $(function() {
 			new VisitLogView({model: this.model});
 		},
 		addAllTp: function(){
-			new MapView({travelPoints: this.TravelPoints});
+			new MapView({travelPoints: this.TravelPoints, comments: this.Comments});
 		},
 		render: function() {
 			return this;
@@ -727,13 +735,56 @@ $(function() {
 				strokeOpacity: 1.0,
 				strokeWeight: 5
 			});
-			/* THIS IS HOW TO ADD MARKERS :)
-			var marker = new google.maps.Marker({
-				  position: new google.maps.LatLng(-25.363882,131.044922),
-				  map: map,
-				  title: 'Hello World!'
-			  });
-			*/
+
+			// initialize the geocoder to do a reverse geolocation for each comment
+			var geocoder = new google.maps.Geocoder();
+
+			this.options.comments.map(function(comment){
+
+				var latlng = new google.maps.LatLng(comment.attributes.Location.latitude, comment.attributes.Location.longitude);
+				console.log(latlng);
+				var address = "Location Unknown";
+				// This is making the Geocode request
+				var geocoder = new google.maps.Geocoder();
+				geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+					if (status !== google.maps.GeocoderStatus.OK) {
+						alert(status);
+					}
+					// This is checking to see if the Geoeode Status is OK before proceeding
+					if (status == google.maps.GeocoderStatus.OK) {
+						console.log(results);
+						address = (results[0].formatted_address);
+					}
+
+					var contentString = '<div id="content">'+
+					'<div id="bodyContent">'+
+					'<h4>'+
+						comment.attributes.Text +
+					'</h4>'+
+					'<p>Comment created: '+ 
+					moment(comment.createdAt).format('MMMM Do YYYY h:mm a')+
+					'</br>Location: '+
+					address +
+					'</p>'+
+					'</div>'+
+					'</div>';
+
+					var infowindow = new google.maps.InfoWindow({
+						content: contentString
+					});
+
+					var marker = new google.maps.Marker({
+						position: new google.maps.LatLng(comment.attributes.Location.latitude, comment.attributes.Location.longitude),
+						map: map,
+						title: 'Comment'
+					});
+
+					google.maps.event.addListener(marker, 'click', function() {
+						infowindow.open(map,marker);
+					});
+				});
+			});
+			
 			visitRoute.setMap(map);
 			map.fitBounds(bounds);
 		}
