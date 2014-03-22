@@ -744,7 +744,8 @@ $(function() {
 				var latlng = new google.maps.LatLng(comment.attributes.Location.latitude, comment.attributes.Location.longitude);
 				console.log(latlng);
 				var address = "Location Unknown";
-				// This is making the Geocode request
+
+				// make reverse geolocation call
 				var geocoder = new google.maps.Geocoder();
 				geocoder.geocode({ 'latLng': latlng }, function (results, status) {
 					if (status !== google.maps.GeocoderStatus.OK) {
@@ -756,6 +757,7 @@ $(function() {
 						address = (results[0].formatted_address);
 					}
 
+					// create the popup for when a location marker is clicked on the map
 					var contentString = '<div id="content">'+
 					'<div id="bodyContent">'+
 					'<h4>'+
@@ -773,12 +775,14 @@ $(function() {
 						content: contentString
 					});
 
+					// add the comment to the map
 					var marker = new google.maps.Marker({
 						position: new google.maps.LatLng(comment.attributes.Location.latitude, comment.attributes.Location.longitude),
 						map: map,
 						title: 'Comment'
 					});
 
+					// add the popup
 					google.maps.event.addListener(marker, 'click', function() {
 						infowindow.open(map,marker);
 					});
