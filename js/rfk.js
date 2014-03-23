@@ -13,7 +13,7 @@ $(function() {
 		_rebuildAllEstimatedData: function(){
 			var retVal = Parse.Object.prototype._rebuildAllEstimatedData.apply(this, arguments);
 			_.defaults(this.attributes, {
-				Photo: {url:"img/anon.jpg"}
+				Photo: {url:"img/anon.png"}
 			});
 			return retVal;
 		}
