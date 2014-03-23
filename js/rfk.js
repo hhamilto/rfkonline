@@ -866,9 +866,39 @@ $(function() {
 			visit.End = moment(visit.End);
 			this.$el.html(this.template(visit));
 
-			_.bindAll(this, 'addOneTp', 'addAllTp', 'render');
+			_.bindAll(this, 'createVisitLog', 'createMap', 'render');
 			this.model.bind('change', this.render);
 			this.model.bind('destroy', this.remove);
+
+			var geocodeComments = function(){
+				// initialize the geocoder to do a reverse geolocation for each comment
+				var geocoder = new google.maps.Geocoder();
+				var commentLatch = latch(this.Comments.length,null,finalLatch);
+				this.Comments.map(function(comment){
+
+					var latlng = new google.maps.LatLng(comment.attributes.Location.latitude, comment.attributes.Location.longitude);
+					var address = "Location Unknown";
+
+					// make reverse geolocation call
+					geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+						if (status !== google.maps.GeocoderStatus.OK) {
+							alert(status);
+						}
+						// This is checking to see if the Geoeode Status is OK before proceeding
+						if (status == google.maps.GeocoderStatus.OK) {
+							address = (results[0].formatted_address);
+							comment.set('address', address);
+						}
+						commentLatch();
+					});
+				});
+			}.bind(this);
+
+			var finalLatch = latch(2,this,function(){
+				this.createVisitLog();
+				this.createMap();
+			}.bind(this));
+
 			// Create our collection of Visits
 			this.TravelPoints = new TravelPointList;
 			// Setup the query for the collection to look for todos from the current user
@@ -877,21 +907,27 @@ $(function() {
 			//XXX FIX THIS SO LONG TRIPS WORK 1000+ points
 			this.TravelPoints.query.limit(1000);
 			this.TravelPoints.bind('add',     this.addOneTp);
-			this.TravelPoints.bind('reset',   this.addAllTp);
+			this.TravelPoints.bind('reset',   finalLatch);
 			this.TravelPoints.bind('all',     this.render);
-			
-			// Fetch all the todo itemsh for this user
 			this.TravelPoints.fetch();
-			this.getLogItems();
+
+			// fetch all the comments for this visit
+			this.Comments = new CommentList;
+			this.Comments.query = new Parse.Query(Comment);
+			this.Comments.query.equalTo("VisitId", this.model.id);
+			this.Comments.query.limit(1000);
+			this.Comments.query.ascending("createdAt");
+			this.Comments.bind('reset',   geocodeComments);
+			this.Comments.fetch();
+
+
 		},
-		addOneTp: function(){
-		},
-		getLogItems: function(){
+		createVisitLog: function(){
 			this.$("#visitlog").html("");
-			new VisitLogView({model: this.model});
+			new VisitLogView({model: this.model, comments: this.Comments});
 		},
-		addAllTp: function(){
-			new MapView({travelPoints: this.TravelPoints});
+		createMap: function(){
+			new MapView({travelPoints: this.TravelPoints, comments: this.Comments});
 		},
 		render: function() {
 			return this;
@@ -929,13 +965,43 @@ $(function() {
 				strokeOpacity: 1.0,
 				strokeWeight: 5
 			});
-			/* THIS IS HOW TO ADD MARKERS :)
-			var marker = new google.maps.Marker({
-				  position: new google.maps.LatLng(-25.363882,131.044922),
-				  map: map,
-				  title: 'Hello World!'
-			  });
-			*/
+
+			// initialize the geocoder to do a reverse geolocation for each comment
+			var geocoder = new google.maps.Geocoder();
+
+			this.options.comments.map(function(comment){
+
+				// create the popup for when a location marker is clicked on the map
+				var contentString = '<div id="content">'+
+				'<div id="bodyContent">'+
+				'<h4>'+
+					comment.attributes.Text +
+				'</h4>'+
+				'<p>Comment created: '+ 
+				moment(comment.createdAt).format('MMMM Do YYYY h:mm a')+
+				'</br>Location: '+
+				comment.get('address') +
+				'</p>'+
+				'</div>'+
+				'</div>';
+
+				var infowindow = new google.maps.InfoWindow({
+					content: contentString
+				});
+
+				// add the comment to the map
+				var marker = new google.maps.Marker({
+					position: new google.maps.LatLng(comment.attributes.Location.latitude, comment.attributes.Location.longitude),
+					map: map,
+					title: 'Comment'
+				});
+
+				// add the popup
+				google.maps.event.addListener(marker, 'click', function() {
+					infowindow.open(map,marker);
+				});
+			});
+			
 			visitRoute.setMap(map);
 			map.fitBounds(bounds);
 		}
@@ -946,62 +1012,47 @@ $(function() {
 		template: _.template($("#loglist-template").html()),
 		initialize: function(){
 			this.$el.html(this.template());
-			_.bindAll(this, "addAllComments", "addAllPhotos");
+			_.bindAll(this, "addAll");
 			this.Photos = new PhotoList;
 			this.Photos.query = new Parse.Query(Photo);
 			this.Photos.query.equalTo("VisitId", this.model.id);
 			this.Photos.query.limit(1000);
 			this.Photos.query.ascending("createdAt");
 			this.Photos.bind('add',     this.addOnePhoto);
-			this.Photos.bind('reset',   this.addAllPhotos);
+			this.Photos.bind('reset',   this.addAll);
 			this.Photos.bind('all',     this.render);
 			this.Photos.comparator = function(photo){
 				return photo.createdAt;
 			}
 			this.Photos.fetch();
 
-			this.Comments = new CommentList;
-			this.Comments.query = new Parse.Query(Comment);
-			this.Comments.query.equalTo("VisitId", this.model.id);
-			this.Comments.query.limit(1000);
-			this.Comments.query.ascending("createdAt");
-			this.Comments.bind('add',       this.addOneLogItem);
-			this.Comments.bind('reset',     this.addAllComments);
-			this.Comments.bind('all',       this.render);
-			this.Comments.comparator = function(comment){
-				return comment.createdAt;
+		},
+		addAll: function(collection1){
+			var collection2 = this.options.comments;
+			if(collection1.length+collection2.length == 0){
+				// hack in a 'yo, homes we don't got no comments'
+				// legitimately, this sucks and is horrible and should be in a view.
+				$('#logitem-list').append('<li id="no-comments" class="visitComment">&laquo; No comments were made on this visit &raquo;</li>');
 			}
-			this.Comments.fetch();
-			this.latch = latch(2,this,function(collection1, collection2){
-				if(collection1.length+collection2.length == 0){
-					// hack in a 'yo, homes we don't got no comments'
-					// legitimately, this sucks and is horrible and should be in a view.
-					$('#logitem-list').append('<li id="no-comments" class="visitComment">&laquo; No comments were made on this visit &raquo;</li>');
-				}
-				/* DE-IMBECILE collections. seriously, how hard is it to *actually* 
-				  implment the backbone interface you say you implement in your effing docs!?!?*/
-				collection1.unshift = function(){
-					var toReturn = this.at(0);
-					this.remove(toReturn);
-					return toReturn;
-				}
-				collection2.unshift = collection1.unshift;
-				while(collection1.length + collection2.length > 0){
-					!function(model){
-						if(model.className === "Comment")
-							new CommentView({model: model});
-						else if(model.className === "Photo")
-							new PhotoView({model: model});
-					}( collection2.length === 0 || (collection1.length > 0 && collection1.at(0).createdAt < collection2.at(0).createdAt )?
-							 collection1.unshift():collection2.unshift());
-				}
-			});
-		},
-		addAllComments: function(collection, filter){
-			this.latch(collection);
-		},
-		addAllPhotos: function(collection, filter){
-			this.latch(collection);
+			/* DE-IMBECILE collections. seriously, how hard is it to *actually* 
+			  implment the backbone interface you say you implement in your effing docs!?!?*/
+			collection1.unshift = function(){
+				var toReturn = this.at(0);
+				this.remove(toReturn);
+				return toReturn;
+			}
+			collection2.unshift = collection1.unshift;
+			while(collection1.length + collection2.length > 0){
+				!function(model){
+
+				console.log(model);
+					if(model.className === "Comment")
+						new CommentView({model: model});
+					else if(model.className === "Photo")
+						new PhotoView({model: model});
+				}( collection2.length === 0 || (collection1.length > 0 && collection1.at(0).createdAt < collection2.at(0).createdAt )?
+						 collection1.unshift():collection2.unshift());
+			}
 		}
 	});
 
