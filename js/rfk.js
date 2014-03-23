@@ -27,6 +27,7 @@ $(function() {
 	var Visit = Parse.Object.extend("Visit");
 	var Comment = Parse.Object.extend("Comment");
 	var Photo = Parse.Object.extend("Photo");
+	var Organization = Parse.Object.extend("Organization");
 	
 	//Collections
 	var UserList = Parse.Collection.extend({ model: User });
@@ -36,6 +37,7 @@ $(function() {
 	var TravelPointList = Parse.Collection.extend({ model: TravelPoint });
 	var CommentList = Parse.Collection.extend({ model: Comment });
 	var PhotoList = Parse.Collection.extend({ model: Photo });
+	var OrganizationList = Parse.Collection.extend({ model: Organization });
 
 	//Views
 	Parse.View.prototype.close = function(){
@@ -235,6 +237,13 @@ $(function() {
 					listLatch();
 				}.bind(this));
 			kids.fetch();
+			latchCount++
+			this.organizations = new OrganizationList();
+			this.organizations.query = new Parse.Query(Organization);
+			this.organizations.bind('reset', function(organizations){
+					listLatch();
+				}.bind(this));
+			this.organizations.fetch();
 			var listLatch = latch(latchCount, this, function(){
 				this.list.sort(function(a,b){
 					var getUsername = function(o){
@@ -293,7 +302,7 @@ $(function() {
 			this.parentList = options.parentList;
 		},
 		openDetail: function(){
-			new (this.detailview())({model: this.model});
+			new (this.detailview())({model: this.model, organizations:this.parentList.organizations});
 			this.parentList.clearViewHighlight();
 			this.beingViewed = true;
 			this.render();
@@ -320,28 +329,131 @@ $(function() {
 		detailview: function(){return AdminKidDetailView}
 	});
 
+	var AdminDetailView = Parse.View.extend({
+		events: {
+			"keyup input": "showSave",
+			"change select": "showSave",
+			"click .detail-save > button": "save"
+		},
+		initialize: function(){
+			_.bindAll(this, "save");
+		},
+		showSave: function(){
+			$('.detail-save').addClass("show");
+		},
+		save: function(){
+			//save back;
+			fieldViews.map(function(v){v.save()});
+			this.model.save().done(function(){
+				console.log("saved good");
+			}).fail(function(){
+				console.log("save fucking failed. I hope you're happy.")
+			});
+		},
+		fieldViews: []
+	});
+
 	// detail view for a mentor
-	var AdminMentorDetailView = Parse.View.extend({
+	var AdminMentorDetailView = AdminDetailView.extend({
 		template: _.template($("#admin-mentor-detail-template").html()),
 		el: "#adminDetailPane",
-		events: {},
 		initialize: function() {
 			_.bindAll(this, "render");
 			this.render();
+			this.fieldViews.push(new AdminDetailAddressView({
+				parent: this,
+				el: $('.address'),
+				model: this.model.get('User').get('Address')
+			}));
+			this.fieldViews.push(new AdminDetailBasicView({
+				parent: this,
+				el: $('.phone'),
+				model: {
+					name: "Phone Number",
+					value: this.model.get("User").get("phone"),
+					placeholder: 'XXX - XXX - XXXX'
+				}
+			}));
+			this.fieldViews.push(new AdminDetailBasicView({
+				parent: this,
+				el: $('.birth'),
+				model: {
+					name: "Birth Date",
+					type: "date",
+					value: this.model.get('User').get('Birth')==undefined?
+							"":
+							moment(this.model.get('User').get('Birth')).format('MMMM Do YYYY'),
+					placeholder: "None Entered"
+				}
+			}));
+			this.fieldViews.push(new AdminDetailBasicView({
+				parent: this,
+				el: $('.username'),
+				model: {
+					name: "Username",
+					value: this.model.get("User").get('username')
+				}
+			}));
+			this.fieldViews.push(new AdminDetailBasicView({
+				parent: this,
+				el: $('.email'),
+				model: {
+					name: "Email",
+					type: "email",
+					value: this.model.get("User").get('email')
+				}
+			}));
+			this.fieldViews.push(new AdminDetailSelectView({
+				parent: this,
+				el: $('.organization'),
+				model: {
+					name: "Organization",
+					options: this.options.organizations.map(function(o){
+						return {id:   o.id,
+								name: o.get('Name') || "",
+								selected: this.model.get("User").get('organization') && o.id==this.model.get("User").get('organization').id};
+					}.bind(this))
+				}
+			}));
 		},
 		render: function() {
 			this.$el.html(this.template(this.model));
+
 		}
 	});
 
 	// detail view for a kid
-	var AdminKidDetailView = Parse.View.extend({
+	var AdminKidDetailView = AdminDetailView.extend({
 		template: _.template($("#admin-kid-detail-template").html()),
 		el: "#adminDetailPane",
 		events: {},
 		initialize: function() {
 			_.bindAll(this, "render");
 			this.render();
+						this.fieldViews.push(new AdminDetailBasicView({
+				parent: this,
+				el: $('.birth'),
+				model: {
+					name: "Birth Date",
+					type: "date",
+					value: this.model.get('Birthday')==undefined?
+							"":
+							moment(this.model.get('Birthday')).format('MMMM Do YYYY'),
+					placeholder: "None Entered"
+				}
+			}));
+			this.fieldViews.push(new AdminDetailSelectView({
+				parent: this,
+				el: $('.organization'),
+				model: {
+					name: "Organization",
+					options: this.options.organizations.map(function(o){
+						return {id:   o.id,
+								name: o.get('Name') || "",
+								selected: this.model.get('organization') && o.id==this.model.get('organization').id};
+					}.bind(this))
+				}
+			}));
 		},
 		render: function() {
 			this.$el.html(this.template(this.model));
@@ -349,10 +461,100 @@ $(function() {
 	});
 
 	// detail view for a director
-	var AdminDirectorDetailView = Parse.View.extend({
+	var AdminDirectorDetailView = AdminDetailView.extend({
 		template: _.template($("#admin-director-detail-template").html()),
 		el: "#adminDetailPane",
-		events: {},
+		initialize: function() {
+			_.bindAll(this, "render");
+			this.render();
+			this.fieldViews.push(new AdminDetailAddressView({
+				parent: this,
+				el: $('.address'),
+				model: this.model.get('Address')
+			}));
+			this.fieldViews.push(new AdminDetailBasicView({
+				parent: this,
+				el: $('.phone'),
+				model: {
+					name: "Phone Number",
+					value: this.model.get("phone"),
+					placeholder: 'XXX - XXX - XXXX'
+				}
+			}));
+			this.fieldViews.push(new AdminDetailBasicView({
+				parent: this,
+				el: $('.birth'),
+				model: {
+					name: "Birth Date",
+					type: "date",
+					value: this.model.get('Birth')==undefined?
+							"":
+							moment(this.model.get('Birth')).format('MMMM Do YYYY'),
+					placeholder: "None Entered"
+				}
+			}));
+			this.fieldViews.push(new AdminDetailBasicView({
+				parent: this,
+				el: $('.username'),
+				model: {
+					name: "Username",
+					value: this.model.get('username')
+				}
+			}));
+			this.fieldViews.push(new AdminDetailBasicView({
+				parent: this,
+				el: $('.email'),
+				model: {
+					name: "Email",
+					type: "email",
+					value: this.model.get('email')
+				}
+			}));
+			this.fieldViews.push(new AdminDetailSelectView({
+				parent: this,
+				el: $('.organization'),
+				model: {
+					name: "Organization",
+					options: this.options.organizations.map(function(o){
+						return {id:   o.id,
+								name: o.get('Name') || "",
+								selected: this.model.get('organization') && o.id==this.model.get('organization').id};
+					}.bind(this))
+				}
+			}));
+		},
+		render: function() {
+			this.$el.html(this.template(this.model));
+		}
+	});
+	// detail view for an address, including editing capabilities
+	var AdminDetailAddressView = Parse.View.extend({
+		template: _.template($("#admin-detail-address-template").html()),
+		initialize: function() {
+			_.bindAll(this, "render");
+			this.model = this.model || {};
+			_.defaults(this.model,{get:function(){return'';}});
+			this.render();
+		},
+		render: function() {
+			this.$el.html(this.template(this.model));
+		}
+	});
+
+	var AdminDetailBasicView = Parse.View.extend({
+		template: _.template($("#admin-detail-basic-template").html()),
+		initialize: function() {
+			_.bindAll(this, "render");
+			_.defaults(this.model,{type:"text", placeholder:''});
+			this.render();
+		},
+		render: function() {
+			this.$el.html(this.template(this.model));
+		}
+	});
+
+	var AdminDetailSelectView = Parse.View.extend({
+		template: _.template($("#admin-detail-select-template").html()),
 		initialize: function() {
 			_.bindAll(this, "render");
 			this.render();

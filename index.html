@@ -119,7 +119,7 @@
 				<button id="toggleKids" class="btn btn-sm"><span class="glyphicon glyphicon-check"/> Kids</button>
 			</div>
 			<div class="input-group">
-				<span class="input-group-addon glyphicon glyphicon-filter"></span>
+				<span class="input-group-addon"><span class="glyphicon glyphicon-filter"></span></span>
 				<input class="form-control searchInput" type="text" placeholder="Filter Users..." >
 			</div>
 		</form>
@@ -140,136 +140,117 @@
 	</script>
 
 	<script type="text/template" id="admin-director-detail-template">
-		<span class="smallProfilePicture center" style="background-image:url('<%= get('Photo').url() %>');"></span>
-		<h1><%= get("name") %></h1>
-		<div class="clearfix adminMoreDetails">
-			<div>
-				<span>Address:</span>
-				<%if(get('Address') != undefined){%>
-				<address>
-					<%= get('Address').get('Address')!=undefined? get("User").get('Address').get('Address') + '<br/>':'' %>
-					<%= get('Address').get('Address2')!=undefined? get("User").get('Address').get('Address2') + '<br/>':'' %>
-					<%= get('Address').get('City')!=undefined? get("User").get('Address').get('City') + ',':'' %>
-					<%= get('Address').get('State')!=undefined? get("User").get('Address').get('State') :'' %>
-					<%= get('Address').get('Zip')!=undefined? get("User").get('Address').get('Zip') + '<br/>':'' %>
-				</address>
-				<%}else{%>
-				No Address
-				<%}%>
+		<div class="detail-header">
+			<div class="detail-save">
+				<button class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save </button>
 			</div>
-			<div>
-				<span>Phone Number:</span>
-				<%= get("phone") %>
-			</div>
+			<span class="smallProfilePicture center" style="background-image:url('<%= get('Photo').url() %>');"></span>
+			<h1><%= get("name") %></h1>
 		</div>
-		<div class="clearfix adminMoreDetails">
-			<div>
-				<span>Birth Date:</span>
-				<% if(get('Birth') != undefined){ %>
-					<%= moment(get('Birth')).format('MMMM Do YYYY') %>
-				<% }else{ %>
-					No Birth Date
-				<% } %>
+		<div class="detail-info">
+			<div class="clearfix adminMoreDetails">
+				<div class="address">
+				</div>
+				<div class="phone">
+				</div>
 			</div>
-			<div>
-				<span>Username:</span>
-				<%= get('username') %>
+			<div class="clearfix adminMoreDetails">
+				<div class="birth">
+				</div>
+				<div class="username">
+				</div>
 			</div>
-		</div>
-		<div class="clearfix adminMoreDetails">
-			<div>
-				<span>Email:</span>
-				<%= get('email') %>
-			</div>
-			<div>
-				<span>Organization:</span>
-				<%if(get('organization') != undefined){%>
-					<%= get('organization').get('Name')!=undefined ? get('organization').get('Name') :'' %>
-				<%}else{%>
-					No Organization
-				<%}%>
+			<div class="clearfix adminMoreDetails">
+				<div class="email">
+				</div>
+				<div class="organization">
+				</div>
 			</div>
 		</div>
 	</script>
 
 	<script type="text/template" id="admin-mentor-detail-template">
-		<span class="smallProfilePicture center" style="background-image:url('<%= get('User').get('Photo').url() %>');"></span>
-		<h1><%= get("User").get("name") %></h1>
-		<div class="clearfix adminMoreDetails">
-			<div>
-				<span>Address:</span>
-				<%if(get("User").get('Address') != undefined){%>
-				<address>
-					<%= get("User").get('Address').get('Address')!=undefined? get("User").get('Address').get('Address') + '<br/>':'' %>
-					<%= get("User").get('Address').get('Address2')!=undefined? get("User").get('Address').get('Address2') + '<br/>':'' %>
-					<%= get("User").get('Address').get('City')!=undefined? get("User").get('Address').get('City') + ',':'' %>
-					<%= get("User").get('Address').get('State')!=undefined? get("User").get('Address').get('State') :'' %>
-					<%= get("User").get('Address').get('Zip')!=undefined? get("User").get('Address').get('Zip') + '<br/>':'' %>
-				</address>
-				<%}else{%>
-				No Address
-				<%}%>
+		<div class="detail-header">
+			<div class="detail-save">
+				<button class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save </button>
 			</div>
-			<div>
-				<span>Phone Number:</span>
-				<%= get("User").get("phone") %>
-			</div>
+			<span class="smallProfilePicture center" style="background-image:url('<%= get('User').get('Photo').url() %>');"></span>
+			<h1><%= get("User").get("name") %></h1>
 		</div>
-		<div class="clearfix adminMoreDetails">
-			<div>
-				<span>Birth Date:</span>
-				<% if(get('User').get('Birth') != undefined){ %>
-					<%= moment(get('User').get('Birth')).format('MMMM Do YYYY') %>
-				<% }else{ %>
-					No Birth Date
-				<% } %>
+		<div class="detail-info">
+			<div class="clearfix adminMoreDetails">
+				<div class="address">
+				</div>
+				<div class="phone">
+				</div>
 			</div>
-			<div>
-				<span>Username:</span>
-				<%= get("User").get('username') %>
+			<div class="clearfix adminMoreDetails">
+				<div class="birth">
+				</div>
+				<div class="username">
+				</div>
 			</div>
-		</div>
-		<div class="clearfix adminMoreDetails">
-			<div>
-				<span>Email:</span>
-				<%= get("User").get('email') %>
-			</div>
-			<div>
-				<span>Organization:</span>
-				<%if(get("User").get('organization') != undefined){%>
-					<%= get("User").get('organization').get('Name')!=undefined ? get("User").get('organization').get('Name') :'' %>
-				<%}else{%>
-					No Organization
-				<%}%>
+			<div class="clearfix adminMoreDetails">
+				<div class="email">
+				</div>
+				<div class="organization">
+				</div>
 			</div>
 		</div>
 	</script>
 
 	<script type="text/template" id="admin-kid-detail-template">
-		<span class="smallProfilePicture center" style="background-image:url('<%= get('photo').url() %>');"></span>
-		<h1><%= get("FirstName") + " " + get("LastInitial") %></h1>
-		<div class="clearfix adminMoreDetails">
-			<div>
-				<span>Birth Date:</span>
-				<% if(get('Birthday') != undefined){ %>
-					<%= moment(get('Birthday')).format('MMMM Do YYYY') %>
-				<% }else{ %>
-					No Birth Date
-				<% } %>
+		<div class="detail-header">
+			<div class="detail-save">
+				<button class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save </button>
 			</div>
-			<div>
-				<span>Organization:</span>
-				<%if(get('organization') != undefined){%>
-					<%= get('organization').get('Name')!=undefined ? get('organization').get('Name') :'' %>
-				<%}else{%>
-					No Organization
-				<%}%>
+			<span class="smallProfilePicture center" style="background-image:url('<%= get('photo').url() %>');"></span>
+			<h1><%= get("FirstName") + " " + get("LastInitial") %></h1>
+		</div>
+		<div class="detail-info">
+			<div class="clearfix adminMoreDetails">
+				<div class="birth">
+				</div>
+				<div class="organization">
+				</div>
 			</div>
 		</div>
 	</script>
 
 	<script type="text/template" id="admin-add-organization-template">
 		THIS IS ADD ORGANIZATION
+	</script>
+
+	<script type="text/template" id="admin-detail-address-template">
+		<span>Address:</span>
+		<address>
+			<form class="form-inline" role="form">
+				<input class="line1 form-control" type="text" placeholder="Address Line 1" value="<%= get('Address')!=undefined? get('Address'):'' %>" />
+				<input class="line2 form-control" type="text" placeholder="Address Line 2" value="<%= get('Address2')!=undefined? get('Address2'):'' %>" />
+				<input class="city form-control" type="text" placeholder="City" value="<%= get('City')!=undefined? get('City'):'' %>" />,
+				<input class="state form-control" type="text" placeholder="State" value="<%= get('State')!=undefined? get('State'):'' %>" />
+				<input class="zip form-control" type="text" placeholder="Zip" value="<%= get('Zip')!=undefined? get('Zip'):'' %>" />
+			</form>
+		</address>
+	</script>
+
+	<script type="text/template" id="admin-detail-basic-template">
+		<span><%=name%>:</span>
+		<form class="form-inline" role="form">
+			<input class="form-control" type="<%=type%>" placeholder="<%=placeholder%>" value="<%=value%>" />
+		</form>
+	</script>
+
+	<script type="text/template" id="admin-detail-select-template">
+		<span><%=name%>:</span>
+		<form class="form-inline" role="form">
+			<select class="form-control" >
+				<option value="">None</option>
+				<%for(var i = 0; i < options.length; i++){%>
+					<option value="<%=options[i].id%>" <%=options[i].selected?'selected':''%> ><%=options[i].name%></option>
+				<%}%>
+			</select>
+		</form>
 	</script>
 
 

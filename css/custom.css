@@ -141,6 +141,7 @@ Visit Viewer View
 	left: 0;
 	right: 0;
 	z-index: 1;
+	color: #FFF;
 }
 
 #mentorListFilter .input-group-addon{
@@ -297,6 +298,19 @@ Admin Detail
 	padding-left: 5px;
 }
 
+.detail-header {
+	height: 100px
+}
+
+.detail-info {
+	position:absolute;
+	top:100px;
+	bottom:0;
+	left:0;
+	right:0;
+	overflow-y: auto;
+}
+
 #adminDetailPane h1 {
 	margin: 0 auto;
 	text-align: center;
@@ -310,18 +324,73 @@ Admin Detail
 	margin: 0 auto;
 	display: block;
 }
-.adminMoreDetails div {
+
+.adminMoreDetails > div {
 	width: 50%;
 	float: left;
 	text-align: left;
 	padding: 20px 0 10px 10px;
 }
-.adminMoreDetails div span {
+
+.adminMoreDetails > div span {
 	display: block;
 	font-weight: bold;
 }
+
 .adminMoreDetails address {
 	margin: 0;
+}
+
+.detail-save {
+	float:right;
+	margin-right: 10px;
+	position:relative;
+	width:100px;
+	height:0px;
+	overflow:hidden;
+	-webkit-transition: height 0.4s ease !important;
+	-moz-transition: height 0.4s ease !important;
+	-o-transition: height 0.4s ease !important;
+	transition: height 0.4s ease !important;
+}
+
+.detail-save.show{
+	height:40px;
+}
+
+.detail-save > button{
+	position: absolute;
+	bottom:0;
+}
+
+#adminDetailPane input {
+	height: 20px;
+	border: 1px solid white;
+	box-shadow: none;
+	padding: 1px 2px;
+	line-height: 20px;
+	color: #333;
+}
+
+#adminDetailPane input:hover {
+	border: 1px solid #CCCCCC;
+}
+
+#adminDetailPane input:focus {
+	border: 1px solid #99D;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3) inset;
+}
+
+     /*********************
+     *  ADDRESS           *
+     *********************/
+address input.city{
+	width:70%;
+}
+
+address input.state{
+	width:25%;
+	float: right;
 }
 
 /************************************************
@@ -340,6 +409,10 @@ Admin List
 	box-shadow: 0 7px 13px -10px #000;
 	width:100%;
 	z-index: 1;
+}
+
+#adminListFilter button{
+	margin-right:5px;
 }
 
 #adminList {
