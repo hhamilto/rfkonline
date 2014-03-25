@@ -92,3 +92,10 @@ function addUserToRole(user, role){
 		}
 	});
 }
+/*
+var partial(f){
+	var args = Array.prototype.slice.apply(arguments);
+	return function(){
+		return f.apply
+	}
+}*/

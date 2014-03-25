@@ -28,6 +28,7 @@ $(function() {
 	var Comment = Parse.Object.extend("Comment");
 	var Photo = Parse.Object.extend("Photo");
 	var Organization = Parse.Object.extend("Organization");
+	var Address = Parse.Object.extend("Address");
 	
 	//Collections
 	var UserList = Parse.Collection.extend({ model: User });
@@ -343,12 +344,17 @@ $(function() {
 		},
 		save: function(){
 			//save back;
-			fieldViews.map(function(v){v.save()});
-			this.model.save().done(function(){
-				console.log("saved good");
-			}).fail(function(){
-				console.log("save fucking failed. I hope you're happy.")
-			});
+			this.fieldViews.map(function(v){v.save()});
+			if(this.model instanceof Kid){
+				this.model.save().done(function(){
+					console.log("saved good");
+				}).fail(function(){
+					console.log("save fucking failed. I hope you're happy.")
+				});
+			}else if(this.model instanceof User){
+				var user = this.model;
+			}
+
 		},
 		fieldViews: []
 	});
@@ -359,6 +365,7 @@ $(function() {
 		el: "#adminDetailPane",
 		initialize: function() {
 			_.bindAll(this, "render");
+			var userSet = this.model.get("User").set.bind(this.model.get("User"));
 			this.render();
 			this.fieldViews.push(new AdminDetailAddressView({
 				parent: this,
@@ -372,7 +379,8 @@ $(function() {
 					name: "Phone Number",
 					value: this.model.get("User").get("phone"),
 					placeholder: 'XXX - XXX - XXXX'
-				}
+				},
+				save: _.partial(userSet,"phone")
 			}));
 			this.fieldViews.push(new AdminDetailBasicView({
 				parent: this,
@@ -382,9 +390,10 @@ $(function() {
 					type: "date",
 					value: this.model.get('User').get('Birth')==undefined?
 							"":
-							moment(this.model.get('User').get('Birth')).format('MMMM Do YYYY'),
+							moment(this.model.get('User').get('Birth')).format('YYYY-MM-DD'),
 					placeholder: "None Entered"
-				}
+				},
+				save: _.partial(userSet,"Birth")
 			}));
 			this.fieldViews.push(new AdminDetailBasicView({
 				parent: this,
@@ -392,7 +401,8 @@ $(function() {
 				model: {
 					name: "Username",
 					value: this.model.get("User").get('username')
-				}
+				},
+				save: _.partial(userSet,"username")
 			}));
 			this.fieldViews.push(new AdminDetailBasicView({
 				parent: this,
@@ -400,20 +410,24 @@ $(function() {
 				model: {
 					name: "Email",
 					type: "email",
-					value: this.model.get("User").get('email')
-				}
+					value: this.model.get("User").get('email'),
+					placeholder:'None Given'
+				},
+				save:_.partial(userSet,"email")
 			}));
 			this.fieldViews.push(new AdminDetailSelectView({
 				parent: this,
 				el: $('.organization'),
 				model: {
 					name: "Organization",
+					objectList: this.options.organizations,
 					options: this.options.organizations.map(function(o){
 						return {id:   o.id,
 								name: o.get('Name') || "",
 								selected: this.model.get("User").get('organization') && o.id==this.model.get("User").get('organization').id};
 					}.bind(this))
-				}
+				},
+				save: _.partial(userSet,"organization")
 			}));
 		},
 		render: function() {
@@ -467,6 +481,7 @@ $(function() {
 		initialize: function() {
 			_.bindAll(this, "render");
 			this.render();
+			var userSet = this.model.set.bind(this.model);
 			this.fieldViews.push(new AdminDetailAddressView({
 				parent: this,
 				el: $('.address'),
@@ -479,7 +494,8 @@ $(function() {
 					name: "Phone Number",
 					value: this.model.get("phone"),
 					placeholder: 'XXX - XXX - XXXX'
-				}
+				},
+				save: _.partial(userSet,"phone")
 			}));
 			this.fieldViews.push(new AdminDetailBasicView({
 				parent: this,
@@ -491,7 +507,8 @@ $(function() {
 							"":
 							moment(this.model.get('Birth')).format('MMMM Do YYYY'),
 					placeholder: "None Entered"
-				}
+				},
+				save: _.partial(userSet,"Birth")
 			}));
 			this.fieldViews.push(new AdminDetailBasicView({
 				parent: this,
@@ -499,7 +516,8 @@ $(function() {
 				model: {
 					name: "Username",
 					value: this.model.get('username')
-				}
+				},
+				save: _.partial(userSet,"username")
 			}));
 			this.fieldViews.push(new AdminDetailBasicView({
 				parent: this,
@@ -508,7 +526,8 @@ $(function() {
 					name: "Email",
 					type: "email",
 					value: this.model.get('email')
-				}
+				},
+				save: _.partial(userSet,"email")
 			}));
 			this.fieldViews.push(new AdminDetailSelectView({
 				parent: this,
@@ -520,21 +539,31 @@ $(function() {
 								name: o.get('Name') || "",
 								selected: this.model.get('organization') && o.id==this.model.get('organization').id};
 					}.bind(this))
-				}
+				},
+				save: _.partial(userSet,"organization")
 			}));
 		},
 		render: function() {
 			this.$el.html(this.template(this.model));
 		}
 	});
+
 	// detail view for an address, including editing capabilities
 	var AdminDetailAddressView = Parse.View.extend({
 		template: _.template($("#admin-detail-address-template").html()),
 		initialize: function() {
 			_.bindAll(this, "render");
-			this.model = this.model || {};
-			_.defaults(this.model,{get:function(){return'';}});
+			this.model = this.model || new Address();
 			this.render();
+		},
+		save: function(){
+			this.model.set({
+				Address: this.$el.find('input.line1').val(),
+				Address2: this.$el.find('input.line2').val(),
+				City: this.$el.find('input.city').val(),
+				State: this.$el.find('input.state').val(),
+				Zip: this.$el.find('input.zip').val(),
+			})
 		},
 		render: function() {
 			this.$el.html(this.template(this.model));
@@ -544,9 +573,13 @@ $(function() {
 	var AdminDetailBasicView = Parse.View.extend({
 		template: _.template($("#admin-detail-basic-template").html()),
 		initialize: function() {
-			_.bindAll(this, "render");
+			 this.options.save = this.options.save || function(){};
+			_.bindAll(this, "render", "save");
 			_.defaults(this.model,{type:"text", placeholder:''});
 			this.render();
+		},
+		save: function(){
+			this.options.save(this.$el.find("input").val());
 		},
 		render: function() {
 			this.$el.html(this.template(this.model));
@@ -556,8 +589,15 @@ $(function() {
 	var AdminDetailSelectView = Parse.View.extend({
 		template: _.template($("#admin-detail-select-template").html()),
 		initialize: function() {
-			_.bindAll(this, "render");
+			this.options.save = this.options.save || function(){};
+			_.bindAll(this, "render", "save");
 			this.render();
+		},
+		save: function(){
+			var newObject = this.model.options.filter(function(o){
+				return o.id == this.$el.find("select").val()
+			})[0];
+			this.options.save(newObject);
 		},
 		render: function() {
 			this.$el.html(this.template(this.model));
