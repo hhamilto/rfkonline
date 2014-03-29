@@ -176,7 +176,7 @@ $(function() {
 			directors: true
 		},
 		initialize: function() {
-			_.bindAll(this, 'render', 'getUserObjects', 'toggleUserInclude', 'clearViewHighlight', 'filter');
+			_.bindAll(this, 'render', 'getUserObjects', 'toggleUserInclude', 'closeChildViews', 'filter');
 			this.$el.html(this.template());
 			this.list = [];
 			this.getUserObjects();
@@ -260,11 +260,10 @@ $(function() {
 				this.render()
 			}.bind(this));
 		},
-		clearViewHighlight: function(){
+		closeChildViews: function(){
 			this.list.map(function(user){
 				if(user.view.beingViewed){
-					user.view.beingViewed = false;
-					user.view.render();
+					user.view.close();
 				}
 			});
 		},
@@ -302,9 +301,15 @@ $(function() {
 			this.render();
 			this.parentList = options.parentList;
 		},
+		close: function(){
+			this.beingViewed = false;
+			if(this.detailView) this.detailView.undelegateEvents();
+			this.render();
+		},
 		openDetail: function(){
-			new (this.detailview())({model: this.model, organizations:this.parentList.organizations});
-			this.parentList.clearViewHighlight();
+			this.parentList.closeChildViews();
+			this.detailView = this.detailView || new (this.detailview())({model: this.model, organizations:this.parentList.organizations});
+			this.detailView.delegateEvents();
 			this.beingViewed = true;
 			this.render();
 		},
@@ -312,6 +317,7 @@ $(function() {
 			this.$el.html(this.template(this.model));
 			this.$el.toggleClass('beingViewed', this.beingViewed);
 			this.$el.find("span > span:last-child").toggleClass('glyphicon-chevron-right', this.beingViewed);
+			if(this.detailView && this.beingViewed) this.detailView.render();
 		}
 	});
 
@@ -337,26 +343,144 @@ $(function() {
 			"click .detail-save > button": "save"
 		},
 		initialize: function(){
-			_.bindAll(this, "save");
+			_.bindAll(this, "save", "render", "showSave", "assign", "addFieldView");
+			this.fieldViews = [];
+		},
+		assign: function (view, selector) {
+			view.setElement(this.$(selector))
+			view.render();
 		},
 		showSave: function(){
 			$('.detail-save').addClass("show");
 		},
+		addFieldView: function(options){
+			_.defaults(options,{type:  'text',
+								label: function(string){ //Default the label to the uppercased property name
+									return string.charAt(0).toUpperCase() + string.slice(1);
+								}(options.path.split('.').slice(-1)[0])})
+			var object = options.path.split('.').reduce(function(o,k){
+				return o.get(k);
+			}, this.model);
+			var parentObject = options.path.split('.').slice(0,-1).reduce(function(o,k){
+											return o.get(k);
+										}, this.model);
+			if(options.type == 'address'){
+				this.fieldViews.push({
+					el_class: '.address',
+					view: new AdminDetailAddressView({
+						parent: this,
+						el: '.address',
+						model: object,
+						save: function(o){
+							if(o == null){
+								parentObject.unset(options.path.split('.').slice(-1)[0])
+							}else
+								parentObject.set(options.path.split('.').slice(-1)[0],o)
+						}
+					})
+				});
+			}else if(options.type == 'select'){
+				var el_class = '.'+options.path.split('.').pop();
+				this.fieldViews.push({
+					el_class: el_class,
+					view: new AdminDetailSelectView({
+						parent: this,
+						el: el_class,
+						objectList: options.options,
+						model: {
+							label: options.label,
+							options: options.options.map(function(o){
+								return {id:   o.id,
+										name: o.get('Name') || "",
+										selected: object && o.id==object.id};
+							}.bind(this))
+						},
+						save: function(o){
+							if(o == null){
+								parentObject.unset(options.path.split('.').slice(-1)[0])
+							}else
+								parentObject.set(options.path.split('.').slice(-1)[0],o)
+						}
+					})
+				});
+			}else{
+				var el_class = '.'+options.path.split('.').pop().toLowerCase();
+				this.fieldViews.push({
+					el_class: el_class,
+					view: new AdminDetailBasicView({
+						parent: this,
+						el: el_class,
+						model: {
+							label: options.label,
+							value:  options.type=='date'?
+							            object==undefined?
+							            "":moment(object).format('YYYY-MM-DD'):
+							        object,
+							placeholder: options.placeholder,
+							type: options.type
+						},
+						save: function(o){
+							if(o == null)
+								parentObject.unset(options.path.split('.').slice(-1)[0])
+							else
+								parentObject.set(options.path.split('.').slice(-1)[0],o)
+						}
+					})
+				});
+			}
+		},
 		save: function(){
 			//save back;
-			this.fieldViews.map(function(v){v.save()});
+			this.fieldViews.map(function(fv){fv.view.save()});
 			if(this.model instanceof Kid){
 				this.model.save().done(function(){
 					console.log("saved good");
 				}).fail(function(){
 					console.log("save fucking failed. I hope you're happy.")
 				});
-			}else if(this.model instanceof User){
-				var user = this.model;
+			}else{
+				var user; // don't be fooled. there is NO blocks scope in js.
+				if(this.model instanceof User){
+					user = this.model;
+				}else if(this.model instanceof Mentor){
+					// eventually we need to save mentors here
+					user = this.model.get('User');
+				}
+				this.model.save().always(function(){
+					Parse.Cloud.run('modifyUser', {
+						objectId: user.id,
+						// we always want to save the address back, so that incase a new one needed to be created we know
+						newUser: user.toJSON()/*attributes.reduce(function(o,k){
+								var attribute = user.get(k)
+								if(attribute instanceof Parse.Object)//strip down to key
+									attribute = {
+										isPointer: true,
+										type:      attribute.className,
+										id:        attribute.id
+									};
+								o[k] = attribute; 
+								return o;
+						},{})*/
+					}, {
+						success: function(result) {
+							// result is 'Hello world!'
+							alert("yaya");
+						},
+						error: function(error) {
+							console.log("ya fuckd it up");
+						}
+					});
+				});
+				
+				
 			}
-
 		},
-		fieldViews: []
+		render: function() {
+			this.$el.html(this.template(this.model));
+			this.fieldViews.map(function(fv){
+				this.assign(fv.view, fv.el_class);
+			}.bind(this));
+		}
 	});
 
 	// detail view for a mentor
@@ -364,75 +488,22 @@ $(function() {
 		template: _.template($("#admin-mentor-detail-template").html()),
 		el: "#adminDetailPane",
 		initialize: function() {
+			AdminDetailView.prototype.initialize.apply(this);  
 			_.bindAll(this, "render");
-			var userSet = this.model.get("User").set.bind(this.model.get("User"));
 			this.render();
-			this.fieldViews.push(new AdminDetailAddressView({
-				parent: this,
-				el: $('.address'),
-				model: this.model.get('User').get('Address')
-			}));
-			this.fieldViews.push(new AdminDetailBasicView({
-				parent: this,
-				el: $('.phone'),
-				model: {
-					name: "Phone Number",
-					value: this.model.get("User").get("phone"),
-					placeholder: 'XXX - XXX - XXXX'
-				},
-				save: _.partial(userSet,"phone")
-			}));
-			this.fieldViews.push(new AdminDetailBasicView({
-				parent: this,
-				el: $('.birth'),
-				model: {
-					name: "Birth Date",
-					type: "date",
-					value: this.model.get('User').get('Birth')==undefined?
-							"":
-							moment(this.model.get('User').get('Birth')).format('YYYY-MM-DD'),
-					placeholder: "None Entered"
-				},
-				save: _.partial(userSet,"Birth")
-			}));
-			this.fieldViews.push(new AdminDetailBasicView({
-				parent: this,
-				el: $('.username'),
-				model: {
-					name: "Username",
-					value: this.model.get("User").get('username')
-				},
-				save: _.partial(userSet,"username")
-			}));
-			this.fieldViews.push(new AdminDetailBasicView({
-				parent: this,
-				el: $('.email'),
-				model: {
-					name: "Email",
-					type: "email",
-					value: this.model.get("User").get('email'),
-					placeholder:'None Given'
-				},
-				save:_.partial(userSet,"email")
-			}));
-			this.fieldViews.push(new AdminDetailSelectView({
-				parent: this,
-				el: $('.organization'),
-				model: {
-					name: "Organization",
-					objectList: this.options.organizations,
-					options: this.options.organizations.map(function(o){
-						return {id:   o.id,
-								name: o.get('Name') || "",
-								selected: this.model.get("User").get('organization') && o.id==this.model.get("User").get('organization').id};
-					}.bind(this))
-				},
-				save: _.partial(userSet,"organization")
-			}));
-		},
-		render: function() {
-			this.$el.html(this.template(this.model));
-
+			this.addFieldView({ path:        'User.Address',
+								type:        'address' });
+			this.addFieldView({ path:        'User.phone',
+								placeholder: 'XXX - XXX - XXXX' });
+			this.addFieldView({ path:        'User.Birth',
+								label:       'Birthdate',
+								type:        'date' });
+			this.addFieldView({ path:        'User.username' });
+			this.addFieldView({ path:        'User.email',
+								placeholder: 'name@example.com' });
+			this.addFieldView({ path:        'User.organization',
+								options:     this.options.organizations,
+								type:        'select' });
 		}
 	});
 
@@ -440,114 +511,41 @@ $(function() {
 	var AdminKidDetailView = AdminDetailView.extend({
 		template: _.template($("#admin-kid-detail-template").html()),
 		el: "#adminDetailPane",
-		events: {},
 		initialize: function() {
+			AdminDetailView.prototype.initialize.apply(this);
 			_.bindAll(this, "render");
 			this.render();
-						this.fieldViews.push(new AdminDetailBasicView({
-				parent: this,
-				el: $('.birth'),
-				model: {
-					name: "Birth Date",
-					type: "date",
-					value: this.model.get('Birthday')==undefined?
-							"":
-							moment(this.model.get('Birthday')).format('MMMM Do YYYY'),
-					placeholder: "None Entered"
-				}
-			}));
-			this.fieldViews.push(new AdminDetailSelectView({
-				parent: this,
-				el: $('.organization'),
-				model: {
-					name: "Organization",
-					options: this.options.organizations.map(function(o){
-						return {id:   o.id,
-								name: o.get('Name') || "",
-								selected: this.model.get('organization') && o.id==this.model.get('organization').id};
-					}.bind(this))
-				}
-			}));
-		},
-		render: function() {
-			this.$el.html(this.template(this.model));
+			this.addFieldView({ path:        'Birthday',
+								label:       'Birthdate',
+								type:        'date', });
+			this.addFieldView({ path:        'organization',
+								options:     this.options.organizations,
+								type:        'select'});
 		}
 	});
-
 	// detail view for a director
 	var AdminDirectorDetailView = AdminDetailView.extend({
 		template: _.template($("#admin-director-detail-template").html()),
 		el: "#adminDetailPane",
 		initialize: function() {
+			AdminDetailView.prototype.initialize.apply(this);  
 			_.bindAll(this, "render");
 			this.render();
-			var userSet = this.model.set.bind(this.model);
-			this.fieldViews.push(new AdminDetailAddressView({
-				parent: this,
-				el: $('.address'),
-				model: this.model.get('Address')
-			}));
-			this.fieldViews.push(new AdminDetailBasicView({
-				parent: this,
-				el: $('.phone'),
-				model: {
-					name: "Phone Number",
-					value: this.model.get("phone"),
-					placeholder: 'XXX - XXX - XXXX'
-				},
-				save: _.partial(userSet,"phone")
-			}));
-			this.fieldViews.push(new AdminDetailBasicView({
-				parent: this,
-				el: $('.birth'),
-				model: {
-					name: "Birth Date",
-					type: "date",
-					value: this.model.get('Birth')==undefined?
-							"":
-							moment(this.model.get('Birth')).format('MMMM Do YYYY'),
-					placeholder: "None Entered"
-				},
-				save: _.partial(userSet,"Birth")
-			}));
-			this.fieldViews.push(new AdminDetailBasicView({
-				parent: this,
-				el: $('.username'),
-				model: {
-					name: "Username",
-					value: this.model.get('username')
-				},
-				save: _.partial(userSet,"username")
-			}));
-			this.fieldViews.push(new AdminDetailBasicView({
-				parent: this,
-				el: $('.email'),
-				model: {
-					name: "Email",
-					type: "email",
-					value: this.model.get('email')
-				},
-				save: _.partial(userSet,"email")
-			}));
-			this.fieldViews.push(new AdminDetailSelectView({
-				parent: this,
-				el: $('.organization'),
-				model: {
-					name: "Organization",
-					options: this.options.organizations.map(function(o){
-						return {id:   o.id,
-								name: o.get('Name') || "",
-								selected: this.model.get('organization') && o.id==this.model.get('organization').id};
-					}.bind(this))
-				},
-				save: _.partial(userSet,"organization")
-			}));
-		},
-		render: function() {
-			this.$el.html(this.template(this.model));
+			this.addFieldView({ path:        'Address',
+								type:        'address' });
+			this.addFieldView({ path:        'phone',
+								placeholder: 'XXX - XXX - XXXX' });
+			this.addFieldView({ path:        'Birth',
+								label:       'Birthdate',
+								type:        'date' });
+			this.addFieldView({ path:        'username' });
+			this.addFieldView({ path:        'email',
+								placeholder: 'name@example.com' });
+			this.addFieldView({ path:        'organization',
+								options:     this.options.organizations,
+								type:        'select' });
 		}
 	});
-
 	// detail view for an address, including editing capabilities
 	var AdminDetailAddressView = Parse.View.extend({
 		template: _.template($("#admin-detail-address-template").html()),
@@ -564,6 +562,7 @@ $(function() {
 				State: this.$el.find('input.state').val(),
 				Zip: this.$el.find('input.zip').val(),
 			})
+			this.options.save(this.model);
 		},
 		render: function() {
 			this.$el.html(this.template(this.model));
@@ -579,7 +578,12 @@ $(function() {
 			this.render();
 		},
 		save: function(){
-			this.options.save(this.$el.find("input").val());
+			this.options.save( this.model.type == 'date'?
+						moment(this.$el.find("input").val())==null?
+							null:
+							moment(this.$el.find("input").val()).toDate():
+					nullIfBlank(this.$el.find("input").val())
+					);
 		},
 		render: function() {
 			this.$el.html(this.template(this.model));
@@ -594,9 +598,9 @@ $(function() {
 			this.render();
 		},
 		save: function(){
-			var newObject = this.model.options.filter(function(o){
+			var newObject = this.options.objectList.filter(function(o){
 				return o.id == this.$el.find("select").val()
-			})[0];
+			}.bind(this))[0];
 			this.options.save(newObject);
 		},
 		render: function() {
@@ -762,20 +766,20 @@ $(function() {
 			this.$el.html(this.template({}));
 			 
 			// Create our collection of Mentors
-			var mentors = new MentorList;
-			mentors.query = new Parse.Query(Mentor);
+			this.mentors = new MentorList;
+			this.mentors.query = new Parse.Query(Mentor);
 			var userQ = new Parse.Query(User);
 
-			mentors.query.include("User");
-			mentors.comparator = function(mentor){
+			this.mentors.query.include("User");
+			this.mentors.comparator = function(mentor){
 				return mentor.get('User').get('name');
 			}
-			mentors.bind('add',     this.addOne);
-			mentors.bind('reset',   this.addAll);
-			mentors.bind('all',     this.render);
+			this.mentors.bind('add',     this.addOne);
+			this.mentors.bind('reset',   this.addAll);
+			this.mentors.bind('all',     this.render);
 
 			this.filterRegex = /./;
-			mentors.fetch();
+			this.mentors.fetch();
 		},
 		filter: function(){
 			this.filterRegex = new RegExp(this.$el.find('.searchInput').val(),'i');
@@ -790,7 +794,6 @@ $(function() {
 		
 		// Add all items in the Mentors collection at once.
 		addAll: function(collection, filter) {
-			this.mentors = collection;
 			this.render();
 		},
 		

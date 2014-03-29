@@ -36,13 +36,6 @@ function Average() {
 	}
 };
 
-function getZoomFromDegreeWidth(areaWidth, mapWidth){
-	var widthRatio = 256/mapWidth;
-	var adjustedWidth = areaWidth * widthRatio;
-	return Math.floor(-Math.log(adjustedWidth/360)/
-		Math.log(2));
-}
-
 //collection must be an array
 function getKidListString(collection, attribute){
 	return collection.reduce(function(previousValue, currentValue, i, arr){
@@ -92,10 +85,7 @@ function addUserToRole(user, role){
 		}
 	});
 }
-/*
-var partial(f){
-	var args = Array.prototype.slice.apply(arguments);
-	return function(){
-		return f.apply
-	}
-}*/
+
+nullIfBlank = function(a){
+	return a==""?null:a;
+}

@@ -209,7 +209,7 @@
 		</div>
 		<div class="detail-info">
 			<div class="clearfix adminMoreDetails">
-				<div class="birth">
+				<div class="birthday">
 				</div>
 				<div class="organization">
 				</div>
@@ -235,14 +235,14 @@
 	</script>
 
 	<script type="text/template" id="admin-detail-basic-template">
-		<span><%=name%>:</span>
+		<span><%=label%>:</span>
 		<form class="form-inline" role="form">
 			<input class="form-control" type="<%=type%>" placeholder="<%=placeholder%>" value="<%=value%>" />
 		</form>
 	</script>
 
 	<script type="text/template" id="admin-detail-select-template">
-		<span><%=name%>:</span>
+		<span><%=label%>:</span>
 		<form class="form-inline" role="form">
 			<select class="form-control" >
 				<option value="">None</option>
@@ -252,107 +252,6 @@
 			</select>
 		</form>
 	</script>
-
-
-
-	<!--<script type="text/template" id="manage-mentors-template">
-		<div id="manageMentorsContainer">
-			<h1>Manage Mentors</h1>
-			<table class="table table-striped" id="manageMentorsTable">
-				<tr><th>Name</th><th>Username</th><th>Phone Number</th><th>Address</th><th>Photo</th>
-					<th>
-						<button type="button" value="Add User" name="mentorAdd" class="btn btn-success" id="addMentorToggle">
-							<i class="glyphicon glyphicon-plus"></i> <span>Add Mentor</span>
-						</button>
-					</th>
-				</tr>
-			</table>
-		</div>
-	</script>
-	-->
-
-<!--
-	<script type="text/template" id="directors-panel-row-template">
-	
-		<tr class="addAllMentors">
-			<td><input name="mentorName" type="text" value="<%=User.get('name')%>" placeholder="Name" class="form-control" /></td>
-			<td><%='Username'%></td>
-			<td><%='Phone Number'%></td>
-			<td><%='Address'%></td>
-			<td><span class="smallProfilePicture" style="background-image:url('<%= User.get('Photo').url %>');"></span></td>
-			<td>
-				<button type="button" class="btn btn-default" title="edit"><i class="glyphicon glyphicon-pencil"></i></button>
-				<button type="button" class="btn btn-default" title="delete"><i class="glyphicon glyphicon-remove"></i></button>
-			</td>
-		</tr>
-	</script>
-	
-	<script type="text/template" id="manage-mentor-row-template">
-		<tr parsley-validate parsley-bind>
-			<td>
-				<% if(editMode){%>
-				<input name="mentorName" type="text" value="<%=newForm?'':User.get('name')%>" placeholder="Name" class="form-control" />
-				<%}else{%>
-				<%=User.get('name')%>
-				<%}%>
-			</td>
-			<td>
-				<% if(editMode){%>
-				<input name="mentorUsername" type="text" value="<%=newForm?'':User.get('username')%>" placeholder="Username" class="form-control" /> 
-				<%}else{%>
-				<%=User.get('username')%>
-				<%}%>
-			</td>
-			<td>
-				<% if(editMode){%>
-				<input name="mentorPhone" type="text" value="<%=newForm?'':User.get('phone')%>" parsley-type="phone" placeholder="Phone" parsley-trigger="keyup" class="form-control" />
-				<%}else{%>
-				<%=User.get('phone')%>
-				<%}%>
-			</td>
-			<td>
-				<% if(editMode){%>
-				<input name="mentorAddress" type="text" value="<%= newForm || User.get('Address') == undefined?'':User.get('Address').get('Address')!=undefined? User.get('Address').get('Address'):'' %>" placeholder="Address" class="form-control" />
-				<input name="mentorAddress2" type="text" value="<%= newForm || User.get('Address') == undefined?'':User.get('Address').get('Address2')!=undefined? User.get('Address').get('Address2'):'' %>" placeholder="Address 2" class="form-control" />
-				<input name="mentorCity" type="text" value="<%= newForm || User.get('Address') == undefined?'':User.get('Address').get('City')!=undefined? User.get('Address').get('City'):'' %>" placeholder="City" class="form-control" />
-				<input name="mentorZipCode" type="text" value="<%= newForm || User.get('Address') == undefined?'':User.get('Address').get('Zip')!=undefined? User.get('Address').get('Zip'):'' %>" placeholder="Zip Code" class="form-control smallInput" />
-				<input name="mentorState" type="text" value="<%= newForm || User.get('Address') == undefined?'':User.get('Address').get('State')!=undefined? User.get('Address').get('State'):'' %>" placeholder="State" class="form-control smallInput" />
-				<%}else if(User.get('Address') != undefined){%>
-				<address>
-					<%= User.get('Address').get('Address')!=undefined? User.get('Address').get('Address') + '<br/>':'' %>
-					<%= User.get('Address').get('Address2')!=undefined? User.get('Address').get('Address2') + '<br/>':'' %>
-					<%= User.get('Address').get('City')!=undefined? User.get('Address').get('City') + ',':'' %>
-					<%= User.get('Address').get('State') %>
-					<%= User.get('Address').get('Zip')!=undefined? User.get('Address').get('Zip') + '<br/>':'' %>
-				</address>
-				<%}else{%>
-				No Address
-				<%}%>
-			</td>
-			<td>
-				<% if(editMode){%>
-				<input type="file" value="Upload Photo" style="width:100%;"/>
-				<%}else{%>
-				<span class="smallProfilePicture" style="background-image:url('<%= User.get('Photo').url() %>');"></span>
-				<%}%>
-			</td>
-			<td>
-				<%if(editMode){%>
-				<button type="button" value="Add User" id="saveNewMentor" class="btn btn-success">
-					<i class="glyphicon glyphicon-ok-sign"></i> Save Mentor 
-				</button>
-				<%if(!newForm) {%>
-					//this uses css transforms to change repeat into undo 
-					<button type="button" class="btn btn-default cancel-edit-mentor" title="cancel"><i class="glyphicon glyphicon-repeat"></i></button>
-				<%}%>
-				<%}else{%>
-				<button type="button" class="btn btn-default edit-mentor" title="edit"><i class="glyphicon glyphicon-pencil"></i></button>
-				<button type="button" class="btn btn-default delete-mentor" title="delete"><i class="glyphicon glyphicon-remove"></i></button>
-				<%}%>
-			</td>
-		</tr>
-	</script>
-	-->
 
 	<script type="text/template" id="visit-viewer-template">
 		<div id="sidebar">
