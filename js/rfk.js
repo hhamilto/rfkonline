@@ -676,8 +676,8 @@ $(function() {
 				var m2k = new Mentor2Kid();
 				this.mentor2kid.add(m2k);
 				m2k.set('Kid', kid);
-				m2k.set('Mentor', this.model);
-				m2k.save().error(function(a){
+				m2k.set('Mentor', {"__type":"Pointer","className":"Mentor","objectId": this.model.id});
+				m2k.save().fail(function(a){
 					console.log("m2k save: " + a);
 				});
 			}.bind(this));
