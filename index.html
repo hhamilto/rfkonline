@@ -7,7 +7,7 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="js/underscore-min.js"></script>
 		<script src="https://www.parsecdn.com/js/parse-1.2.16.min.js"></script>
-		<script src="js/parsley.js" ></script>
+		<script src="js/typeahead.bundle.js" ></script>
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/moment.min.js"></script>
 		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
@@ -197,6 +197,10 @@
 				<div class="organization">
 				</div>
 			</div>
+			<div class="clearfix adminMoreDetails">
+				<div class="kids">
+				</div
+			</div>
 		</div>
 	</script>
 
@@ -252,6 +256,27 @@
 			</select>
 		</form>
 	</script>
+
+	<script type="text/template" id="admin-detail-mentor-kid-list-template">
+		<div class="kid-pairing">
+			<span>This mentor is authoized to visit:</span>
+			<form class="form-inline" role="form">
+				<ul class='kid-pairing-list'>
+				</ul>
+			</form>
+		</div>
+	</script>
+
+	<script type="text/template" id="admin-detail-mentor-kid-list-item-template">
+		<input class="form-control kid-name" type="text" placeholder="Add a kid..." value="<%=value%>" />
+		<%if(value!=''){%><button type="button" class="close" aria-hidden="true">&times;</button>
+		<%}else {%><button type="button" class="add-kid-pair" aria-hidden="true"><span class="glyphicon glyphicon-plus"></span></button>
+		<%}%>
+	</script>
+
+	<!--**************************************
+		Visit veiwer view
+	***************************************-->
 
 	<script type="text/template" id="visit-viewer-template">
 		<div id="sidebar">

@@ -22,6 +22,7 @@ $(function() {
 	var Role = Parse.Object.extend("_Role");
 	var Kid = Parse.Object.extend("Kid");
 	var Kid2Visit = Parse.Object.extend("Kid2Visit");
+	var Mentor2Kid = Parse.Object.extend("Mentor2Kid");
 	var Mentor = Parse.Object.extend("Mentor");
 	var TravelPoint = Parse.Object.extend("TravelPoint");
 	var Visit = Parse.Object.extend("Visit");
@@ -33,6 +34,7 @@ $(function() {
 	//Collections
 	var UserList = Parse.Collection.extend({ model: User });
 	var KidList = Parse.Collection.extend({ model: Kid });
+	var Mentor2KidList = Parse.Collection.extend({ model: Mentor2Kid });
 	var MentorList = Parse.Collection.extend({ model: Mentor });
 	var VisitList = Parse.Collection.extend({ model: Visit });
 	var TravelPointList = Parse.Collection.extend({ model: TravelPoint });
@@ -357,13 +359,13 @@ $(function() {
 			_.defaults(options,{type:  'text',
 								label: function(string){ //Default the label to the uppercased property name
 									return string.charAt(0).toUpperCase() + string.slice(1);
-								}(options.path.split('.').slice(-1)[0])})
-			var object = options.path.split('.').reduce(function(o,k){
-				return o.get(k);
-			}, this.model);
-			var parentObject = options.path.split('.').slice(0,-1).reduce(function(o,k){
-											return o.get(k);
-										}, this.model);
+								}(options.path!=null?options.path.split('.').slice(-1)[0]:'')})
+			var object = options.path!=null?options.path.split('.').reduce(function(o,k){
+					return o.get(k);
+				}, this.model):{};
+			var parentObject = options.path!=null?options.path.split('.').slice(0,-1).reduce(function(o,k){
+					return o.get(k);
+				}, this.model):{};
 			if(options.type == 'address'){
 				this.fieldViews.push({
 					el_class: '.address',
@@ -401,6 +403,16 @@ $(function() {
 							}else
 								parentObject.set(options.path.split('.').slice(-1)[0],o)
 						}
+					})
+				});
+			}else if( options.type == 'kidpairer'){
+				var el_class = '.kids';
+				this.fieldViews.push({
+					el_class: el_class,
+					view: new AdminDetailMentorKidListTemplate({
+						parent: this,
+						el: el_class,
+						model: options.model
 					})
 				});
 			}else{
@@ -464,15 +476,12 @@ $(function() {
 					}, {
 						success: function(result) {
 							// result is 'Hello world!'
-							alert("yaya");
 						},
 						error: function(error) {
 							console.log("ya fuckd it up");
 						}
 					});
 				});
-				
-				
 			}
 		},
 		render: function() {
@@ -504,6 +513,8 @@ $(function() {
 			this.addFieldView({ path:        'User.organization',
 								options:     this.options.organizations,
 								type:        'select' });
+			this.addFieldView({ type:        'kidpairer',
+								model:        this.model});
 		}
 	});
 
@@ -607,6 +618,163 @@ $(function() {
 			this.$el.html(this.template(this.model));
 		}
 	});
+
+//XXX THIS IS BAD BAD BAD BAD. right now we are relying on names to be unique ids for kids
+// this is just to get it usable in the hands of beta testers. a high priority will be to add picutres
+// and unique ids behinds the scenes. 
+	var AdminDetailMentorKidListTemplate = Parse.View.extend({
+		template: _.template($("#admin-detail-mentor-kid-list-template").html()),
+		assign: function (view, selector) {
+			view.setElement(this.$(selector))
+			view.render();
+		},
+		initialize: function() {
+			this.kidList = [];
+			_.bindAll(this, "render", "save", "remove", "assign", "add");
+			var kidsReadyLatch = latch(2,this,function(){
+				this.mentor2kid.each(function(k2m){
+					this.kidList.push({
+						model: k2m.get("Kid"),
+						view: new AdminDetailMentorKidListItemTemplate({
+							model: k2m.get("Kid"),
+							parent: this
+						})
+					});
+				}.bind(this));
+				this.kidList.push({
+					model: null,
+					view: new AdminDetailMentorKidListItemTemplate({
+						model: null,
+						parent: this
+					})
+				});
+				this.render();
+			});
+			this.render();
+			this.mentor2kid = new Mentor2KidList();
+			this.mentor2kid.query = new Parse.Query(Mentor2Kid);
+			this.mentor2kid.query.include('Kid');
+			this.mentor2kid.query.equalTo('Mentor', {"__type":"Pointer","className":"Mentor","objectId": this.model.id});
+			this.mentor2kid.bind('reset', kidsReadyLatch);
+			this.mentor2kid.fetch();
+
+			this.kids = new KidList();
+			this.kids.query = new Parse.Query(Kid);
+			this.kids.bind('reset', kidsReadyLatch);
+			this.kids.fetch();
+
+		},
+		save: function(){
+			//add new kids that are allwed
+			this.kidList.map(function(localKid){
+				var kid = localKid.model;
+				if(kid == null) return;//if its the fake new kid on the end of the list, don't try to save him. this is bad design.
+				//if we already have a kid listed, don't save a new relation
+				if(this.mentor2kid.find(function(m2k){
+					return _.isEqual(m2k.get('Kid'),kid);
+				})) return;
+				var m2k = new Mentor2Kid();
+				this.mentor2kid.add(m2k);
+				m2k.set('Kid', kid);
+				m2k.set('Mentor', this.model);
+				m2k.save().error(function(a){
+					console.log("m2k save: " + a);
+				});
+			}.bind(this));
+			//remove deauthed kids...
+		},
+		render: function() {
+			this.$el.html(this.template({}));
+			this.kidList.map(function(k){
+				this.$('ul').append('<li></li>');
+				this.assign(k.view, 'ul > li:last-child')
+			}.bind(this));
+		},
+		remove: function(kidpairview){
+			this.kidList = this.kidList.filter(function(k){
+				return k.model != kidpairview.model;
+			});
+			kidpairview.$el.remove();
+		},
+		add: function(kidpairview){
+			var newKid = kidpairview.$('.kid-name').eq(1).typeahead('val');
+			if(newKid == "") return;
+			var firstName = newKid.match(/^\w+/)[0];
+			var lastInitial = newKid.match(/\w$/)[0];
+			newKid = this.kids.find(function(k){
+				return k.get('FirstName') == firstName && k.get('LastInitial') == lastInitial;
+			});
+			if( newKid == undefined)
+				return;
+			if(_.find(this.kidList, function(kObj){
+				return _.isEqual(kObj.model, newKid);
+			})){
+				alert("already authorized");
+				return;
+			}
+			this.kidList[this.kidList.length-1].model = newKid;
+			this.kidList[this.kidList.length-1].view.model = newKid;
+			this.kidList.push({
+				model: null,
+				view: new AdminDetailMentorKidListItemTemplate({
+					model: null,
+					parent: this
+				})
+			});
+			this.render();
+		}
+	});
+
+	var AdminDetailMentorKidListItemTemplate = Parse.View.extend({
+		template: _.template($("#admin-detail-mentor-kid-list-item-template").html()),
+		events:{
+			'click .close': 'delete',
+			'click .add-kid-pair': 'add',
+		},
+		initialize: function() {
+			_.bindAll(this, "render", "delete", "add");
+			this.render();
+		},
+		delete: function(){
+			this.options.parent.remove(this);
+		},
+		add: function(){
+			this.options.parent.add(this);
+		},
+		render: function() {
+			this.$el.html(this.template({value:this.model?this.model.get('FirstName')+' '+this.model.get('LastInitial'):''}));
+			
+			//the TypeAhead shtufff
+			var kidBloodhound = new Bloodhound({
+				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+				queryTokenizer: Bloodhound.tokenizers.whitespace,
+				local: this.options.parent.kids.map(function(kid) { return { value: kid.get('FirstName')+' '+kid.get('LastInitial'), id: kid.id }; })
+			});
+			// kicks off the loading/processing of `local` and `prefetch`
+			kidBloodhound.initialize();
+			this.$('.kid-name').typeahead({
+				hint: true,
+				highlight: true,
+				minLength: 1
+			},{
+				name: 'states',
+				displayKey: 'value',
+				// `ttAdapter` wraps the suggestion engine in an adapter that
+				// is compatible with the typeahead jQuery plugin
+				source: kidBloodhound.ttAdapter(),
+				templates: {
+					empty: [
+						'<div class="no-kids-found">',
+							'No kids found',
+						'</div>'
+					].join('\n'),
+				}
+			});
+		}
+	});
+/*
+	
+*/
 
 /* these are not needed
 	var ManageMentorsView = Parse.View.extend({
