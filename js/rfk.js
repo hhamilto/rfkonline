@@ -1043,6 +1043,7 @@ $(function() {
 			_.bindAll(this, 'render');
 			this.model.bind('change', this.render);
 			this.model.bind('destroy', this.remove);
+			this.model.attributes.Kids = new KidList();
 			//whether the list of visits is displayed
 			this.open = false;
 		},
@@ -1051,19 +1052,15 @@ $(function() {
 			return this;
 		},
 		openVisit: function(e){
-			var model = this.model;
-			var kidList = new KidList;
-			kidList.query = new Parse.Query(Kid);
 			var kid2Visitquery = new Parse.Query(Kid2Visit);
-			kid2Visitquery.equalTo("VisitId", this.model.id);
-			kidList.query.matchesKeyInQuery("objectId", "KidId", kid2Visitquery);
-
-			kidList.query.find({
-				success: function(kids){
-					model.attributes.Kids = kids;
-					new VisitView({model: model});
-				}
-			});
+			kid2Visitquery.equalTo("Visit", {"__type":"Pointer","className":"Visit","objectId": this.model.id});
+			kid2Visitquery.include("Kid");
+			kid2Visitquery.find().done(function(kid2visits){
+				kid2visits.map(function(k2v){
+					this.model.attributes.Kids.add(k2v.get("Kid"));
+				}.bind(this));
+				new VisitView({model: this.model});
+			}.bind(this));
 		}
 	});
 	
@@ -1114,9 +1111,10 @@ $(function() {
 			this.TravelPoints = new TravelPointList;
 			// Setup the query for the collection to look for todos from the current user
 			this.TravelPoints.query = new Parse.Query(TravelPoint);
-			this.TravelPoints.query.equalTo("VisitId", this.model.id);
+			this.TravelPoints.query.equalTo("Visit", {"__type":"Pointer","className":"Visit","objectId": this.model.id});
 			//XXX FIX THIS SO LONG TRIPS WORK 1000+ points
 			this.TravelPoints.query.limit(1000);
+			this.TravelPoints.query.ascending("TimeLogged")
 			this.TravelPoints.bind('add',     this.addOneTp);
 			this.TravelPoints.bind('reset',   finalLatch);
 			this.TravelPoints.bind('all',     this.render);
@@ -1255,8 +1253,6 @@ $(function() {
 			collection2.unshift = collection1.unshift;
 			while(collection1.length + collection2.length > 0){
 				!function(model){
-
-				console.log(model);
 					if(model.className === "Comment")
 						new CommentView({model: model});
 					else if(model.className === "Photo")
