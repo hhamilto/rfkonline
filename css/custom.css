@@ -287,6 +287,13 @@ Visit Viewer View
 /************************************************
 Admin
 ************************************************/
+.adminPaneHeader {
+	padding: 10px;
+}
+.adminPaneHeader h1 {
+	margin: 0;
+	line-height: 50px;
+}
 
 /************************************************
 Admin Detail
@@ -496,6 +503,7 @@ button.add-kid-pair:hover{
 /************************************************
 Admin List
 ************************************************/
+
 #adminListPane {
 	width: 50%;
 	top: 70px;
