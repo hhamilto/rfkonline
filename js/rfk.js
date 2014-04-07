@@ -675,6 +675,16 @@ $(function() {
 				});
 			}.bind(this));
 			//remove deauthed kids...
+			this.mentor2kid.each(function(m2k){
+				var kid = m2k.get("Kid");
+				if(kid == null) return;//this shoulld actually ever happen, but
+				if(this.kidList.reduce(function(p, localKid){ // this is janky, but I don't like those f***ing for loops like c has,
+					return p || _.isEqual(localKid.model,kid);
+				}, false)) return; //we found a match, we don't have to delete our m2k entry
+				this.mentor2kid.remove(m2k);
+				m2k.destroy();
+			}.bind(this));
+
 		},
 		render: function() {
 			this.$el.html(this.template({}));
