@@ -355,7 +355,7 @@
 	 <script type="text/template" id="photo-template">
 		<li>
 			<div class="visitPhoto" >
-				<span><%= createdAt.format('MMMM Do YYYY h:mm a')%></span>
+				<span><b><%= createdAt.format('MMMM Do YYYY h:mm a')%></b></span>
 					<!--//This link points to an exact index, needs to be fixed -->
 					<a href="#<%=id%>" data-toggle="lightbox">
 						<img class="thumbnail" src="<%= Data.url() %>" />
