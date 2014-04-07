@@ -1087,7 +1087,7 @@ $(function() {
 				var commentLatch = latch(this.Comments.length,null,finalLatch);
 				this.Comments.map(function(comment){
 
-					var latlng = new google.maps.LatLng(comment.attributes.Location.latitude, comment.attributes.Location.longitude);
+					var latlng = new google.maps.LatLng(comment.get("Location").latitude, comment.get("Location").longitude);
 					var address = "Location Unknown";
 
 					// make reverse geolocation call
@@ -1126,7 +1126,7 @@ $(function() {
 			// fetch all the comments for this visit
 			this.Comments = new CommentList;
 			this.Comments.query = new Parse.Query(Comment);
-			this.Comments.query.equalTo("VisitId", this.model.id);
+			this.Comments.query.equalTo("Visit", {"__type":"Pointer","className":"Visit","objectId": this.model.id});
 			this.Comments.query.limit(1000);
 			this.Comments.query.ascending("createdAt");
 			this.Comments.bind('reset',   geocodeComments);
@@ -1165,7 +1165,7 @@ $(function() {
 			var visitRoutePoints = [];
 			var bounds = new google.maps.LatLngBounds()
 			this.options.travelPoints.map(function(travelPoint){
-				var point = new google.maps.LatLng(travelPoint.attributes.Location.latitude, travelPoint.attributes.Location.longitude)
+				var point = new google.maps.LatLng(comment.get("Location").latitude, comment.get("Location").longitude)
 				bounds.extend(point);
 				visitRoutePoints.push( point);
 			});
@@ -1203,7 +1203,7 @@ $(function() {
 
 				// add the comment to the map
 				var marker = new google.maps.Marker({
-					position: new google.maps.LatLng(comment.attributes.Location.latitude, comment.attributes.Location.longitude),
+					position: new google.maps.LatLng(comment.get("Location").latitude, comment.get("Location").longitude),
 					map: map,
 					title: 'Comment'
 				});
@@ -1227,7 +1227,7 @@ $(function() {
 			_.bindAll(this, "addAll");
 			this.Photos = new PhotoList;
 			this.Photos.query = new Parse.Query(Photo);
-			this.Photos.query.equalTo("VisitId", this.model.id);
+			this.Photos.query.equalTo("Visit", {"__type":"Pointer","className":"Visit","objectId": this.model.id});
 			this.Photos.query.limit(1000);
 			this.Photos.query.ascending("createdAt");
 			this.Photos.bind('add',     this.addOnePhoto);
