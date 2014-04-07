@@ -345,7 +345,7 @@ $(function() {
 			"click .detail-save > button": "save"
 		},
 		initialize: function(){
-			_.bindAll(this, "save", "render", "showSave", "assign", "addFieldView");
+			_.bindAll(this, "save", "render", "showSave", "hideSave", "assign", "addFieldView");
 			this.fieldViews = [];
 		},
 		assign: function (view, selector) {
@@ -354,6 +354,9 @@ $(function() {
 		},
 		showSave: function(){
 			$('.detail-save').addClass("show");
+		},
+		hideSave: function(){
+			$('.detail-save').removeClass("show");
 		},
 		addFieldView: function(options){
 			_.defaults(options,{type:  'text',
@@ -442,7 +445,7 @@ $(function() {
 			}
 		},
 		save: function(){
-			//save back;
+			//save back
 			this.fieldViews.map(function(fv){fv.view.save()});
 			if(this.model instanceof Kid){
 				this.model.save().done(function(){
@@ -462,17 +465,7 @@ $(function() {
 					Parse.Cloud.run('modifyUser', {
 						objectId: user.id,
 						// we always want to save the address back, so that incase a new one needed to be created we know
-						newUser: user.toJSON()/*attributes.reduce(function(o,k){
-								var attribute = user.get(k)
-								if(attribute instanceof Parse.Object)//strip down to key
-									attribute = {
-										isPointer: true,
-										type:      attribute.className,
-										id:        attribute.id
-									};
-								o[k] = attribute; 
-								return o;
-						},{})*/
+						newUser: user.toJSON()
 					}, {
 						success: function(result) {
 							// result is 'Hello world!'
