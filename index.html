@@ -178,8 +178,10 @@
 			<div class="detail-save">
 				<button class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save </button>
 			</div>
-			<h1><span class="smallProfilePicture" style="background-image:url('<%= get('User').get('Photo').url() %>');"></span>
-			<%= get("User").get("name") %></h1>
+			<div class="text-center">
+				<span class="smallProfilePicture" style="background-image:url('<%= get('User').get('Photo').url() %>');"></span>
+				<span class="name"></span>
+			</div>
 		</div>
 		<div class="detail-info">
 			<div class="clearfix adminMoreDetails">
@@ -245,6 +247,12 @@
 		<span><%=label%>:</span>
 		<form class="form-inline" role="form">
 			<input class="form-control" type="<%=type%>" placeholder="<%=placeholder%>" value="<%=value%>" />
+		</form>
+	</script>
+
+	<script type="text/template" id="admin-detail-name-template">
+		<form class="form-inline" role="form">
+			<input class="form-control" id="name-input" type="<%=type%>" placeholder="<%=placeholder%>" value="<%=value%>" />
 		</form>
 	</script>
 

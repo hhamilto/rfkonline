@@ -408,6 +408,29 @@ $(function() {
 						}
 					})
 				});
+			}else if(options.type == 'name') {
+				var el_class = '.'+options.path.split('.').pop().toLowerCase();
+				this.fieldViews.push({
+					el_class: el_class,
+					view: new AdminDetailNameView({
+						parent: this,
+						el: el_class,
+						model: {
+							value:  options.type=='date'?
+							            object==undefined?
+							            "":moment(object).format('YYYY-MM-DD'):
+							        object,
+							placeholder: options.placeholder,
+							type: options.type
+						},
+						save: function(o){
+							if(o == null)
+								parentObject.unset(options.path.split('.').slice(-1)[0])
+							else
+								parentObject.set(options.path.split('.').slice(-1)[0],o)
+						}
+					})
+				});
 			}else if( options.type == 'kidpairer'){
 				var el_class = '.kids';
 				this.fieldViews.push({
@@ -471,7 +494,8 @@ $(function() {
 							// result is 'Hello world!'
 						},
 						error: function(error) {
-							console.log("ya fuckd it up");
+							console.log("The save failed for the following reason: ");
+							console.log(error);
 						}
 					});
 				});
@@ -490,9 +514,11 @@ $(function() {
 		template: _.template($("#admin-mentor-detail-template").html()),
 		el: "#adminDetailPane",
 		initialize: function() {
-			AdminDetailView.prototype.initialize.apply(this);  
+			AdminDetailView.prototype.initialize.apply(this);
 			_.bindAll(this, "render");
 			this.render();
+			this.addFieldView({ path:        'User.name',
+								type:         "name", });
 			this.addFieldView({ path:        'User.Address',
 								type:        'address' });
 			this.addFieldView({ path:        'User.phone',
@@ -575,6 +601,27 @@ $(function() {
 
 	var AdminDetailBasicView = Parse.View.extend({
 		template: _.template($("#admin-detail-basic-template").html()),
+		initialize: function() {
+			 this.options.save = this.options.save || function(){};
+			_.bindAll(this, "render", "save");
+			_.defaults(this.model,{type:"text", placeholder:''});
+			this.render();
+		},
+		save: function(){
+			this.options.save( this.model.type == 'date'?
+						moment(this.$el.find("input").val())==null?
+							null:
+							moment(this.$el.find("input").val()).toDate():
+					nullIfBlank(this.$el.find("input").val())
+					);
+		},
+		render: function() {
+			this.$el.html(this.template(this.model));
+		}
+	});
+
+	var AdminDetailNameView = Parse.View.extend({
+		template: _.template($("#admin-detail-name-template").html()),
 		initialize: function() {
 			 this.options.save = this.options.save || function(){};
 			_.bindAll(this, "render", "save");
