@@ -415,7 +415,7 @@ Admin Detail
 	display: inline-block;
 }
 
-#adminDetailPane #name-input {
+#adminDetailPane .name-input {
 	display: inline-block;
 	background-color: #2c4762;
 	font-size: 32px;
@@ -425,11 +425,11 @@ Admin Detail
 	color: #fff;
 }
 
-#adminDetailPane #name-input:hover {
+#adminDetailPane .name-input:hover {
 	border: 1px solid #ccc;
 }
 
-#adminDetailPane #name-input:focus {
+#adminDetailPane .name-input:focus {
 	border: 1px solid #fff;
 }
      /*********************

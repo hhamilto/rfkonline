@@ -518,7 +518,7 @@ $(function() {
 			_.bindAll(this, "render");
 			this.render();
 			this.addFieldView({ path:        'User.name',
-								type:         "name", });
+								type:         "name" });
 			this.addFieldView({ path:        'User.Address',
 								type:        'address' });
 			this.addFieldView({ path:        'User.phone',
@@ -545,6 +545,8 @@ $(function() {
 			AdminDetailView.prototype.initialize.apply(this);
 			_.bindAll(this, "render");
 			this.render();
+			this.addFieldView({ path:        'name',
+								type:         "name" });
 			this.addFieldView({ path:        'Birthday',
 								label:       'Birthdate',
 								type:        'date', });
@@ -561,6 +563,8 @@ $(function() {
 			AdminDetailView.prototype.initialize.apply(this);  
 			_.bindAll(this, "render");
 			this.render();
+			this.addFieldView({ path:        'name',
+								type:         "name" });
 			this.addFieldView({ path:        'Address',
 								type:        'address' });
 			this.addFieldView({ path:        'phone',

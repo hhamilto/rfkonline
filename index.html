@@ -149,7 +149,10 @@
 			<div class="detail-save">
 				<button class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save </button>
 			</div>
-			<h1><span class="smallProfilePicture" style="background-image:url('<%= get('Photo').url() %>');"></span> <%= get("name") %></h1>
+			<div class="text-center">
+				<span class="smallProfilePicture" style="background-image:url('<%= get('Photo').url() %>');"></span>
+				<span class="name"></span>
+			</div>
 		</div>
 		<div class="detail-info">
 			<div class="clearfix adminMoreDetails">
@@ -214,7 +217,10 @@
 			<div class="detail-save">
 				<button class="btn btn-success"><span class="glyphicon glyphicon-floppy-disk"></span> Save </button>
 			</div>
-			<h1><span class="smallProfilePicture" style="background-image:url('<%= get('photo').url() %>');"></span> <%= get("FirstName") + " " + get("LastInitial") %></h1>
+			<div class="text-center">
+				<span class="smallProfilePicture" style="background-image:url('<%= get('photo').url() %>');"></span>
+				<span class="name"></span>
+			</div>
 		</div>
 		<div class="detail-info">
 			<div class="clearfix adminMoreDetails">
@@ -252,7 +258,7 @@
 
 	<script type="text/template" id="admin-detail-name-template">
 		<form class="form-inline" role="form">
-			<input class="form-control" id="name-input" type="<%=type%>" placeholder="<%=placeholder%>" value="<%=value%>" />
+			<input class="form-control name-input" type="<%=type%>" placeholder="<%=placeholder%>" value="<%=value%>" />
 		</form>
 	</script>
 
