@@ -472,9 +472,9 @@ $(function() {
 			this.fieldViews.map(function(fv){fv.view.save()});
 			if(this.model instanceof Kid){
 				this.model.save().done(function(){
-					console.log("saved good");
+					console.log("The changes were save successfully.");
 				}).fail(function(){
-					console.log("save fucking failed. I hope you're happy.")
+					console.log("The save failed. No Changes were made.");
 				});
 			}else{
 				var user; // don't be fooled. there is NO blocks scope in js.
@@ -491,7 +491,7 @@ $(function() {
 						newUser: user.toJSON()
 					}, {
 						success: function(result) {
-							// result is 'Hello world!'
+							console.log("The changes were save successfully.");
 						},
 						error: function(error) {
 							console.log("The save failed for the following reason: ");
