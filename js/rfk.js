@@ -1094,7 +1094,7 @@ $(function() {
 		template: _.template($('#visit-item-template').html()),
 		initialize: function(){
 			this.render();
-			_.bindAll(this, 'render');
+			_.bindAll(this, 'render', 'openVisit');
 			this.model.bind('change', this.render);
 			this.model.bind('destroy', this.remove);
 			this.model.attributes.Kids = new KidList();
@@ -1106,15 +1106,19 @@ $(function() {
 			return this;
 		},
 		openVisit: function(e){
-			var kid2Visitquery = new Parse.Query(Kid2Visit);
-			kid2Visitquery.equalTo("Visit", {"__type":"Pointer","className":"Visit","objectId": this.model.id});
-			kid2Visitquery.include("Kid");
-			kid2Visitquery.find().done(function(kid2visits){
-				kid2visits.map(function(k2v){
-					this.model.attributes.Kids.add(k2v.get("Kid"));
+			if(this.visitView){
+				this.visitView = new VisitView({model: this.model});
+			}else{
+				var kid2Visitquery = new Parse.Query(Kid2Visit);
+				kid2Visitquery.equalTo("Visit", {"__type":"Pointer","className":"Visit","objectId": this.model.id});
+				kid2Visitquery.include("Kid");
+				kid2Visitquery.find().done(function(kid2visits){
+					kid2visits.map(function(k2v){
+						this.model.attributes.Kids.add(k2v.get("Kid"));
+					}.bind(this));
+					this.visitView = new VisitView({model: this.model});
 				}.bind(this));
-				new VisitView({model: this.model});
-			}.bind(this));
+			}
 		}
 	});
 	
@@ -1216,7 +1220,7 @@ $(function() {
 			var visitRoutePoints = [];
 			var bounds = new google.maps.LatLngBounds()
 			this.options.travelPoints.map(function(travelPoint){
-				var point = new google.maps.LatLng(comment.get("Location").latitude, comment.get("Location").longitude)
+				var point = new google.maps.LatLng(travelPoint.get("Location").latitude, travelPoint.get("Location").longitude)
 				bounds.extend(point);
 				visitRoutePoints.push( point);
 			});

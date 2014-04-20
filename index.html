@@ -337,7 +337,7 @@
 		<h1><%= (Name!=""?Name:"- Unnamed Visit -") %></h1>
 		<div class="visit-info">
 			On <b><%= Start.format('MMMM Do YYYY') %></b>
-			at <b><%= Start.format('h:mm:ss a') %></b>,
+			at <b><%= Start.format('h:mm a') %></b>,
 			<b><%= Mentor.get('User').get('name') %></b> visited 
 			<%= getKidListString(Kids, 'FirstName')%>
 			for <b><%= moment.duration(End.diff(Start)).humanize() %></b>.
