@@ -1050,7 +1050,7 @@ $(function() {
 			var mentorQuery = new Parse.Query(Mentor);
 			mentorQuery.equalTo("objectId",this.model.id); 
 			this.visits.query.matchesKeyInQuery("Mentor", "objectId", mentorQuery);
-			this.visits.query.ascending("End");
+			this.visits.query.descending("End");
 
 			this.visits.query.include("Mentor");
 			this.visits.query.include("Mentor.User");
