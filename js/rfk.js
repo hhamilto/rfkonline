@@ -916,7 +916,7 @@ $(function() {
 			var mentorQuery = new Parse.Query(Mentor);
 			mentorQuery.equalTo("objectId",this.model.id); 
 			this.visits.query.matchesKeyInQuery("Mentor", "objectId", mentorQuery);
-			this.visits.query.descending("End");
+			this.visits.query.descending("Start");
 
 			this.visits.query.include("Mentor");
 			this.visits.query.include("Mentor.User");
@@ -960,16 +960,17 @@ $(function() {
 		},
 		template: _.template($('#visit-item-template').html()),
 		initialize: function(){
-			this.render();
 			_.bindAll(this, 'render', 'openVisit');
 			this.model.bind('change', this.render);
 			this.model.bind('destroy', this.remove);
 			this.model.attributes.Kids = new KidList();
+			this.model.set("Start", moment(this.model.get("Start")));
 			//whether the list of visits is displayed
 			this.open = false;
+			this.render();
 		},
 		render: function(){
-			this.$el.html(this.template(this.model.toJSON()));
+			this.$el.html(this.template(this.model));
 			return this;
 		},
 		openVisit: function(e){

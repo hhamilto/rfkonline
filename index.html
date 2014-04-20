@@ -330,7 +330,7 @@
 	</script>
 	
 	<script type="text/template" id="visit-item-template">
-		<li class="li-visit"><%= (Name!=""?Name:"- Unnamed Visit -") %></li>
+		<li class="li-visit"><%= (get("Start") ? get("Start").format("MMMM Do, YYYY"):"- Unnamed Visit -") %></li>
 	</script>
 	
 	<script type="text/template" id="visit-template">
