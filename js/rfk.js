@@ -760,10 +760,8 @@ $(function() {
 				return;
 			if(_.find(this.kidList, function(kObj){
 				return _.isEqual(kObj.model, newKid);
-			})){
-				alert("already authorized");
-				return;
-			}
+			})) 
+				return alert("already authorized");
 			this.kidList[this.kidList.length-1].model = newKid;
 			this.kidList[this.kidList.length-1].view.model = newKid;
 			this.kidList.push({
