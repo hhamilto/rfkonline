@@ -252,7 +252,7 @@ $(function() {
 					var getUsername = function(o){
 						if(o instanceof Mentor) return o.get('User').get('name');
 						if(o instanceof User) return o.get('name');
-						if(o instanceof Kid) return o.get('FirstName');
+						if(o instanceof Kid) return o.get('name');
 						alert("couldn't get username"); return "";
 					};
 					return getUsername(a.model).trim().localeCompare(
@@ -285,7 +285,7 @@ $(function() {
 					var el = this.$el.find('#adminList').append('<li></li>').find('li').last();
 					user.view = new AdminDirectorListItemView({model: user.model, el: el, parentList: this});
 				}else if(user.model instanceof Kid &&
-						this.filterRegex.test(user.model.get('FirstName'))){
+						this.filterRegex.test(user.model.get('name'))){
 					var el = this.$el.find('#adminList').append('<li></li>').find('li').last();
 					user.view = new AdminKidListItemView({model: user.model, el: el, parentList: this});
 				}
@@ -756,7 +756,7 @@ $(function() {
 			var firstName = newKid.match(/^\w+/)[0];
 			var lastInitial = newKid.match(/\w$/)[0];
 			newKid = this.kids.find(function(k){
-				return k.get('FirstName') == firstName && k.get('LastInitial') == lastInitial;
+				return k.get('name') == firstName;
 			});
 			if( newKid == undefined)
 				return;
@@ -796,13 +796,13 @@ $(function() {
 			this.options.parent.add(this);
 		},
 		render: function() {
-			this.$el.html(this.template({value:this.model?this.model.get('FirstName')+' '+this.model.get('LastInitial'):''}));
+			this.$el.html(this.template({value:this.model?this.model.get('name'):''}));
 			
 			//the TypeAhead shtufff
 			var kidBloodhound = new Bloodhound({
 				datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
 				queryTokenizer: Bloodhound.tokenizers.whitespace,
-				local: this.options.parent.kids.map(function(kid) { return { value: kid.get('FirstName')+' '+kid.get('LastInitial'), id: kid.id }; })
+				local: this.options.parent.kids.map(function(kid) { return { value: kid.get('name'), id: kid.id }; })
 			});
 			// kicks off the loading/processing of `local` and `prefetch`
 			kidBloodhound.initialize();
