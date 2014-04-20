@@ -339,7 +339,7 @@
 			On <b><%= Start.format('MMMM Do YYYY') %></b>
 			at <b><%= Start.format('h:mm a') %></b>,
 			<b><%= Mentor.get('User').get('name') %></b> visited 
-			<%= getKidListString(Kids, 'FirstName')%>
+			<%= getKidListString(Kids, 'name')%>
 			for <b><%= moment.duration(End.diff(Start)).humanize() %></b>.
 		</div>
 		<div id="map">
