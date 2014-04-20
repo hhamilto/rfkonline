@@ -753,10 +753,8 @@ $(function() {
 		add: function(kidpairview){
 			var newKid = kidpairview.$('.kid-name').eq(1).typeahead('val');
 			if(newKid == "") return;
-			var firstName = newKid.match(/^\w+/)[0];
-			var lastInitial = newKid.match(/\w$/)[0];
 			newKid = this.kids.find(function(k){
-				return k.get('name') == firstName;
+				return k.get('name') == newKid;
 			});
 			if( newKid == undefined)
 				return;
