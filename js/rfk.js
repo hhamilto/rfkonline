@@ -1110,7 +1110,7 @@ $(function() {
 				'</h4>'+
 				'<p>Comment created: '+ 
 				moment(comment.createdAt).format('MMMM Do YYYY h:mm a')+
-				'</br>Location: '+
+				'</br>Approximate Location: '+
 				comment.get('address') +
 				'</p>'+
 				'</div>'+
