@@ -23,3 +23,13 @@
     position: static !important;
     width: auto !important;
 }
+
+.visitPhoto img.thumbnail {
+	width:auto;
+	height:3in;
+	page-break-inside: avoid;
+}
+
+#logitem-list > li {
+	page-break-inside: avoid;
+}
