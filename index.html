@@ -17,11 +17,12 @@
 		<script src="js/rfk.js"></script>
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link href="css/bootstrap.css" rel="stylesheet" media="screen">
 
+		<link href="css/bootstrap.css" rel="stylesheet" media="screen">
 		<link rel="stylesheet" type="text/css" href="css/bootstrap-lightbox.min.css"/>
 		<link rel="stylesheet" type="text/css" href="css/custom.css"/>
 		<link href="css/print.css" media="print" rel="stylesheet" />
+
 		<link rel="icon" href="img/favicon.png" type="image/png" />
 		<link rel="shortcut icon" href="favicon.ico" />
 	</head>
@@ -34,44 +35,18 @@
 	</div>
 
 	<script type="text/template" id="login-template">
-		<header id="header"></header>
-		<div class="container">
-			<div class="col-md-5 center">
-				<form class="form-horizontal loginForm" role="form">
-					<h2 class="text-right" id="loginTitle" style="text-shadow:0px 0px 5px #8A8A8A;">Royal Family Kids Login</h2>
-					<div class="error" style="display:none"></div>
-					<div class="form-group" id="loginFormGroup">
-					<label for="inputEmail" class="col-lg-3 control-label">Email</label>
-					<div class="col-lg-9">
-						<input class="form-control form-control-static" id="inputEmail" placeholder="Email"
-							data-content="Invalid email/password" data-trigger="manual">
-					</div>
-					</div>
-					<div class="form-group">
-					<label for="inputPassword" class="col-lg-3 control-label">Password</label>
-					<div class="col-lg-9">
-						<input type="password" class="form-control" id="inputPassword" placeholder="Password">
-					</div>
-					</div>
-					<div class="form-group">
-					<div class="col-lg-offset-3 col-lg-9">
-						<div class="checkbox">
-						<label>
-							<input type="checkbox"> Remember me
-						</label>
-						</div>
-					</div>
-					</div>
-					<div class="form-group">
-					<div class="col-lg-offset-3 col-lg-7">
-						<button type="submit" class="btn btn-default" data-loading-text="Signing in...">Sign in</button>
-					</div>
-					</div>
-				</form>
+		<div id="loginForm">
+			<form class="form-horizontal" role="form">
+				<img src="img/logo.png"/>
+				<div class="error" style="display:none"></div>
+				<label for="inputEmail" class="hidden control-label">Email</label>
+				<input class="form-control form-control input-lg" id="inputEmail" placeholder="Email" data-content="Invalid email/password" data-trigger="manual">
+				<label for="inputPassword" class="hidden control-label">Password</label>
+				<input type="password" class="form-control input-lg" id="inputPassword" placeholder="Password">
+				<button type="submit" class="btn btn-primary btn-lg" style="width:100%" data-loading-text="Signing in...">Log in</button>
 
-			</div> <!-- /col-md-5 -->
-
-		</div> <!-- /container -->
+			</form>
+		</div>
 	</script>
 
 	<script type="text/template" id="dashboard-template">
