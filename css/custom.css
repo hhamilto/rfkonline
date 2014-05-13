@@ -72,9 +72,16 @@ Login stuff
 	color: red;
 }
 
+
 /************************************************
 Dashboard Container
 ************************************************/
+
+.navbar-brand img {
+	margin-top:-7px;
+	margin-bottom:-2px;
+}
+
 #dashboardContainer {
 	position: absolute;
 	left:0;
