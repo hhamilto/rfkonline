@@ -47,6 +47,11 @@ Login stuff
 	padding: 20px;
 }
 
+#loginForm img {
+	max-width: 300px;
+	margin-bottom: 10px;
+}
+
 #loginForm input:first-of-type{
 	border-bottom-left-radius: 0px;
 	border-bottom-right-radius: 0px;
@@ -59,6 +64,8 @@ Login stuff
 #loginForm button{
 	border-top-left-radius: 0px;
 	border-top-right-radius: 0px;
+	background-color: #2C4762;
+	border-color: #1C3752;
 }
 
 #loginFormGroup .popover-content{
