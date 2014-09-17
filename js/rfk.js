@@ -103,6 +103,7 @@ $(function() {
 	var DashboardView = Parse.View.extend({
 		events: {
 			"click #signoutButton" : "logout",
+			"click .image-thumbnail" : "showImageModal",
 		},
 		model: {},
 		template: _.template($("#dashboard-template").html()),
@@ -112,6 +113,15 @@ $(function() {
 			this.model.currentUsername = Parse.User.current().getUsername();
 			this.delegateEvents();
 			this.showVisitView();
+		},
+		showImageModal: function(e) {
+			e.preventDefault(); // stop the anchor from firing
+			var img = $(e.target); // get the image element clicked
+			$(".image-modal .modal-title").html($(img).data("title")); // populate the modal title
+			$(".image-modal .modal-body").html("<img src='" + $(img).attr("src") + "'/>"); // populate the modal title
+
+			$(".image-modal").modal(); // display the modal
+			console.log(img);
 		},
 		render: function(){
 			this.$el.html(this.template(this.model));

@@ -276,6 +276,23 @@
 				<span id="main-pane-welcome"><span style="font-size:.8em" class="glyphicon glyphicon-arrow-left"></span> Select a visit</span>
 			</div>
 		</div>
+		<div class="modal fade image-modal" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">&times;</span>
+							<span class="sr-only">Close</span>
+						</button>
+						<h4 class="modal-title"></h4>
+					</div>
+					<div class="modal-body">
+					</div>
+					<div class="modal-footer">
+					</div>
+				</div>
+			</div>
+		</div>
 	</script>
 
 	<script type="text/template" id="side-bar-template">
@@ -347,8 +364,8 @@
 			<div class="visitPhoto" >
 				<span><b><%= createdAt.format('MMMM Do YYYY h:mm a')%></b></span>
 					<!--//This link points to an exact index, needs to be fixed -->
-					<a href="#<%=id%>" data-toggle="lightbox">
-						<img class="thumbnail" src="<%= Data.url() %>" />
+					<a href="#" class="image-thumbnail">
+						<img class="thumbnail" src="<%= Data.url() %>" data-title="<%= createdAt.format('MMMM Do YYYY h:mm a')%>"/>
 					</a>
 			</div>
 			<div id="<%=id%>" class="lightbox fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -360,6 +377,6 @@
 			</div
 		</li>
 	</script>
-  </body>
+	</body>
 
 </html>
