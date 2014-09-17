@@ -104,6 +104,8 @@ $(function() {
 		events: {
 			"click #signoutButton" : "logout",
 			"click .image-thumbnail" : "showImageModal",
+			"click .image-rotate-right" : "rotateImage",
+			"click .image-rotate-left" : "rotateImage",
 		},
 		model: {},
 		template: _.template($("#dashboard-template").html()),
@@ -114,6 +116,21 @@ $(function() {
 			this.delegateEvents();
 			this.showVisitView();
 		},
+		rotateImage: function(e) {
+			e.preventDefault();
+			var btn = $(e.currentTarget);
+			var img = $(".image-modal img");
+			var cur = ($(img).data("rot")) ? parseInt($(img).data("rot")) : 0;
+			newVal = 0;
+			if($(btn).data("dir") == "right") {
+				newVal = cur - 90;
+			}
+			else {
+				newVal = cur + 90;
+			}
+			$(img).css("transform", "rotate(" + newVal + "deg)");
+			$(img).data("rot", newVal);
+		},
 		showImageModal: function(e) {
 			e.preventDefault(); // stop the anchor from firing
 			var img = $(e.target); // get the image element clicked
@@ -121,7 +138,6 @@ $(function() {
 			$(".image-modal .modal-body").html("<img src='" + $(img).attr("src") + "'/>"); // populate the modal title
 
 			$(".image-modal").modal(); // display the modal
-			console.log(img);
 		},
 		render: function(){
 			this.$el.html(this.template(this.model));
