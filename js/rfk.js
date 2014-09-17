@@ -186,8 +186,8 @@ $(function() {
 		toggleUserInclude: function(e){
 			var includeType = $(e.currentTarget).attr('id').match(/toggle(.*)/)[1].toLowerCase();
 			this.include[includeType] = !this.include[includeType];
-			$(e.currentTarget).children('.glyphicon').toggleClass("glyphicon-check", this.include[includeType]);
-			$(e.currentTarget).children('.glyphicon').toggleClass("glyphicon-unchecked", !this.include[includeType]);
+			$(e.currentTarget).children('.glyphicon').toggleClass("glyphicon-eye-open", this.include[includeType]);
+			$(e.currentTarget).children('.glyphicon').toggleClass("glyphicon-eye-close", !this.include[includeType]);
 
 			this.list = this.cleanList.filter(function(user){
 				if(user.model instanceof User && this.include.directors){
