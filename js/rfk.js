@@ -136,8 +136,11 @@ $(function() {
 				case "visits":
 					$("#visitTopNav").addClass("active");
 					break;
-				case "admin":
-					$("#adminTopNav").addClass("active");
+				case "users":
+					$("#userTopNav").addClass("active");
+					break;
+				case "clubs":
+					$("#clubTopNav").addClass("active");
 					break;
 				default:
 					// default to visit view
@@ -147,8 +150,23 @@ $(function() {
 		}
 	});
 	
-	var AdminView = Parse.View.extend({
-		template: _.template($("#admin-template").html()),
+	var ClubsView = Parse.View.extend({
+		template: _.template($("#clubs-view-template").html()),
+		el: "#dashboardContainer",
+		model: {},
+		events: {},
+		initialize: function() {
+			_.bindAll(this, "render");
+			this.render();
+			//new AdminListView();
+		},
+		render: function() {
+			this.$el.html(this.template());
+		}
+	});
+
+	var UsersView = Parse.View.extend({
+		template: _.template($("#users-view-template").html()),
 		el: "#dashboardContainer",
 		model: {},
 		events: {},
@@ -1211,7 +1229,8 @@ $(function() {
 	var AppRouter = Parse.Router.extend({
 		routes: {
 			"visits": "visitPage",
-			"admin": "adminPanel",
+			"users": "usersPanel",
+			"clubs": "clubsPanel",
 			"*actions": "visitPage" // Backbone will try match the route above first
 		}
 	});
@@ -1223,9 +1242,14 @@ $(function() {
 		mainView.dashboard.highlight("visits");
 	});
 
-	app_router.on('route:adminPanel', function () {
-		new AdminView();
-		mainView.dashboard.highlight("admin");
+	app_router.on('route:usersPanel', function () {
+		new UsersView();
+		mainView.dashboard.highlight("users");
+	});
+
+	app_router.on('route:clubsPanel', function () {
+		new ClubsView();
+		mainView.dashboard.highlight("clubs");
 	});
 
 	// Start history a necessary step for bookmarkable URL's

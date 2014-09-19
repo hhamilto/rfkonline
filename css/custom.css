@@ -331,9 +331,9 @@ Admin
 }
 
 /************************************************
-Admin Detail
+User Detail
 ************************************************/
-#adminDetailPane {
+#userDetailPane {
 	width: 50%;
 	top: 70px;
 	position: absolute;
@@ -559,11 +559,12 @@ button.add-kid-pair:hover{
 }
 
 
+
 /************************************************
-Admin List
+User List
 ************************************************/
 
-#adminListPane {
+#userListPane {
 	width: 50%;
 	top: 70px;
 	position: absolute;
@@ -634,6 +635,27 @@ Admin List
 }
 
 /************************************************
+Club management
+************************************************/
+
+#clubListPane {
+	width: 50%;
+	top: 100px;
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+}
+
+#clubDetailPane {
+	width: 50%;
+	top: 100px;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	padding-left: 5px;
+}
+
+/************************************************
 Utility functions and misc cruft
 ************************************************/
 
@@ -643,3 +665,4 @@ Utility functions and misc cruft
 	-o-transition:  max-height 1.5s ease;
 	transition:  max-height 1.5s ease !important;
 }
+
