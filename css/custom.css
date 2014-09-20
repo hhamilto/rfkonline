@@ -374,12 +374,12 @@ User Detail
 	overflow-y: auto;
 }
 
-#adminDetailPane h1 {
+#userDetailPane h1 {
 	margin: 0 auto;
 	text-align: center;
 }
 
-#adminDetailPane img {
+#userDetailPane img {
 	width: 50px;
 }
 
@@ -425,7 +425,7 @@ User Detail
 	bottom:0;
 }
 
-#adminDetailPane input {
+#userDetailPane input {
 	height: 20px;
 	border: 1px solid white;
 	box-shadow: none;
@@ -434,11 +434,11 @@ User Detail
 	color: #333;
 }
 
-#adminDetailPane input:hover {
+#userDetailPane input:hover {
 	border: 1px solid #CCCCCC;
 }
 
-#adminDetailPane input:focus {
+#userDetailPane input:focus {
 	border: 1px solid #99D;
 	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3) inset;
 }
@@ -450,7 +450,7 @@ User Detail
 	display: inline-block;
 }
 
-#adminDetailPane .name-input {
+#userDetailPane .name-input {
 	display: inline-block;
 	background-color: #2c4762;
 	font-size: 32px;
@@ -460,11 +460,11 @@ User Detail
 	color: #fff;
 }
 
-#adminDetailPane .name-input:hover {
+#userDetailPane .name-input:hover {
 	border: 1px solid #ccc;
 }
 
-#adminDetailPane .name-input:focus {
+#userDetailPane .name-input:focus {
 	border: 1px solid #fff;
 }
      /*********************

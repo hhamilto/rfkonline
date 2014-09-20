@@ -158,7 +158,6 @@ $(function() {
 		initialize: function() {
 			_.bindAll(this, "render");
 			this.render();
-			//new AdminListView();
 		},
 		render: function() {
 			this.$el.html(this.template());
@@ -173,16 +172,16 @@ $(function() {
 		initialize: function() {
 			_.bindAll(this, "render");
 			this.render();
-			new AdminListView();
+			new UserListView();
 		},
 		render: function() {
 			this.$el.html(this.template());
 		}
 	});
 
-	var AdminListView = Parse.View.extend({
-		template: _.template($("#admin-list-pane-template").html()),
-		el: "#adminListPane",
+	var UserListView = Parse.View.extend({
+		template: _.template($("#user-list-pane-template").html()),
+		el: "#userListPane",
 		events: {
 			"click #toggleMentors": "toggleUserInclude",
 			"click #toggleDirectors": "toggleUserInclude",
@@ -530,7 +529,7 @@ $(function() {
 	// detail view for a mentor
 	var AdminMentorDetailView = AdminDetailView.extend({
 		template: _.template($("#admin-mentor-detail-template").html()),
-		el: "#adminDetailPane",
+		el: "#userDetailPane",
 		initialize: function() {
 			AdminDetailView.prototype.initialize.apply(this);
 			_.bindAll(this, "render");
@@ -558,7 +557,7 @@ $(function() {
 	// detail view for a kid
 	var AdminKidDetailView = AdminDetailView.extend({
 		template: _.template($("#admin-kid-detail-template").html()),
-		el: "#adminDetailPane",
+		el: "#userDetailPane",
 		initialize: function() {
 			AdminDetailView.prototype.initialize.apply(this);
 			_.bindAll(this, "render");
@@ -576,7 +575,7 @@ $(function() {
 	// detail view for a director
 	var AdminDirectorDetailView = AdminDetailView.extend({
 		template: _.template($("#admin-director-detail-template").html()),
-		el: "#adminDetailPane",
+		el: "#userDetailPane",
 		initialize: function() {
 			AdminDetailView.prototype.initialize.apply(this);  
 			_.bindAll(this, "render");
